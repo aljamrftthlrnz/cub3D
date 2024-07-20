@@ -1,8 +1,6 @@
+#include "cub3d.h"
 #include <mlx.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stddef.h>
-#include <unistd.h>
+#include "../minilibx-linux/mlx.h"
 
 
 #define ESC 65307

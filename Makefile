@@ -1,33 +1,41 @@
-# Variables
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: luca <luca@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/07 11:26:55 by lknobloc          #+#    #+#              #
+#    Updated: 2024/07/20 21:35:51 by luca             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = myprogram2
+
+
+SRC = 	experimenting.c
+
+OBJ = $(SRC:%.c=%.o)
+
+CFLAGS = -Wall -Werror -Wextra
 CC = cc
-CFLAGS = -Wall -Wextra -I./include
-MLXFLG = -lmlx -L /usr/lib -lXext -lX11 -lm -lbsd -lz 
-SRCDIR = src
-INCDIR = include
-OBJDIR = obj
-BINDIR = bin
-NAME = $(BINDIR)/myprogram
 
-SRCS = $(SRCDIR)/experimenting.c
-OBJS = $($(SRCDIR)/%.c=$(OBJDIR)/%.o)
+.PHONY: all fclean re
 
-# Default NAME
-all: directories $(NAME)
+all:	$(NAME)
 
-directories:
-	@mkdir -p $(OBJDIR)
-	@mkdir -p $(BINDIR)
-
-#$(OBJDIR)/%.o: $(SRCDIR)/%.c
-#	$(CC) $(CFLAGS) $(SRCS) -c $@
-
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(MLXFLG) $(OBJS) -o $(NAME)
+$(NAME):	$(OBJ) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -lmlx -L /usr/lib -lXext -lX11 -lm -lbsd -lz 
 
 $(OBJ):	$(SRC) 
-	$(CC) $(CFLAGS) $(SRC) -I/usr/include -Imlx -O3 -c 
+	$(CC) $(CFLAGS) $(SRC) -I/usr/include -Imlx -c 
+
+bonus:	all
 
 clean:
-	rm -rf $(OBJDIR)/*.o $(BINDIR)
+	rm -f $(OBJ) 
 
-.PHONY: all directories clean
+fclean:	clean
+	rm -f $(NAME)
+
+re:	fclean all

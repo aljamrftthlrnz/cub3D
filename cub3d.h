@@ -9,9 +9,15 @@
 # include <stddef.h>
 # include <unistd.h>
 
-typedef struct s_data
-{
+// typedef struct s_data
+// {
 	
-}
+// }
+
+// experimenting.c
+int	mini_close_game(int keycode, void *mlx);
+int	mini_key_handle(int keycode, void *mlx);
+int	main(void);
+
 
 #endif
