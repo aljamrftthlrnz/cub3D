@@ -6,7 +6,7 @@
 #    By: luca <luca@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 11:26:55 by lknobloc          #+#    #+#              #
-#    Updated: 2024/07/20 21:35:51 by luca             ###   ########.fr        #
+#    Updated: 2024/07/20 22:09:02 by luca             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ CC = cc
 .PHONY: all fclean re
 
 all:	$(NAME)
+debug: CFLAGS += -g 
+debug: $(NAME)
 
 $(NAME):	$(OBJ) 
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -lmlx -L /usr/lib -lXext -lX11 -lm -lbsd -lz 
