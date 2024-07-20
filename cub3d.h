@@ -9,14 +9,20 @@
 # include <stddef.h>
 # include <unistd.h>
 
-// typedef struct s_data
-// {
-	
-// }
+
+# define ESC 65307
+
+typedef struct s_data
+{
+	void	*mlx;
+	void	*win;
+
+}	t_data;
 
 // experimenting.c
 int	mini_close_game(int keycode, void *mlx);
 int	mini_key_handle(int keycode, void *mlx);
+void	free_data(t_data *d);
 int	main(void);
 
 

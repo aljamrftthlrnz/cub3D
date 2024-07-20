@@ -1,21 +1,15 @@
 #include "cub3d.h"
-#include <mlx.h>
-#include "../minilibx-linux/mlx.h"
 
-
-#define ESC 65307
-
-int	mini_close_game(int keycode, void *mlx)
+int	mini_close_game(int keycode, void *ptr)
 {
+	t_data *d;
+
+	d = (t_data *)ptr;
 	(void)keycode;
 	write(2, "game turned off\n", 17);
 
-	mlx_loop_end(mlx);
-	if (mlx)
-	{
-		mlx_destroy_display(mlx);
-		free(mlx);
-	}
+	mlx_loop_end(d->mlx);
+	free_data(d);
 	exit(0);
 }
 int	mini_key_handle(int keycode, void *mlx)
@@ -25,20 +19,43 @@ int	mini_key_handle(int keycode, void *mlx)
 	return 0;
 }
 
+void	free_data(t_data *d)
+{
+	if (d->win)
+	{
+		mlx_destroy_window(d->mlx, d->win);
+	}
+	if (d->mlx)
+	{
+		mlx_destroy_display(d->mlx);
+		free(d->mlx);
+	}
+	free(d);
+}
+
 int	main(void)
 {
-	void	*mlx;
-	void	*win;
+	t_data *d;
 
-	mlx = mlx_init();
-	if (mlx == NULL)
+	d = (t_data *) malloc(sizeof(t_data));
+	if (d == NULL)
 		return (1);
-	win = mlx_new_window(mlx, 5 * 32, 5 * 32, "window_name");
-	if (win == NULL)
+	d->mlx = mlx_init();
+	if (d->mlx == NULL)
+	{
+		free_data(d);
 		return (1);
-	mlx_key_hook(win, mini_key_handle, mlx);
+	}
+	d->win = mlx_new_window(d->mlx, 5 * 32, 5 * 32, "window_name");
+	if (d->win == NULL)
+	{
+		free_data(d);
+		return (1);
+	}
+	mlx_key_hook(d->win, mini_key_handle, d);
 	// mlx_loop_hook(mlx, NULL, NULL);
-	mlx_loop(mlx);
+	mlx_loop(d->mlx);
+	free_data(d);
 	return (0);
 
 }
