@@ -11,13 +11,32 @@
 
 
 # define ESC 65307
+typedef struct s_map;
 
 typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
-
+	t_map	*map;
+	int		error;
 }	t_data;
+
+typedef struct s_map
+{
+	void	*path_NO;
+	void	*path_SO;
+	void	*path_WE;
+	void	*path_EA;
+	int		*floor_color;
+	int		*ceiling_color;
+	char	**map;
+	int		map_width;
+	int		map_height;
+	int		player_x;
+	int		player_y;
+	char	player_dir;
+}	t_map;
+
 
 // experimenting.c
 int	mini_close_game(int keycode, void *mlx);
