@@ -56,5 +56,19 @@ int	mini_key_handle(int keycode, void *mlx);
 void	free_data(t_data *d);
 int	main(void);
 
+//mock_map.c
+char **fill_mock_map(void);
+int	init_mock_map(t_data *d);
+
+//utils.c
+void	free_data(t_data *d);
+void init_map(t_map *map);
+
+// map_maker.c
+int	draw_tile(t_data *d, int x, int y);
+int	draw_map(t_data *d);
+int	render_frame(t_data *d);
+
+
 
 #endif

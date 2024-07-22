@@ -6,14 +6,14 @@
 #    By: luca <luca@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 11:26:55 by lknobloc          #+#    #+#              #
-#    Updated: 2024/07/20 22:09:02 by luca             ###   ########.fr        #
+#    Updated: 2024/07/22 19:43:44 by luca             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = myprogram2
 
 
-SRC = 	experimenting.c
+SRC = 	experimenting.c utils.c mock_map.c map_maker.c
 
 OBJ = $(SRC:%.c=%.o)
 
