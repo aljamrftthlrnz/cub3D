@@ -12,11 +12,43 @@ int	mini_close_game(int keycode, void *ptr)
 	free_data(d);
 	exit(0);
 }
-int	mini_key_handle(int keycode, void *mlx)
+
+int wasd_keys(void *d, int key)
+{
+	t_data *data;
+
+	data = (t_data *)d;
+	if (key == W)
+	{
+		data->map->player_y -= 1;
+	}
+	if (key == A)
+	{
+		data->map->player_x -= 1;
+	}
+	if (key == S)
+	{
+		data->map->player_y += 1;
+	}
+	if (key == D)
+	{
+		data->map->player_x += 1;
+	}
+	return (0);
+}
+
+int	mini_key_handle(int keycode, void *d)
 {
 	if (keycode == ESC)
-		mini_close_game(1, mlx);
-
+		mini_close_game(1, d);
+	if (keycode == W)
+		wasd_keys(d, W);
+	if (keycode == A)
+		wasd_keys(d, A);
+	if (keycode == S)
+		wasd_keys(d, S);
+	if (keycode == D)
+		wasd_keys(d, D);
 	return 0;
 }
 
