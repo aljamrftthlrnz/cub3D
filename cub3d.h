@@ -9,9 +9,36 @@
 # include <stddef.h>
 # include <unistd.h>
 
+//pre-release libs
+# include <stdio.h>
+# include <string.h>
+// # include <std.h>
+
 
 # define ESC 65307
-typedef struct s_map;
+
+// directions
+# define NORTH 1
+# define EAST 2
+# define SOUTH 3
+# define WEST 4
+
+// typedef struct s_map;
+typedef struct s_map
+{
+	void	*img_NO;
+	void	*img_SO;
+	void	*img_WE;
+	void	*img_EA;
+	int		*floor_color;
+	int		*ceiling_color;
+	char	**matrix;
+	int		map_width;
+	int		map_height;
+	int		player_x;
+	int		player_y;
+	char	player_dir;
+}	t_map;
 
 typedef struct s_data
 {
@@ -21,21 +48,6 @@ typedef struct s_data
 	int		error;
 }	t_data;
 
-typedef struct s_map
-{
-	void	*path_NO;
-	void	*path_SO;
-	void	*path_WE;
-	void	*path_EA;
-	int		*floor_color;
-	int		*ceiling_color;
-	char	**map;
-	int		map_width;
-	int		map_height;
-	int		player_x;
-	int		player_y;
-	char	player_dir;
-}	t_map;
 
 
 // experimenting.c
