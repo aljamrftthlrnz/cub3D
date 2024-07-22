@@ -6,7 +6,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
-//# include LIBFT
+#include "libft/libft.h"
 
 typedef struct s_data
 {
