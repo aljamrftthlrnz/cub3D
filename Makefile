@@ -1,6 +1,6 @@
 NAME = cub3D
 SRC = 	main.c \
-		utils_free.c
+		utils_free.c init_data.c
 
 OBJ = $(SRC:%.c=%.o)
 
