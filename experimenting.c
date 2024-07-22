@@ -121,9 +121,18 @@ int	draw_tile(t_data *d, int x, int y)
 	if (d->map->matrix[y][x] == '0')
 		mlx_put_image_to_window(d->mlx, d->win, d->map->img_NO, x * 32, y * 32);
 	if (d->map->matrix[y][x] == 'N')
+	{
+
 		mlx_put_image_to_window(d->mlx, d->win, d->map->img_WE, x * 32, y * 32);
+		mlx_pixel_put(d->mlx, d->win, (x * 32) + 17, (y * 32) + 17, mlx_get_color_value(d->mlx, 0xcd5c5c));
+		mlx_pixel_put(d->mlx, d->win, (x * 32) + 16, (y * 32) + 17, mlx_get_color_value(d->mlx, 0xcd5c5c));
+		mlx_pixel_put(d->mlx, d->win, (x * 32) + 17, (y * 32) + 16, mlx_get_color_value(d->mlx, 0xcd5c5c));
+		mlx_pixel_put(d->mlx, d->win, (x * 32) + 16, (y * 32) + 16, mlx_get_color_value(d->mlx, 0xcd5c5c));
+	}
 	// if (d->map->matrix[y][x] == 'N')
 	// 	mlx_put_image_to_window(d->mlx, d->win, d->map->img_WE, x * 32, y * 32);
+
+
 	return (0);
 }
 
