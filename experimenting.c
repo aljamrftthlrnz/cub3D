@@ -100,7 +100,7 @@ int	init_mock_map(t_data *d) //testing purposes
 	d->map->floor_color = calloc(sizeof(int), 3);
 	d->map->img_EA = mlx_xpm_file_to_image(d->mlx, "./pics/exit_1.xpm", &img_size, &img_size);
 	d->map->img_NO = mlx_xpm_file_to_image(d->mlx, "./pics/flower_0.xpm", &img_size, &img_size);
-	d->map->img_WE = mlx_xpm_file_to_image(d->mlx, "./pics/drog_down.xpm", &img_size, &img_size);
+	d->map->img_WE = mlx_xpm_file_to_image(d->mlx, "./pics/frog_down.xpm", &img_size, &img_size);
 	d->map->img_SO = mlx_xpm_file_to_image(d->mlx, "./pics/wall_1.xpm", &img_size, &img_size);
 	d->map->matrix = fill_mock_map();
 	// d->map->map = calloc();
@@ -121,7 +121,7 @@ int	draw_tile(t_data *d, int x, int y)
 	if (d->map->matrix[y][x] == '0')
 		mlx_put_image_to_window(d->mlx, d->win, d->map->img_NO, x * 32, y * 32);
 	if (d->map->matrix[y][x] == 'N')
-		mlx_put_image_to_window(d->mlx, d->win, d->map->img_SO, x * 32, y * 32);
+		mlx_put_image_to_window(d->mlx, d->win, d->map->img_WE, x * 32, y * 32);
 	// if (d->map->matrix[y][x] == 'N')
 	// 	mlx_put_image_to_window(d->mlx, d->win, d->map->img_WE, x * 32, y * 32);
 	return (0);
