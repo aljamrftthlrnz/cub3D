@@ -113,6 +113,45 @@ int	init_mock_map(t_data *d) //testing purposes
 	return (0);
 }
 
+
+int	draw_tile(t_data *d, int x, int y)
+{
+	if (d->map->matrix[y][x] == '1')
+		mlx_put_image_to_window(d->mlx, d->win, d->map->img_EA, x * 32, y * 32);
+	if (d->map->matrix[y][x] == '0')
+		mlx_put_image_to_window(d->mlx, d->win, d->map->img_NO, x * 32, y * 32);
+	if (d->map->matrix[y][x] == 'N')
+		mlx_put_image_to_window(d->mlx, d->win, d->map->img_SO, x * 32, y * 32);
+	// if (d->map->matrix[y][x] == 'N')
+	// 	mlx_put_image_to_window(d->mlx, d->win, d->map->img_WE, x * 32, y * 32);
+	return (0);
+}
+
+int	draw_map(t_data *d)
+{
+	int	x = 0;
+	int y = 0;
+
+	while (x < d->map->map_width && y < d->map->map_height)
+	{
+		draw_tile(d, x, y);
+		x++;
+		if (x == d->map->map_width)
+		{
+			x = 0;
+			y++;
+		}
+	}
+	return (0);
+}
+
+
+int	render_frame(t_data *d)
+{
+	draw_map(d);
+	return (0);
+}
+
 int	main(void)
 {
 	t_data *d;
@@ -138,7 +177,7 @@ int	main(void)
 		return (1);
 	}
 	mlx_key_hook(d->win, mini_key_handle, d);
-	// mlx_loop_hook(mlx, NULL, NULL);
+	mlx_loop_hook(d->mlx, render_frame, d);
 	mlx_loop(d->mlx);
 	free_data(d);
 	return (0);
