@@ -46,6 +46,7 @@ typedef struct s_map
 	int		player_x;
 	int		player_y;
 	char	player_dir;
+	int		player_sight;
 }	t_map;
 
 typedef struct s_data

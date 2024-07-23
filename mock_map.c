@@ -63,6 +63,7 @@ int	init_mock_map(t_data *d) //testing purposes
 	d->map->player_x = 4 * 32 + 16;
 	d->map->player_y = 3 * 32 + 16;
 	d->map->player_dir = NORTH;
+	d->map->player_dir = 0;
 	// no null check because fuck testing
 	return (0);
 }

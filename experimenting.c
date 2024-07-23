@@ -27,28 +27,45 @@ int	mini_close_game_2(void *ptr)
 	exit(0);
 }
 
-int wasd_keys(void *d, int key)
+int wasd_keys(void *ptr, int key)
 {
-	t_data *data;
+	t_data *d;
 
-	data = (t_data *)d;
-	if (key == W)
+	d = (t_data *)ptr;
+	if (key == W && d->map->matrix[(d->map->player_y - 1) / 32][d->map->player_x / 32] != '1')
 	{
-		data->map->player_y -= 1;
+		d->map->player_y -= 1;
 	}
-	if (key == A)
+	if (key == A && d->map->matrix[d->map->player_y / 32][(d->map->player_x - 1) / 32] != '1')
 	{
-		data->map->player_x -= 1;
+		d->map->player_x -= 1;
 	}
-	if (key == S)
+	if (key == S && d->map->matrix[(d->map->player_y + 1) / 32][d->map->player_x / 32] != '1')
 	{
-		data->map->player_y += 1;
+		d->map->player_y += 1;
 	}
-	if (key == D)
+	if (key == D && d->map->matrix[(d->map->player_y - 1) / 32][(d->map->player_x + 1) / 32] != '1')
 	{
-		data->map->player_x += 1;
+		d->map->player_x += 1;
 	}
 	return (0);
+}
+
+void	arrow_keys(t_data *d, int keycode)
+{
+	if (keycode == LEFT)
+	{
+		d->map->player_sight -= 2;
+	}
+	if (keycode == RIGHT)
+	{
+		d->map->player_sight += 2;
+	}
+	while (d->map->player_sight < 0)
+		d->map->player_sight = 360 + d->map->player_sight;
+	while (d->map->player_sight > 359)
+		d->map->player_sight = d->map->player_sight - 360;
+	printf("direction: %d\n", d->map->player_sight);
 }
 
 int	mini_key_handle(int keycode, void *d)
@@ -63,6 +80,8 @@ int	mini_key_handle(int keycode, void *d)
 		wasd_keys(d, S);
 	if (keycode == D)
 		wasd_keys(d, D);
+	if (keycode == LEFT || keycode == RIGHT)
+		arrow_keys(d, keycode);
 
 
 	return 0;
@@ -76,9 +95,9 @@ int	mini_key_handle(int keycode, void *d)
 
 void	setup_key_hooks(t_data *d)
 {
-	// ESC key:
-	mlx_key_hook(d->win, mini_key_handle, d);
-	// WASD keys:
+	// keys (just press):
+	// mlx_key_hook(d->win, mini_key_handle, d); //not needed since every key is handled in mlx_hook
+	// keys (including hold):
 	mlx_hook(d->win, 2, 1L << 0, &mini_key_handle, d);
 	// X button:
 	mlx_hook(d->win, 17, 1L << 2, &mini_close_game_2, d);
