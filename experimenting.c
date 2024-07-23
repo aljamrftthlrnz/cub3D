@@ -63,11 +63,32 @@ int	mini_key_handle(int keycode, void *d)
 		wasd_keys(d, S);
 	if (keycode == D)
 		wasd_keys(d, D);
+
+
 	return 0;
 }
 
+// int	mini_keypress_handle(void *d)
+// {
 
+// 	return (0);
+// }
 
+void	setup_key_hooks(t_data *d)
+{
+	// ESC key:
+	mlx_key_hook(d->win, mini_key_handle, d);
+	// WASD keys:
+	mlx_hook(d->win, 2, 1L << 0, &mini_key_handle, d);
+	// X button:
+	mlx_hook(d->win, 17, 1L << 2, &mini_close_game_2, d);
+
+}
+
+void	setup_loop_hooks(t_data *d)
+{
+	mlx_loop_hook(d->mlx, render_frame, d);
+}
 
 int	main(void)
 {
@@ -93,9 +114,8 @@ int	main(void)
 		free_data(d);
 		return (1);
 	}
-	mlx_key_hook(d->win, mini_key_handle, d);
-	mlx_hook(d->win, 17, 1L << 2, &mini_close_game_2, d);
-	mlx_loop_hook(d->mlx, render_frame, d);
+	setup_key_hooks(d);
+	setup_loop_hooks(d);
 	mlx_loop(d->mlx);
 	free_data(d);
 	return (0);
