@@ -1,11 +1,25 @@
 #include "cub3d.h"
 
+// this one was used for the ESC
 int	mini_close_game(int keycode, void *ptr)
 {
 	t_data *d;
 
 	d = (t_data *)ptr;
 	(void)keycode;
+	write(2, "game turned off\n", 17);
+
+	mlx_loop_end(d->mlx);
+	free_data(d);
+	exit(0);
+}
+
+// this one is used for the X button, since the function is a parameter and can't take a keycode
+int	mini_close_game_2(void *ptr)
+{
+	t_data *d;
+
+	d = (t_data *)ptr;
 	write(2, "game turned off\n", 17);
 
 	mlx_loop_end(d->mlx);
@@ -40,7 +54,7 @@ int wasd_keys(void *d, int key)
 int	mini_key_handle(int keycode, void *d)
 {
 	if (keycode == ESC)
-		mini_close_game(1, d);
+		mini_close_game_2(d);
 	if (keycode == W)
 		wasd_keys(d, W);
 	if (keycode == A)
@@ -80,6 +94,7 @@ int	main(void)
 		return (1);
 	}
 	mlx_key_hook(d->win, mini_key_handle, d);
+	mlx_hook(d->win, 17, 1L << 2, &mini_close_game_2, d);
 	mlx_loop_hook(d->mlx, render_frame, d);
 	mlx_loop(d->mlx);
 	free_data(d);
