@@ -1,5 +1,3 @@
-
-
 #include "../includes/cub3d.h"
 
 void init_node(t_element *new)
@@ -9,7 +7,7 @@ void init_node(t_element *new)
     new->rgb = NULL; 
     new->type = NULL;
     new->next = NULL; 
-    new->stat = NON; 
+    //new->stat = NON; 
 }
 
 t_element *last_node(t_element *lst)
@@ -93,7 +91,7 @@ void create_prerequisites_for_input_checker(t_data *data)
         data->error = MAP_EMPTY; 
         return ; 
     }
-    if(intialize_base_zero(data->file_arr, data->file->e) != 0)
+    if(intialize_base_zero(data->file_arr, data->file->elem) != 0)
         return ; 
     
 }

@@ -1,18 +1,32 @@
 
 #include "../includes/cub3d.h"
 
-void err_message(char *str)
+int err_free_message(t_data *data, int error_code)
 {
-	printf("Error\n%s", str); 
+	printf("Error\n");
+	if(error_code == ARG_FAIL)
+		printf("%s", ARG);
+	else if (error_code == EXT_ERROR)
+		printf("%s", EXT); 
+	else if (error_code == ALLOC_FAIL)
+		printf("%s", ALLOC_F);
+	free_data(data); 
+	exit (error_code);  
 }
 
-int valid_extension (char *str)
+int arguments_and_extension (int argc, char *str, int *error)
 {
-    if(ft_strlen(str) < 5 || ft_strncmp(str + ft_strlen(str) - 4, ".cub", 4) != 0)
-    {
-        return (err_message(EXT), 1); 
-    }
-    return(0); 
+    if(argc != 2)
+	{
+		*error = ARG_FAIL;
+		return(*error); 
+	}
+	else if (ft_strlen(str) < 5 || ft_strncmp(str + ft_strlen(str) - 4, ".cub", 4) != 0)
+	{
+		*error = EXT_ERROR; 
+		return(*error); 
+	}
+	return(0); 
 }
 
 int	main(int argc, char **argv)
@@ -21,20 +35,14 @@ int	main(int argc, char **argv)
 	t_data	*d;
 
 	error_code = 0; 
-	if(argc == 2)
-	{
-		if(valid_extension(NULL, argv[1]))
-			return(1);  
-		printf("HELLO\n"); 
-		d = (t_data *) malloc(sizeof(t_data));
-		if (d == NULL)
-			return (1);
-		exit(0); 
-		init_data(d);
-		create_map_for_input_check(d,argv[1]); 
-		
-		error_code = d->error;
-		free_data(d);
-	}
-	return (error_code);
+	if(arguments_and_extension(argc,argv[1], &error_code))
+		err_free_message(NULL, error_code); 
+	d = (t_data *) malloc(sizeof(t_data));
+	if (d == NULL)
+		err_free_message(NULL, ALLOC_FAIL); 
+	init_data(d);
+	create_map_for_input_check(d,argv[1]); 
+	error_code = d->error;
+	free_data(d);
+	return(error_code); 
 }
