@@ -8,24 +8,29 @@ void	free_data(t_data *d)
 		{
 			if(d->file->map != NULL)
 			{
-				free_array(d->file->map->cpy_map); 
-				free_array(d->file->map->map); 
+				// free_array(d->file->map->cpy_map); 
+				// free_array(d->file->map->map); 
 				free(d->file->map); 
 			}
 			if (d->file->elem != NULL)
 			{
-				if (d->file->elem->string != NULL)
-					free(d->file->elem->string); 
-				if (d->file->elem->path != NULL)
-					free(d->file->elem->path); 
-				if(d->file->elem->type)
-					free(d->file->elem->type); 
+				if (d->file->elem->we_path != NULL)
+					free(d->file->elem->we_path); 
+				if (d->file->elem->no_path != NULL)
+					free(d->file->elem->no_path); 
+				if(d->file->elem->so_path != NULL)
+					free(d->file->elem->so_path);
+				if(d->file->elem->ea_path != NULL)
+					free(d->file->elem->ea_path);
+				if(d->file->elem->flo_rgb != NULL)
+					free(d->file->elem->flo_rgb);
+				if(d->file->elem->ceil_rgb != NULL)
+					free(d->file->elem->ceil_rgb);
 				free(d->file->elem); 
 			}
 			free(d->file); 
 		}
-		if(d->file_arr != NULL)
-			free_array(d->file_arr); 
+		free_array(d->file_arr); 
 		free(d);
 	}
 }

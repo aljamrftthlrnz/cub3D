@@ -25,16 +25,21 @@
 # define ALLOC_F "Dynamic Allocation failed...\n"
 # define FD_ERROR	11 // fd value is under 0
 # define MAP_EMPTY	12 // **map-array is NULL
-
-
-# define PERS "FILE invalid: perspective is double...\n"
-# define PERS_M "FILE invalid: perspective is missing...\n"
+# define IDENT_W 13
 # define IDENT "FILE invalid: type identifier has more than 2 characters...\n"
-# define IDENT_M "FILE invalid: type identifier is missing...\n"
+# define PERS_D 14
+# define PERS "FILE invalid: perspective is double...\n"
+# define PERS_M 15
+# define PERS_MI "FILE invalid: perspective is missing...\n"
+# define FL_CEIL_D 16
 # define FLOOR_CEILING "FILE invalid: floor/ceiling is double...\n"
-# define FL_CE_MISS "FILE invalid: floor/ceiling is missing...\n" 
+# define FL_CEIL_M 17
+# define FL_CE_MISS "FILE invalid: unable to process floor/ceiling RGB values...\n" 
+# define RGB_W 18
 # define RGB_WRO "FILE invalid: RGB values are outside of range...\n"
-# define RGB_M "FILE invalid: RGB value missing...\n"
+# define RGB_W 18
+# define IDENT_M "FILE invalid: type identifier is missing...\n"
+# define RGB_M "FILE invalid: unable to process RGB values..\n"
 # define BORDER "FILE invalid: map is not surrounded by walls...\n"
 # define PLAYER "FILE invalid: none/too many players...\n"
 # define CHARS "FILE invalid: invalid char found in map...\n"
@@ -69,30 +74,31 @@ struct	s_data;
 
 typedef struct s_element
 {
-	char *string; 
-	char *path; 
-	char *type; 
-	int *rgb; 
-	struct s_element *next; 
-	struct s_file *file;
-}	t_element; 
+	char			*we_path;
+	char			*so_path;
+	char			*no_path;
+	char			*ea_path;
+	int				*ceil_rgb;
+	int				*flo_rgb;
+	struct s_file	*file;
+}	t_element;
 
 typedef struct s_map
 {
-	char **map;
-	char **cpy_map; 
-	int length; 
-	int width; 
-	int p_pos_y; 
-	int p_pos_x;
-	struct s_file *file;  
-} t_map; 
+	char			**map;
+	char			**cpy_map;
+	int				length;
+	int				width;
+	int				p_pos_y;
+	int				p_pos_x;
+	struct s_file	*file;
+} t_map;
 
 typedef struct s_file 
 {
-	struct s_data *data; // Use Forward declaration, is only init further down
-	t_element *elem;
-	t_map *map;
+	struct s_data	*data; // Use Forward declaration, is only init further down
+	t_element		*elem;
+	t_map			*map;
 }	t_file; 
 
 typedef struct s_data
@@ -100,10 +106,10 @@ typedef struct s_data
 	void	*mlx;
 	void	*win; 
 	int		error;
-	char **file_arr; 
-	int y_file; 
-	int x_file;
-	t_file *file; 
+	char	**file_arr; 
+	int		y_file; 
+	int		x_file;
+	t_file	*file; 
 }	t_data;
 
 
@@ -132,8 +138,11 @@ int			intialize_base_zero(char **file_arr, t_element *e);
 void create_prerequisites_for_input_checker(t_data *data);
 void	print_list(t_element **head); 
 void create_map_for_input_check(t_data *d, char *argv); 
+int check_multiple_seperators(char *str); 
 
 int err_free_message(t_data *data, int error_code); 
+int extract_textures(t_data *data, char **arr);
+int *parse_rgb_colors(char *str, t_data *data);
 
 
 
