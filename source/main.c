@@ -22,6 +22,8 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", FLOOR_CEILING);
 	else if (error_code == RGB_W)
 		printf("%s", RGB_WRO);
+	else if (error_code == ORDER)
+		printf("%s", ORDER_W);
 	free_data(data); 
 	exit (error_code);  
 }

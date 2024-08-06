@@ -37,9 +37,11 @@
 # define FL_CE_MISS "FILE invalid: unable to process floor/ceiling RGB values...\n" 
 # define RGB_W 18
 # define RGB_WRO "FILE invalid: RGB values are outside of range...\n"
-# define RGB_W 18
-# define IDENT_M "FILE invalid: type identifier is missing...\n"
+# define RGB_MI 19
 # define RGB_M "FILE invalid: unable to process RGB values..\n"
+# define ORDER 20
+# define ORDER_W "FILE invalid: ensure that map is last in .cub file\n"
+
 # define BORDER "FILE invalid: map is not surrounded by walls...\n"
 # define PLAYER "FILE invalid: none/too many players...\n"
 # define CHARS "FILE invalid: invalid char found in map...\n"
@@ -143,7 +145,7 @@ int check_multiple_seperators(char *str);
 int err_free_message(t_data *data, int error_code); 
 int extract_textures(t_data *data, char **arr);
 int *parse_rgb_colors(char *str, t_data *data);
-
+int check_order_of_file(t_data *data); 
 
 
 #endif

@@ -1,9 +1,9 @@
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 
-FILES = main.c utils_free.c init_data.c file_checker.c map_creation.c
+FILES = main.c utils_free.c init_data.c file_checker.c map_creation.c map.c
 SRC = $(addprefix source/, $(FILES))
 OBJ = $(SRC:%.c=%.o)
 
