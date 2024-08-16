@@ -48,8 +48,49 @@ void	draw_player(t_data *d)
 	mlx_pixel_put(d->mlx, d->win, d->map->player_x , d->map->player_y , mlx_get_color_value(d->mlx, 0xcd5c5c));
 	// mlx_put_image_to_window(d->mlx, d->win, d->map->img_WE, d->map->player_x, d->map->player_y);
 }
-
 void	draw_perspective(t_data *d)
+{
+	int	sight;
+	int	x;
+	int y;
+	int opposite;
+	int	hypothenuse;
+	int rad;
+
+	sight = 0;
+	x = d->map->player_x;
+	y = d->map->player_y;
+	rad = d->map->player_sight * 0.017453;
+	while (sight < 32 * 2)
+	{
+		sight++;
+		if (d->map->player_sight == 0)
+			y--;
+		else if (d->map->player_sight == 90)
+			x++;
+		else if (d->map->player_sight == 180)
+			y++;
+		else if (d->map->player_sight == 270)
+			x--;
+		else
+		{
+			opposite = tan(rad) * sight;
+			hypothenuse = opposite / sin(rad);
+			x = x + opposite;
+			y = y + sight;
+		}
+		if (d->map->matrix[y / 32][x / 32] != '1')
+		{
+			mlx_pixel_put(d->mlx, d->win, x , y , mlx_get_color_value(d->mlx, 0xcd5c5c));
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
+/* void	draw_perspective(t_data *d)
 {
 	int	sight;
 	int	x;
@@ -71,7 +112,7 @@ void	draw_perspective(t_data *d)
 			break;
 		}
 	}
-}
+} */
 
 int	render_frame(t_data *d)
 {

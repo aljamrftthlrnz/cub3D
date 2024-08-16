@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <unistd.h>
+# include <math.h>
 
 //pre-release libs
 # include <stdio.h>
