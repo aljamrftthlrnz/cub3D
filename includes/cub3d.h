@@ -66,11 +66,16 @@ int		main(void);
 void	play_game(t_data *d);
 
 // open_window.c
-int	render_frame(t_data *d);
-int	close_game(void *ptr);
-int	key_handler(int keycode, void *d);
 void	open_window(t_data *d);
 
+// create_game.c
+int		render_frame(t_data *d);
+void	create_game(t_data *d);
+
+// key_handler.c
+int		close_game(void *ptr);
+int		key_handler(int keycode, void *d);
+void	setup_key_buttons(t_data *d);
 
 // utils_free.c
 void	free_data(t_data *d);

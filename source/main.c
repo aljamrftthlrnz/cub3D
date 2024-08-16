@@ -3,8 +3,8 @@
 void	play_game(t_data *d)
 {
 	open_window(d);
+	create_game(d);
 }
-
 
 int	main(void)
 {
