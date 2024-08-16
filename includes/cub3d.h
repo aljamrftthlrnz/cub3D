@@ -8,6 +8,15 @@
 # include <unistd.h>
 #include "libft/libft.h"
 
+
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+# define ESC 65307
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
+
 typedef struct s_element
 {
 	char			*we_path;
@@ -58,6 +67,8 @@ void	play_game(t_data *d);
 
 // open_window.c
 int	render_frame(t_data *d);
+int	close_game(void *ptr);
+int	key_handler(int keycode, void *d);
 void	open_window(t_data *d);
 
 

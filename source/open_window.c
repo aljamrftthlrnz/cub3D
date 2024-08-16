@@ -6,6 +6,27 @@ int	render_frame(t_data *d)
 	return (0);
 }
 
+// X button
+int	close_game(void *ptr)
+{
+	t_data *d;
+
+	d = (t_data *)ptr;
+	// ft_putstr_fd("game turned off\n", 2)
+	write(2, "game turned off\n", 17);
+	mlx_loop_end(d->mlx);
+	free_data(d);
+	exit(0);
+}
+
+int	key_handler(int keycode, void *d)
+{
+	if (keycode == ESC)
+		close_game(d);
+
+	return (0);
+}
+
 void	open_window(t_data *d)
 {
 	d->mlx = mlx_init();
@@ -25,6 +46,8 @@ void	open_window(t_data *d)
 		free_data(d);
 		return ;
 	}
+	mlx_hook(d->win, 17, 1L << 2, &close_game, d);
+	mlx_hook(d->win, 2, 1L << 0, &key_handler, d);
 	// mlx_loop_hook(d->mlx, render_frame, d);
 	mlx_loop(d->mlx);
 }
