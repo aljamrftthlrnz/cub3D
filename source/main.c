@@ -1,5 +1,11 @@
 #include "../includes/cub3d.h"
 
+void	play_game(t_data *d)
+{
+	open_window(d);
+}
+
+
 int	main(void)
 {
 	int		error_code;
@@ -9,6 +15,7 @@ int	main(void)
 	if (d == NULL)
 		return (1);
 	init_data(d);
+	play_game(d);
 	error_code = d->error;
 	free_data(d);
 	return (error_code);

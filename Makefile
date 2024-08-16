@@ -4,7 +4,8 @@ CFLAGS = -Wall -Werror -Wextra
 
 
 FILES = 	main.c \
-		utils_free.c init_data.c
+		utils_free.c init_data.c \
+		open_window.c
 SRC = $(addprefix source/, $(FILES))
 OBJ = $(SRC:%.c=%.o)
 

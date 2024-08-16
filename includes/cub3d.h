@@ -46,10 +46,20 @@ typedef struct s_data
 	int		y_file; 
 	int		x_file;
 	t_file	*file; 
+
+
+	int	screen_size_x[1];
+	int	screen_size_y[1];
 }	t_data;
 
 // main.c
 int		main(void);
+void	play_game(t_data *d);
+
+// open_window.c
+int	render_frame(t_data *d);
+void	open_window(t_data *d);
+
 
 // utils_free.c
 void	free_data(t_data *d);
