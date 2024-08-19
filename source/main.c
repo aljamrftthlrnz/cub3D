@@ -24,6 +24,8 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", RGB_WRO);
 	else if (error_code == ORDER)
 		printf("%s", ORDER_W);
+	else if (error_code == MISSING_MAP)
+		printf("%s", MISS_MAP); 
 	free_data(data); 
 	exit (error_code);  
 }

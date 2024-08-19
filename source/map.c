@@ -61,7 +61,19 @@ int file_length(char **arr)
 
 void process_map(t_data *data)
 {
-    
+    int i;
+    int begin; 
+    char **arr; 
+
+    i = 0;
+    begin = 0;
+    arr = data->file_arr; 
+    while(arr[i] != NULL && is_map_line(arr[i]))
+        i++; 
+    if (arr[i] == NULL)
+        err_free_message(data, MISSING_MAP);
+    else
+        begin = i;
 }
 
 int check_order_of_file(t_data *data)

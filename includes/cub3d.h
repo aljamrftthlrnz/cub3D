@@ -40,7 +40,9 @@
 # define RGB_MI 19
 # define RGB_M "FILE invalid: unable to process RGB values..\n"
 # define ORDER 20
-# define ORDER_W "FILE invalid: ensure that map is last in .cub file\n"
+# define ORDER_W "FILE invalid: map is not last\n"
+# define MISSING_MAP 21
+# define MISS_MAP "FILE invalid: file does not contain map\n" 
 
 # define BORDER "FILE invalid: map is not surrounded by walls...\n"
 # define PLAYER "FILE invalid: none/too many players...\n"
