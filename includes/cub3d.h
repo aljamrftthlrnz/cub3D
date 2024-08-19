@@ -7,6 +7,7 @@
 # include <stddef.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <string.h>
 # include "libft/libft.h"
 
 # define KEY_W 119
@@ -17,13 +18,14 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
+# define FILE_EMPTY 7
+# define FILE_EMPT "File is empty or non-processable identifier found\n"
 # define ARG_FAIL 8 // Too little arguments
 # define ARG "Invalid number of arguments\n"
 # define EXT_ERROR	9 // file-extension is wrong/missing
 # define EXT "Usage: Extension invalid or missing...\n"
 # define ALLOC_FAIL 10 // Allocation has failed 
 # define ALLOC_F "Dynamic Allocation failed...\n"
-# define FD_ERROR	11 // fd value is under 0
 # define MAP_EMPTY	12 // **map-array is NULL
 # define IDENT_W 13
 # define IDENT "FILE invalid: type identifier has more than 2 characters...\n"
@@ -50,31 +52,6 @@
 
 struct	s_file; 
 struct	s_data; 
-
-// typedef enum element_status
-// {
-// 	NON, 
-// 	VALID, // element has everything it needs; 
-// 	// link with macro EXT_ERROR
-// 	EXT_WRONG, // path has wrong extension
-// 	EXT_MISS, // path has no extension 
-// 	PERS_DOUBLE, // one/more perspective is double
-// 	PERS_MISS, // perspective is missing 
-// 	IDENT_WRONG, // type identifier has more than 2 characters
-// 	FLOOR_CEIL_MISS, // floor or ceiling type missing 
-// 	FLOOR_CEIL_DOUBLE, // floor or ceiling type double
-// 	RGB_WRONG, // rgb isn't 0 - 255 	
-// 	RGB_MISS // rgb under 3 elements
-// } element_status; 
-
-// typedef enum map_status
-// {
-// 	NOM, 
-// 	VALID_MAP,// map is valid
-// 	BORDER_WRONG, // map is not surrounded by 1 (walls)
-// 	PLAY_WRONG, // map misses player/map has two players
-// 	ORDER_WRONG, // map is not last in file
-// } map_status; 
 
 typedef struct s_element
 {
@@ -119,6 +96,7 @@ typedef struct s_data
 
 /*FUNCTIONS IN FILE main.c*/
 int		main(int argc, char**argv);
+int arguments_and_extension (int argc, char *str, int *error);
 int		err_free_message(t_data *data, int error_code);
 
 /*FUNCTIONS IN FILE utils_free.c*/
@@ -128,26 +106,24 @@ void	free_array(char **arr);
 /*FUNCTIONS IN FILE init_data.c*/
 void		init_data(t_data *d);
 
-int			arguments_and_extension (int argc, char *str, int *error);
-// void		get_length_of_file(t_data *d, char *argv); 
-// void		get_longest_line(t_data *d, char *argv); 
-void get_dimensions_of_file(t_data *d, char *argv); 
-void		create_info_array(t_data *d, char *argv); 
+int process_map(t_data *data);
+char **copy_map_parts_in_file(t_data *data, int begin);
+int is_map_line(char *line);
+int err_free_message(t_data *data, int error_code);
 
-void		init_node(t_element *new); 
-t_element	*last_node(t_element *lst); 
-void		add_node_to_linked_list(t_element **head, t_element *new); 
-t_element	*init_new_node(char *arr, t_element *new);
-int			intialize_base_zero(char **file_arr, t_element *e);
-void create_prerequisites_for_input_checker(t_data *data);
-void	print_list(t_element **head); 
-void create_map_for_input_check(t_data *d, char *argv); 
-int check_multiple_seperators(char *str); 
+int is_c_space(char c);
+int is_space(char *line);
+int is_character(char c);
+int is_wall_space(char c);
+int file_length(char **arr);
 
-int err_free_message(t_data *data, int error_code); 
+void    init_map(t_data *data, char *argv);
+int get_dimensions_of_file(t_data *d, char *argv);
 int extract_textures(t_data *data, char **arr);
 int *parse_rgb_colors(char *str, t_data *data);
-int check_order_of_file(t_data *data); 
-
+int check_multiple_seperators(char *str);
+int check_order_of_file(t_data *data);
+int check_map(t_data *data); 
+int    create_file_array(t_data *d, char *argv); 
 
 #endif

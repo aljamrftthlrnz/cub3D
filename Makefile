@@ -3,7 +3,8 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
 
 
-FILES = main.c utils_free.c init_data.c file_checker.c map_creation.c map.c
+FILES = main.c init_data.c init_map.c init_map_helper.c \
+		input_first.c input_second.c error.c create_map.c 
 SRC = $(addprefix source/, $(FILES))
 OBJ = $(SRC:%.c=%.o)
 

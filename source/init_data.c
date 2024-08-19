@@ -1,4 +1,3 @@
-
 #include "../includes/cub3d.h"
 
 void init_data(t_data *d)
