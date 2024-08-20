@@ -79,6 +79,8 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", MISS_MAP);
 	else if (error_code == FILE_EMPTY)
 		printf("%s", FILE_EMPT);
+	else if (error_code == ORDER_ID)
+		printf("%s", ORDER_I);
 	free_data(data); 
 	exit (error_code);  
 }

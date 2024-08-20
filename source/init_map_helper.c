@@ -15,9 +15,12 @@ int is_space(char *line)
     while(line[i])
     {
         if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+        { 
             return(1); 
+        }
         i++;
     }
+    //printf ("NOW\n"); 
     return (0); 
 }
 

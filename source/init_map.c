@@ -82,6 +82,9 @@ void    init_map(t_data *data, char *argv)
         err_free_message(data, FL_CEIL_M);
     if(process_map(data))
        err_free_message(data, MISSING_MAP);
-    if(check_order_of_file(data))
+    if(check_order_of_file(data) != 6)
+        err_free_message(data, ORDER_ID);
+    if(check_order_of_map(data))
         err_free_message (data, ORDER);
+    
 }
