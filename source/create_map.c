@@ -1,14 +1,24 @@
 #include "../includes/cub3d.h"
 
+int is_valid_map_char(char c)
+{
+    if(c == '1' || c == '0' || c == ' ' || c == 'N' || c == 'S' || c == 'w' || c == 'E')
+        return (1); 
+    return (0); 
+}
+
 int is_map_line(char *line)
 {
     int i; 
 
     i = 0; 
-    while(line[i])
+    while(line[i] && line[i] != '\n')
     {
-        if(!is_wall_space(line[i]) && !is_character(line[i]) && !is_c_space(line[i]))
+        if(!is_valid_map_char(line[i]))
+        {
+            //printf("Char is [%d]...", line[i]);
             return (1); 
+        }
         i++; 
     }
     return(0);

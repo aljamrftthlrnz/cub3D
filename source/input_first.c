@@ -4,7 +4,8 @@ int *parse_rgb_colors(char *str, t_data *data)
 {
     char **rgb_values;
     int *rgb; 
-    int i; 
+    int i;
+    int num; 
 
     i= -1;
     if(check_multiple_seperators(str))
@@ -12,7 +13,14 @@ int *parse_rgb_colors(char *str, t_data *data)
     rgb = (int*)malloc(sizeof(int)*3); 
     rgb_values = ft_split(str, ',');
     if(!rgb_values)
-        return(free(rgb),NULL); 
+        return(free(rgb),NULL);
+    num = file_length(rgb_values);
+    if(num > 3)
+    {
+        free(rgb); 
+        free(rgb_values);
+        err_free_message(data, FL_CEIL_M);
+    }
     while(++i < 3)
     {
         rgb[i] = ft_atoi(rgb_values[i]);
@@ -26,9 +34,12 @@ int *parse_rgb_colors(char *str, t_data *data)
 
 void textures_comp(char*trim, t_data *data, int *err, int *map)
 {
-    if(trim[1] == '\0')
-        return ; 
-    if(!ft_strncmp(trim, "NO ", 3))
+    if(!is_map_line(trim))
+    {
+        //printf("map line[%s]", trim); 
+        (*map)++;
+    }
+    else if(!ft_strncmp(trim, "NO ", 3))
     {
         if(data->file->elem->no_path != NULL)
             err_free_message(data, PERS_D); 
@@ -64,61 +75,62 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
             err_free_message(data, FL_CEIL_D);
         data->file->elem->ceil_rgb = parse_rgb_colors(trim + 2, data);
     }
-    else if(!is_map_line(trim))
-        (*map)++;
     else 
+    {
         (*err)++;  
+        //printf("error found with [%s]\n", trim);
+    }
 }
 
 int extract_textures(t_data *data, char **arr)
 {
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    int i;
-    char *trim;
-    int err;
-    int map;
+   int i;
+   int err;
+   int map;
+   char *trim;
 
-    i = 0;
-    map = 0; 
-    err = 0;
-    if(!arr)
-        return (1); 
-    while (arr[i])
-    { 
-        trim = ft_strtrim(arr[i], " ");
-        textures_comp(trim, data, &err, &map);
-        free(trim);
-        i++; 
-    }
-    printf("error __ %d\n", err); 
-     printf("map __ %d\n", map);
-    if(err)
+   i = 0;
+   err = 0;
+   map = 0;
+   trim = NULL;
+   if(!arr)
+        return (1);
+    while(arr[i])
     {
-       err_free_message(data, FILE_EMPTY); 
+        if(!arr[i])
+            break ;
+        if(arr[i] && !is_space(arr[i]))
+        {
+            //printf("is space\n");
+            i++; 
+            continue ;   
+        }
+        else 
+        {
+            //printf("is not space \n");
+            trim = ft_strtrim(arr[i], " ");
+            if(trim == NULL || trim[0] == '\0')
+            {
+                //printf("NOW-----------\n");    
+                return (free(trim), 1);
+            }
+            //printf("Trimmed -%s-\n", trim); 
+            textures_comp(trim, data, &err, &map);
+            free (trim);  
+            i++;
+        }        
     }
+    if(err)
+       err_free_message(data, FILE_EMPTY); 
     if(!map)
         err_free_message(data, MISSING_MAP);
     return (0);
 }
 
 /*
+    //printf("map lines ___ %d\n", map);
+    //printf("error counter ___ %d\n", err); 
+
     printf("Texture SO\n%s\n", data->file->elem->so_path);
     printf("Texture WE\n%s\n", data->file->elem->we_path);
     printf("Texture EA\n%s\n", data->file->elem->ea_path);

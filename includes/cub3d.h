@@ -44,7 +44,7 @@
 # define ORDER 20
 # define ORDER_W "FILE invalid: map is not last\n"
 # define MISSING_MAP 21
-# define MISS_MAP "FILE invalid: file does not contain map\n" 
+# define MISS_MAP "FILE invalid: file does not contain map or map not processable\n" 
 
 # define BORDER "FILE invalid: map is not surrounded by walls...\n"
 # define PLAYER "FILE invalid: none/too many players...\n"
@@ -125,5 +125,7 @@ int check_multiple_seperators(char *str);
 int check_order_of_file(t_data *data);
 int check_map(t_data *data); 
 int    create_file_array(t_data *d, char *argv); 
+int is_valid_map_char(char c);
+
 
 #endif
