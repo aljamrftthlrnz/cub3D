@@ -135,7 +135,11 @@ int	main(void)
 	}
 	setup_key_hooks(d);
 	setup_loop_hooks(d);
-	mlx_loop(d->mlx);
+	while (1)
+	{
+		usleep(100000);
+		mlx_loop(d->mlx);
+	}
 	free_data(d);
 	return (0);
 

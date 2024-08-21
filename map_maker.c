@@ -53,9 +53,9 @@ void	draw_perspective(t_data *d)
 	int	sight;
 	int	x;
 	int y;
-	int opposite;
-	int	hypothenuse;
-	int rad;
+	float opposite;
+	float	hypothenuse;
+	float rad;
 
 	sight = 0;
 	x = d->map->player_x;
@@ -74,13 +74,25 @@ void	draw_perspective(t_data *d)
 			x--;
 		else
 		{
-			opposite = tan(rad) * sight;
-			hypothenuse = opposite / sin(rad);
-			x = x + opposite;
-			y = y + sight;
+			opposite = tanf(rad) * sight;
+			if (opposite < 0)
+				opposite = opposite * (-1);	
+			hypothenuse = opposite / sinf(rad);
+			printf("sight: %d\nangle: %d\nopposite: %f\nhypothenuse: %f\n", sight, d->map->player_sight, opposite, hypothenuse);
 		}
+		if (d->map->player_sight > 180 && d->map->player_sight < 360)
+			x = x - opposite;
+		else
+			x = x + opposite;
+
+		if (d->map->player_sight > 90 && d->map->player_sight < 270)
+			y = y + sight;
+		else
+			y = y - sight;
+
 		if (d->map->matrix[y / 32][x / 32] != '1')
 		{
+			printf("\nx: %d\ny: %d\n", x, y);
 			mlx_pixel_put(d->mlx, d->win, x , y , mlx_get_color_value(d->mlx, 0xcd5c5c));
 		}
 		else
@@ -88,6 +100,7 @@ void	draw_perspective(t_data *d)
 			break;
 		}
 	}
+	(void) hypothenuse;
 }
 
 /* void	draw_perspective(t_data *d)
@@ -116,6 +129,7 @@ void	draw_perspective(t_data *d)
 
 int	render_frame(t_data *d)
 {
+	// usleep(1000000);
 	draw_map(d);
 	draw_player(d);
 	draw_perspective(d);
