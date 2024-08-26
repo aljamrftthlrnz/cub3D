@@ -66,7 +66,7 @@ int check_order_of_file(t_data *data)
     sum = 0; 
     while(arr[i])
     {
-        if(!is_space(arr[i]))
+        if(!is_space(arr[i]) || !is_map_line(arr[i]))
         {
             i++; 
             continue ; 
@@ -74,6 +74,7 @@ int check_order_of_file(t_data *data)
         else
         {
             s = ft_strtrim(arr[i], " ");
+            //printf("line is ___ %s\n", s); 
             order(s, &sum);
             //printf("sum is ___ %d\n", sum); 
             free (s);

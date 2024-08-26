@@ -27,6 +27,18 @@ int is_map_line(char *line)
     return(0);
 }
 
+int calc_map_size(t_data *data, int begin)
+{
+    int size;
+    int i;
+
+    i = file_length(data->file_arr) - 1;
+    while(data->file_arr[i] && !is_space(data->file_arr[i]))
+        i--;
+    size = i - begin; 
+    return (size);
+}
+
 char **copy_map_parts_in_file(t_data *data, int begin)
 {
     char **map;
@@ -34,12 +46,12 @@ char **copy_map_parts_in_file(t_data *data, int begin)
     int map_size;
 
     j = 0;
-    map_size = file_length(data->file_arr) - begin;
-    
+    map_size = calc_map_size(data, begin) + 1;
+    //printf("The map size ___ %d\n", map_size); 
     map = (char**)ft_calloc(map_size + 1, sizeof(char*)); 
     if (!map)
         return (NULL);
-    while (j < map_size)
+    while (j < map_size) 
     {
         map[j] = (char*)ft_calloc(ft_strlen(data->file_arr[begin]) + 1, sizeof(char)); 
         if (!map[j])
@@ -80,7 +92,7 @@ int process_map(t_data *data)
     //printf("Begin ____ %d\n",   i); 
     data->file->map->map = copy_map_parts_in_file(data, begin);
     // for (int i = 0; data->file->map->map[i]; i++)
-    //     printf("Line ___ %s\n", data->file->map->map[i]); 
+    //     printf("Line [%d]___ %s\n", i, data->file->map->map[i]); 
     if(data->file->map->map == NULL)
         return (1); 
     return (0); 
