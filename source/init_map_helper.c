@@ -47,3 +47,15 @@ int file_length(char **arr)
         i++; 
     return (i); 
 }
+
+int map_len(char **arr)
+{
+    int i;
+
+    i = 0;
+    while(is_map_line(arr[i]))
+    {
+        i++;
+    }
+    return (i); 
+}

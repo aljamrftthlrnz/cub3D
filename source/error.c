@@ -8,8 +8,8 @@ void	free_data(t_data *d)
 		{
 			if(d->file->map != NULL)
 			{
-				// free_array(d->file->map->cpy_map); 
-				// free_array(d->file->map->map); 
+				free_array(d->file->map->cpy_map); 
+				free_array(d->file->map->map); 
 				free(d->file->map); 
 			}
 			if (d->file->elem != NULL)
@@ -81,6 +81,14 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", FILE_EMPT);
 	else if (error_code == ORDER_ID)
 		printf("%s", ORDER_I);
+	else if (error_code == EMPTY_LINES)
+		printf("%s", EMPTY_L);
+	else if (error_code == BORDER_M)
+		printf("%s", BORDER);
+	else if (error_code == PLAYER_W)
+		printf("%s", PLAYER);
+	else if(error_code == SPACE_PROT)
+		printf("%s", SPACE); 
 	free_data(data); 
 	exit (error_code);  
 }

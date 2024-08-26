@@ -70,6 +70,9 @@ int get_dimensions_of_file(t_data *d, char *argv)
 
 void    init_map(t_data *data, char *argv)
 {
+    t_map *map; 
+
+    map = data->file->map;
     if(get_dimensions_of_file(data, argv))
         err_free_message(data, FILE_EMPTY); 
     if(create_file_array(data, argv))
@@ -86,5 +89,6 @@ void    init_map(t_data *data, char *argv)
         err_free_message(data, ORDER_ID);
     if(check_order_of_map(data))
         err_free_message (data, ORDER);
-    
+    map_related_checks(map); 
+ 
 }

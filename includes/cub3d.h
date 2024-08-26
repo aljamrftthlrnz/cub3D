@@ -10,6 +10,9 @@
 # include <string.h>
 # include "libft/libft.h"
 
+# define MAX_LENGTH 
+# define MAX_WIDTH 
+
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
@@ -47,10 +50,16 @@
 # define MISS_MAP "FILE invalid: file does not contain map or map not processable\n" 
 # define ORDER_ID 22 
 # define ORDER_I "FILE invalid: strict order of type identifiers violated\n"
-
-# define BORDER "FILE invalid: map is not surrounded by walls...\n"
-# define PLAYER "FILE invalid: none/too many players...\n"
-# define CHARS "FILE invalid: invalid char found in map...\n"
+# define EMPTY_LINES 23
+# define EMPTY_L "MAP invalid: empty lines in map found\n"
+# define BORDER_M 24
+# define BORDER "MAP invalid: map is not surrounded by walls...\n"
+# define PLAYER_W 25
+# define PLAYER "MAP invalid: none/too many players...\n"
+# define PLAYER_MO 26
+# define PLAYER_M "MAP invalid: player is not able to move around the map\n"
+# define SPACE_PROT 27
+# define SPACE "MAP invalid: spaces are not secured properly\n"
 
 struct	s_file; 
 struct	s_data; 
@@ -130,6 +139,16 @@ int is_valid_map_char(char c);
 int order(char *trim, int *sum);
 int check_order_of_file(t_data *data);
 void textures_comp(char*trim, t_data *data, int *err, int *map);
+int replace_spaces_and_check_player(t_map *map, char **s); 
+int check_empty_lines_in_map(t_map *m); 
+char **create_map_copy(t_map *map); 
+int validating_map_walls(char **cpy); 
+int loop_over_potential_walls(char *s);
+int validate_outer_walls(char *cpy);
+void map_related_checks(t_map *map);
+int check_up_down_left_right(char **map, int i, int j);
+int validating_map_content(char **s);
+int map_len(char **arr);
 
 
 #endif
