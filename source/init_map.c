@@ -50,7 +50,10 @@ int get_dimensions_of_file(t_data *d, char *argv)
         return (1);
     line = get_next_line(fd);
     if(!line)
+    {
+        close (fd);
         return (1);
+    }
     max = ft_strlen(line);
     while(line != NULL)
     {
@@ -61,7 +64,10 @@ int get_dimensions_of_file(t_data *d, char *argv)
             max = ft_strlen(line); 
     }
     if (max < 3 || count < 1)
+    {
+        close (fd);
         return (1); 
+    }
     d->y_file = count;
     d->x_file = max;
     close(fd);
