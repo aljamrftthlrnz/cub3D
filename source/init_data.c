@@ -34,40 +34,41 @@ void map(t_map *map) {
     map->cpy_map = NULL;
     map->map = NULL;
     map->length = 0;
-    map->width = 0;
-    map->p_pos_x = 0;
-    map->p_pos_y = 0;  
+    map->width = 0; 
 }
 
-void init_data(t_data *d) {
-    // Initialize the t_data structure
-    data(d);
+void raycast(t_raycast *ray)
+{
+    ft_bzero(ray, sizeof(t_raycast));
+}
 
-    // Allocate memory for the t_file structure
+void init_data(t_data *d) 
+{
+    data(d);
     d->file = (t_file*)malloc(sizeof(t_file)); 
     if (!d->file)
         err_free_message(d, ALLOC_FAIL);
-
-    // Zero out the t_file structure
     ft_bzero(d->file, sizeof(t_file));
+    
     d->file->data = d; 
-
-    // Allocate memory for the t_element structure
+    
     d->file->elem = (t_element *)malloc(sizeof(t_element)); 
     if (!d->file->elem)
         err_free_message(d, ALLOC_FAIL);
-
-    // Initialize the t_element structure
     element(d->file->elem);
     d->file->elem->file = d->file; 
-
-    // Allocate memory for the t_map structure
+    
     d->file->map = (t_map*)malloc(sizeof(t_map)); 
     if (!d->file->map)
         err_free_message(d, ALLOC_FAIL);
-
-    // Initialize the t_map structure
     map(d->file->map);
-    d->file->map->file = d->file; 
+    d->file->map->file = d->file;
+    
+    d->file->ray = (t_raycast*)malloc(sizeof(t_raycast));
+    if(!d->file->ray->file)
+       err_free_message(d, ALLOC_FAIL); 
+    raycast(d->file->ray);
+    d->file->ray->file = d->file;
 }
+
 

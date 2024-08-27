@@ -8,10 +8,11 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <math.h>
 # include "libft/libft.h"
 
-# define MAX_LENGTH 
-# define MAX_WIDTH 
+# define screenWidth 1920
+# define screenHeight 1080
 
 # define KEY_W 119
 # define KEY_A 97
@@ -64,6 +65,25 @@
 struct	s_file; 
 struct	s_data; 
 
+typedef struct s_raycast
+{
+	// posX and posY represent the position vector of the player
+	float	p_pos_y;
+	float	p_pos_x;
+	// dirX and dirY represent the direction of the player
+	float	dir_x; 
+	float	dir_y;
+	// planeX and planeY the camera plane of the player.
+	float	plane_x;
+	float	plane_y;
+	/*The variables time and oldTime will be used to store 
+	the time of the current and the previous frame*/
+	float	time;
+	float	old_time;
+	struct s_file	*file;
+
+} t_raycast;
+
 typedef struct s_element
 {
 	char			*we_path;
@@ -79,10 +99,10 @@ typedef struct s_map
 {
 	char			**map;
 	char			**cpy_map;
+	int				pos_y;
+	int				pos_x;
 	int				length;
-	int				width;
-	int				p_pos_y;
-	int				p_pos_x;
+	int				width; 
 	struct s_file	*file;
 } t_map;
 
@@ -91,6 +111,7 @@ typedef struct s_file
 	struct s_data	*data; // Use Forward declaration, is only init further down
 	t_element		*elem;
 	t_map			*map;
+	t_raycast		*ray; 
 }	t_file; 
 
 typedef struct s_data
@@ -139,7 +160,7 @@ int is_valid_map_char(char c);
 int order(char *trim, int *sum);
 int check_order_of_file(t_data *data);
 void textures_comp(char*trim, t_data *data, int *err, int *map);
-int replace_spaces_and_check_player(t_map *map, char **s); 
+int replace_spaces_and_check_player(t_raycast *r, char **s);
 int check_empty_lines_in_map(t_map *m); 
 char **create_map_copy(t_map *map); 
 int validating_map_walls(char **cpy); 
@@ -149,6 +170,7 @@ void map_related_checks(t_map *map);
 int check_up_down_left_right(char **map, int i, int j);
 int validating_map_content(char **s);
 int map_len(char **arr);
+void init_raycasting(t_data *d);
 
 
 #endif

@@ -52,8 +52,8 @@ int replace_spaces_and_check_player(t_map *map, char **s)
                 //printf("Player position [%d][%d]\n", i, j);
                 if(p == 1)
                 {
-                    map->p_pos_x = j;
-                    map->p_pos_y = i;
+                    map->pos_x = j;
+                    map->pos_y = i;
                 }
             }
             else if (s[i][j] && !is_valid_map_char(s[i][j]))
@@ -154,6 +154,9 @@ int validating_map_walls(char **cpy)
 
 void map_related_checks(t_map *map)
 {
+    t_raycast *ray; 
+
+    ray = map->file->ray;
     if(check_empty_lines_in_map(map))
         err_free_message(map->file->data, EMPTY_LINES);
     map->cpy_map = create_map_copy(map);
