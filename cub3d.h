@@ -44,8 +44,8 @@ typedef struct s_map
 	char	**matrix;
 	int		map_width;
 	int		map_height;
-	int		player_x;
-	int		player_y;
+	float		player_x;
+	float		player_y;
 	char	player_dir;
 	int		player_sight;
 }	t_map;
