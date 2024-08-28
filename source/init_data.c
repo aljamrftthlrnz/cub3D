@@ -69,5 +69,11 @@ void init_data(t_data *d) {
     // Initialize the t_map structure
     map(d->file->map);
     d->file->map->file = d->file; 
+
+    // allocate t_game
+    d->game = (t_game *) malloc(sizeof(t_game));
+    if (d->game == NULL)
+        err_free_message(d, ALLOC_FAIL);
+
 }
 

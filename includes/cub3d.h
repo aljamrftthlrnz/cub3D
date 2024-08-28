@@ -21,6 +21,12 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
+# define DIR_N 0
+# define DIR_E 90
+# define DIR_S 180
+# define DIR_W 270
+
+
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
 # define ARG_FAIL 8 // Too little arguments
@@ -170,6 +176,9 @@ int check_up_down_left_right(char **map, int i, int j);
 int validating_map_content(char **s);
 int map_len(char **arr);
 
+
+// check_map.c
+void    get_p_dir(t_data *d, char dir);
 
 
 
