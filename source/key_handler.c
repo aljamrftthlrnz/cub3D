@@ -35,13 +35,51 @@ void	arrow_keys(t_data *d, int keycode)
 	printf("direction: %d\n", d->game->player_dir); //debugging help
 }
 
+void	player_step(t_data *d, int keycode)
+{
+		int	angle = d->game->player_dir % 90;
+	float	p_left;
+	float	p_right;
+
+	if (keycode != KEY_W)
+		return ;
+	printf("angle: %d\n", angle);
+	p_left = (float) angle / 9 / 10;
+	p_right = 1 - p_left;
+	printf("px: %f\npy: %f\n", p_left, p_right);
+
+	if (d->game->player_dir < 90)
+	{
+		d->game->player_x += p_left;
+		d->game->player_y -= p_right;
+	}
+	else if (d->game->player_dir < 180)
+	{
+		d->game->player_x += p_right;
+		d->game->player_y += p_left;
+	}
+	else if (d->game->player_dir < 270)
+	{
+		d->game->player_x -= p_left;
+		d->game->player_y += p_right;
+	}
+	else if (d->game->player_dir < 360)
+	{
+		d->game->player_x -= p_right;
+		d->game->player_y -= p_left;
+	}
+}
+
 // handles all key presses
 int	key_handler(int keycode, void *d)
 {
 	if (keycode == ESC)
 		close_game(d);
 	if (keycode == KEY_W)
+	{
+		player_step(d, keycode);
 		return (0);
+	}
 	if (keycode == KEY_A)
 		return (0);
 	if (keycode == KEY_S)
