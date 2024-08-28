@@ -1,7 +1,14 @@
 #include "../includes/cub3d.h"
 
+void	init_game(t_data *d)
+{
+	d->game->player_x = d->file->map->p_pos_x;
+	d->game->player_y = d->file->map->p_pos_y;
+}
+
 void	play_game(t_data *d)
 {
+	init_game(d);
 	open_window(d);
 	create_game(d);
 }

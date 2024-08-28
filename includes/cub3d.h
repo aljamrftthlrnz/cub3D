@@ -129,6 +129,7 @@ typedef struct s_data
 
 
 /*FUNCTIONS IN FILE main.c*/
+void	init_game(t_data *d);
 int		main(int argc, char**argv);
 int arguments_and_extension (int argc, char *str, int *error);
 int		err_free_message(t_data *data, int error_code);
@@ -192,6 +193,8 @@ void	create_game(t_data *d);
 
 // key_handler.c
 int		close_game(void *ptr);
+void	arrow_keys(t_data *d, int keycode);
+void	player_step(t_data *d, int keycode);
 int		key_handler(int keycode, void *d);
 void	setup_key_buttons(t_data *d);
 
