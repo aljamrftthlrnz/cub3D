@@ -55,10 +55,6 @@ typedef struct s_data
 	int		y_file; 
 	int		x_file;
 	t_file	*file; 
-
-
-	int	screen_size_x[1];
-	int	screen_size_y[1];
 }	t_data;
 
 // main.c
