@@ -1,5 +1,10 @@
 #include "../includes/cub3d.h"
 
+void	play_game(t_data *d)
+{
+	open_window(d);
+	create_game(d);
+}
 int arguments_and_extension (int argc, char *str, int *error)
 {
     if(argc != 2)
@@ -16,6 +21,7 @@ int arguments_and_extension (int argc, char *str, int *error)
 }
 
 int	main(int argc, char **argv)
+
 {
 	int		error_code;
 	t_data	*d;
@@ -28,7 +34,9 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, ALLOC_FAIL); 
 	init_data(d);
 	init_map(d,argv[1]);
+	play_game(d);
 	error_code = d->error;
+	free_mlx(d);
 	free_data(d);
 	return(error_code);
 }

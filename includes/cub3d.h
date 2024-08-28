@@ -61,6 +61,12 @@
 # define SPACE_PROT 27
 # define SPACE "MAP invalid: spaces are not secured properly\n"
 
+# define MLXIN 100
+# define MLXIN_M "mlx initialization failed\n"
+# define MLXWI 101
+# define MLXWI_M "mlx window creation failed\n"
+
+
 struct	s_file; 
 struct	s_data; 
 
@@ -93,6 +99,11 @@ typedef struct s_file
 	t_map			*map;
 }	t_file; 
 
+
+
+
+
+
 typedef struct s_data
 {
 	void	*mlx;
@@ -109,8 +120,11 @@ typedef struct s_data
 int		main(int argc, char**argv);
 int arguments_and_extension (int argc, char *str, int *error);
 int		err_free_message(t_data *data, int error_code);
+void	play_game(t_data *d);
 
-/*FUNCTIONS IN FILE utils_free.c*/
+
+/*FUNCTIONS IN FILE error.c*/
+void	free_mlx(t_data *d);
 void	free_data(t_data *d);
 void	free_array(char **arr); 
 
@@ -150,5 +164,20 @@ int check_up_down_left_right(char **map, int i, int j);
 int validating_map_content(char **s);
 int map_len(char **arr);
 
+
+
+
+
+// open_window.c
+void	open_window(t_data *d);
+
+// create_game.c
+int		render_frame(t_data *d);
+void	create_game(t_data *d);
+
+// key_handler.c
+int		close_game(void *ptr);
+int		key_handler(int keycode, void *d);
+void	setup_key_buttons(t_data *d);
 
 #endif

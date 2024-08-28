@@ -5,7 +5,9 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 FILES = main.c init_data.c init_map.c init_map_helper.c \
 		input_first.c input_second.c error.c create_map.c \
-		check_map.c
+		check_map.c \
+		open_window.c create_game.c key_handler.c
+
 SRC = $(addprefix source/, $(FILES))
 OBJ = $(SRC:%.c=%.o)
 

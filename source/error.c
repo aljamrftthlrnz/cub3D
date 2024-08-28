@@ -1,5 +1,19 @@
 #include "../includes/cub3d.h"
 
+
+void	free_mlx(t_data *d)
+{
+	if (d->win)
+	{
+		mlx_destroy_window(d->mlx, d->win);
+	}
+	if (d->mlx)
+	{
+		mlx_destroy_display(d->mlx);
+		free(d->mlx);
+	}
+}
+
 void	free_data(t_data *d)
 {
 	if(d != NULL)
@@ -89,6 +103,10 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", PLAYER);
 	else if(error_code == SPACE_PROT)
 		printf("%s", SPACE); 
+	else if (error_code == MLXIN)
+		printf("%s", MLXIN_M); 
+	else if (error_code == MLXWI)
+		printf("%s", MLXWI_M); 
 	free_data(data); 
 	exit (error_code);  
 }
