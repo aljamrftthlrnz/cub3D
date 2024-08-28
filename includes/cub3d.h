@@ -101,7 +101,12 @@ typedef struct s_file
 
 
 
-
+typedef struct s_game 
+{
+	float	player_x;
+	float	player_y;
+	int		player_dir;
+}	t_game;
 
 
 typedef struct s_data
@@ -113,6 +118,7 @@ typedef struct s_data
 	int		y_file; 
 	int		x_file;
 	t_file	*file; 
+	t_game	*game;
 }	t_data;
 
 

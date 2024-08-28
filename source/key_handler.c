@@ -14,6 +14,27 @@ int	close_game(void *ptr)
 	exit(0);
 }
 
+void	arrow_keys(t_data *d, int keycode)
+{
+	if (keycode == KEY_LEFT)
+	{
+		d->map->player_dir -= 2;
+	}
+	if (keycode == KEY_RIGHT)
+	{
+		d->map->player_dir += 2;
+	}
+	while (d->map->player_dir < 0)
+	{
+		d->map->player_dir = 360 + d->map->player_dir;
+	}
+	while (d->map->player_dir > 359)
+	{
+		d->map->player_dir = d->map->player_dir - 360;
+	}
+	printf("direction: %d\n", d->map->player_dir); //debugging help
+}
+
 // handles all key presses
 int	key_handler(int keycode, void *d)
 {
