@@ -38,7 +38,7 @@ static int	ft_cstrlen(char *word, char c)
 	int	i;
 
 	i = 0;
-	while (word[i] != c && word[i])
+	while (word[i] && word[i] != c)
 		i++;
 	return (i);
 }

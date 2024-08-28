@@ -9,6 +9,7 @@ int	close_game(void *ptr)
 	// ft_putstr_fd("game turned off\n", 2)
 	write(2, "game turned off\n", 17);
 	mlx_loop_end(d->mlx);
+	free_mlx(d);
 	free_data(d);
 	exit(0);
 }
