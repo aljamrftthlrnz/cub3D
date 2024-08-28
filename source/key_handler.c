@@ -18,21 +18,21 @@ void	arrow_keys(t_data *d, int keycode)
 {
 	if (keycode == KEY_LEFT)
 	{
-		d->map->player_dir -= 2;
+		d->game->player_dir -= 2;
 	}
 	if (keycode == KEY_RIGHT)
 	{
-		d->map->player_dir += 2;
+		d->game->player_dir += 2;
 	}
-	while (d->map->player_dir < 0)
+	while (d->game->player_dir < 0)
 	{
-		d->map->player_dir = 360 + d->map->player_dir;
+		d->game->player_dir = 360 + d->game->player_dir;
 	}
-	while (d->map->player_dir > 359)
+	while (d->game->player_dir > 359)
 	{
-		d->map->player_dir = d->map->player_dir - 360;
+		d->game->player_dir = d->game->player_dir - 360;
 	}
-	printf("direction: %d\n", d->map->player_dir); //debugging help
+	printf("direction: %d\n", d->game->player_dir); //debugging help
 }
 
 // handles all key presses
@@ -49,7 +49,10 @@ int	key_handler(int keycode, void *d)
 	if (keycode == KEY_D)
 		return (0);
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
+	{
+		arrow_keys(d, keycode);
 		return (0);
+	}
 	return (0);
 }
 
