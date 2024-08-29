@@ -95,6 +95,7 @@ typedef struct s_map
 	int				width;
 	int				p_pos_y;
 	int				p_pos_x;
+	int				p_pos_dir;
 	struct s_file	*file;
 } t_map;
 
@@ -179,7 +180,7 @@ int map_len(char **arr);
 
 
 // check_map.c
-void    get_p_dir(t_data *d, char dir);
+void    get_p_dir(t_map *map, char dir);
 
 
 

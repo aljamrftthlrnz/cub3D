@@ -2,6 +2,7 @@
 
 void	init_game(t_data *d)
 {
+	d->game->player_dir = d->file->map->p_pos_dir;
 	d->game->player_x = d->file->map->p_pos_x;
 	d->game->player_y = d->file->map->p_pos_y;
 }
