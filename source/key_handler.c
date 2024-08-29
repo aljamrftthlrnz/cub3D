@@ -40,6 +40,7 @@ void	player_step(t_data *d, int keycode)
 		int	angle = d->game->player_dir % 90;
 	float	p_left;
 	float	p_right;
+	float	tmp;
 
 	printf("angle: %d\n", angle);
 	p_left = (float) angle / 9 / 10;
@@ -48,6 +49,18 @@ void	player_step(t_data *d, int keycode)
 	{
 		p_left = p_left * (-1);
 		p_right = p_right * (-1);
+	}
+	if (keycode == KEY_A)
+	{
+		tmp = p_left;
+		p_left = p_right  * (-1);
+		p_right = tmp;
+	}
+	if (keycode == KEY_D)
+	{
+		tmp = p_left;
+		p_left = p_right;
+		p_right = tmp * (-1);
 	}
 	printf("px: %f\npy: %f\n", p_left, p_right);
 
@@ -78,17 +91,11 @@ int	key_handler(int keycode, void *d)
 {
 	if (keycode == ESC)
 		close_game(d);
-	if (keycode == KEY_W || keycode == KEY_S)
+	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A || keycode == KEY_D)
 	{
 		player_step(d, keycode);
 		return (0);
 	}
-	if (keycode == KEY_A)
-		return (0);
-	// if (keycode == KEY_S)
-	// 	return (0);
-	if (keycode == KEY_D)
-		return (0);
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
 	{
 		arrow_keys(d, keycode);
