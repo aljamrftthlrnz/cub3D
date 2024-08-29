@@ -30,7 +30,7 @@ int *parse_rgb_colors(char *str, t_data *data)
         rgb[i] = ft_atoi(rgb_values[i]);
         if(rgb[i] < 0 || rgb[i] > 255)
         {
-            // CORRECTION: free rgb and rgb_values here
+            // request change: free rgb and rgb_values here
             err_free_message(data, RGB_W); 
         }
         free(rgb_values[i]); 
