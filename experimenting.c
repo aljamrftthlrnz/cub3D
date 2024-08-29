@@ -28,16 +28,35 @@ int	mini_close_game_2(void *ptr)
 }
 
 
-void	step_forward(t_data *d)
+void	step_forward(t_data *d, int key)
 {
 	int	angle = d->map->player_sight % 90;
 	float	p_left;
 	float	p_right;
+	float	tmp;
 
 	printf("angle: %d\n", angle);
 	p_left = (float) angle / 9 / 10;
 	p_right = 1 - p_left;
+	if (key == S)
+	{
+		p_left = p_left * (-1);
+		p_right = p_right * (-1);
+	}
+	if (key == A)
+	{
+		tmp = p_left;
+		p_left = p_right  * (-1);
+		p_right = tmp;
+	}
+	if (key == D)
+	{
+		tmp = p_left;
+		p_left = p_right;
+		p_right = tmp * (-1);
+	}
 	printf("px: %f\npy: %f\n", p_left, p_right);
+
 
 	if (d->map->player_sight < 90)
 	{
@@ -68,23 +87,23 @@ int wasd_keys(void *ptr, int key)
 	// float	step_y;
 
 	d = (t_data *)ptr;
-	if (key == W ) //&& d->map->matrix[(d->map->player_y - 1) / 32][d->map->player_x / 32] != '1')
+	if (key == W || key == S || key == A || key == D) //&& d->map->matrix[(d->map->player_y - 1) / 32][d->map->player_x / 32] != '1')
 	{
-		step_forward(d);
+		step_forward(d, key);
 		// d->map->player_y -= 1;
 	}
-	if (key == A && d->map->matrix[(int) d->map->player_y / 32][((int) d->map->player_x - 1) / 32] != '1')
-	{
-		d->map->player_x -= 1;
-	}
-	if (key == S && d->map->matrix[((int) d->map->player_y + 1) / 32][(int) d->map->player_x / 32] != '1')
-	{
-		d->map->player_y += 1;
-	}
-	if (key == D && d->map->matrix[((int) d->map->player_y - 1) / 32][((int) d->map->player_x + 1) / 32] != '1')
-	{
-		d->map->player_x += 1;
-	}
+	// if (key == A && d->map->matrix[(int) d->map->player_y / 32][((int) d->map->player_x - 1) / 32] != '1')
+	// {
+	// 	d->map->player_x -= 1;
+	// }
+	// if (key == S && d->map->matrix[((int) d->map->player_y + 1) / 32][(int) d->map->player_x / 32] != '1')
+	// {
+	// 	d->map->player_y += 1;
+	// }
+	// if (key == D && d->map->matrix[((int) d->map->player_y - 1) / 32][((int) d->map->player_x + 1) / 32] != '1')
+	// {
+	// 	d->map->player_x += 1;
+	// }
 	return (0);
 }
 
