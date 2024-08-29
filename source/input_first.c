@@ -10,22 +10,29 @@ int *parse_rgb_colors(char *str, t_data *data)
     i= -1;
     if(check_multiple_seperators(str))
         err_free_message(data, FL_CEIL_M);
-    rgb = (int*)malloc(sizeof(int)*3); 
     rgb_values = ft_split(str, ',');
     if(!rgb_values)
         return(free(rgb),NULL);
     num = file_length(rgb_values);
     if(num > 3)
     {
-        free(rgb); 
         free(rgb_values);
         err_free_message(data, FL_CEIL_M);
+    }
+    rgb = (int*)malloc(sizeof(int)*3); 
+    if (rgb == NULL)
+    {
+        free(rgb_values);
+        err_free_message(data, ALLOC_FAIL);
     }
     while(++i < 3)
     {
         rgb[i] = ft_atoi(rgb_values[i]);
         if(rgb[i] < 0 || rgb[i] > 255)
+        {
+            // CORRECTION: free rgb and rgb_values here
             err_free_message(data, RGB_W); 
+        }
         free(rgb_values[i]); 
     }
     free(rgb_values); 
