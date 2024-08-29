@@ -193,9 +193,13 @@ void	create_game(t_data *d);
 
 // key_handler.c
 int		close_game(void *ptr);
-void	arrow_keys(t_data *d, int keycode);
-void	player_step(t_data *d, int keycode);
 int		key_handler(int keycode, void *d);
 void	setup_key_buttons(t_data *d);
+
+// player_movement.c
+void	arrow_keys(t_data *d, int keycode);
+void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
+void	player_step(t_data *d, int keycode);
+
 
 #endif
