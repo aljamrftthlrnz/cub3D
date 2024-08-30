@@ -39,6 +39,8 @@ typedef struct s_map
 	void	*img_SO;
 	void	*img_WE;
 	void	*img_EA;
+	void	*img_new;
+
 	int		*floor_color;
 	int		*ceiling_color;
 	char	**matrix;
@@ -50,19 +52,28 @@ typedef struct s_map
 	int		player_sight;
 }	t_map;
 
+typedef struct s_image
+{
+	void	*img_ptr;
+	
+	char	*img_adr;
+
+
+}	t_image;
 typedef struct s_data
 {
 	void	*mlx;
 	void	*win;
 	t_map	*map;
 	int		error;
+	t_image	*img;
 }	t_data;
 
 
 
 // experimenting.c
 int	mini_close_game(int keycode, void *mlx);
-int	mini_key_handle(int keycode, void *mlx);
+int	mini_close_game_2(void *ptr);
 void	free_data(t_data *d);
 int	main(void);
 
@@ -79,6 +90,11 @@ int	draw_tile(t_data *d, int x, int y);
 int	draw_map(t_data *d);
 int	render_frame(t_data *d);
 
+// keyhandler.c
+void	step_forward(t_data *d, int key);
+int wasd_keys(void *ptr, int key);
+void	arrow_keys(t_data *d, int keycode);
+int	mini_key_handle(int keycode, void *mlx);
 
 
 #endif

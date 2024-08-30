@@ -28,121 +28,6 @@ int	mini_close_game_2(void *ptr)
 }
 
 
-void	step_forward(t_data *d, int key)
-{
-	int	angle = d->map->player_sight % 90;
-	float	p_left;
-	float	p_right;
-	float	tmp;
-
-	printf("angle: %d\n", angle);
-	p_left = (float) angle / 9 / 10;
-	p_right = 1 - p_left;
-	if (key == S)
-	{
-		p_left = p_left * (-1);
-		p_right = p_right * (-1);
-	}
-	if (key == A)
-	{
-		tmp = p_left;
-		p_left = p_right  * (-1);
-		p_right = tmp;
-	}
-	if (key == D)
-	{
-		tmp = p_left;
-		p_left = p_right;
-		p_right = tmp * (-1);
-	}
-	printf("px: %f\npy: %f\n", p_left, p_right);
-
-
-	if (d->map->player_sight < 90)
-	{
-		d->map->player_x += p_left;
-		d->map->player_y -= p_right;
-	}
-	else if (d->map->player_sight < 180)
-	{
-		d->map->player_x += p_right;
-		d->map->player_y += p_left;
-	}
-	else if (d->map->player_sight < 270)
-	{
-		d->map->player_x -= p_left;
-		d->map->player_y += p_right;
-	}
-	else if (d->map->player_sight < 360)
-	{
-		d->map->player_x -= p_right;
-		d->map->player_y -= p_left;
-	}
-}
-
-int wasd_keys(void *ptr, int key)
-{
-	t_data *d;
-	// float	step_x;
-	// float	step_y;
-
-	d = (t_data *)ptr;
-	if (key == W || key == S || key == A || key == D) //&& d->map->matrix[(d->map->player_y - 1) / 32][d->map->player_x / 32] != '1')
-	{
-		step_forward(d, key);
-		// d->map->player_y -= 1;
-	}
-	// if (key == A && d->map->matrix[(int) d->map->player_y / 32][((int) d->map->player_x - 1) / 32] != '1')
-	// {
-	// 	d->map->player_x -= 1;
-	// }
-	// if (key == S && d->map->matrix[((int) d->map->player_y + 1) / 32][(int) d->map->player_x / 32] != '1')
-	// {
-	// 	d->map->player_y += 1;
-	// }
-	// if (key == D && d->map->matrix[((int) d->map->player_y - 1) / 32][((int) d->map->player_x + 1) / 32] != '1')
-	// {
-	// 	d->map->player_x += 1;
-	// }
-	return (0);
-}
-
-void	arrow_keys(t_data *d, int keycode)
-{
-	if (keycode == LEFT)
-	{
-		d->map->player_sight -= 2;
-	}
-	if (keycode == RIGHT)
-	{
-		d->map->player_sight += 2;
-	}
-	while (d->map->player_sight < 0)
-		d->map->player_sight = 360 + d->map->player_sight;
-	while (d->map->player_sight > 359)
-		d->map->player_sight = d->map->player_sight - 360;
-	printf("direction: %d\n", d->map->player_sight);
-}
-
-int	mini_key_handle(int keycode, void *d)
-{
-	if (keycode == ESC)
-		mini_close_game_2(d);
-	if (keycode == W)
-		wasd_keys(d, W);
-	if (keycode == A)
-		wasd_keys(d, A);
-	if (keycode == S)
-		wasd_keys(d, S);
-	if (keycode == D)
-		wasd_keys(d, D);
-	if (keycode == LEFT || keycode == RIGHT)
-		arrow_keys(d, keycode);
-
-
-	return 0;
-}
-
 // int	mini_keypress_handle(void *d)
 // {
 
@@ -163,6 +48,31 @@ void	setup_key_hooks(t_data *d)
 void	setup_loop_hooks(t_data *d)
 {
 	mlx_loop_hook(d->mlx, render_frame, d);
+}
+
+void	creates_img(t_data *d)
+{
+	int	bits_per_pixel;
+	int size_line;
+	int	endian;
+	// int i = 0;
+
+	d->img->img_ptr = mlx_new_image(d->mlx, 1, 1);
+	d->img->img_adr = mlx_get_data_addr(d->img->img_ptr, &bits_per_pixel, &size_line, &endian);
+	d->img->img_adr[1] = 128;
+	d->img->img_adr[2] = 0;
+	d->img->img_adr[3] = 128;
+	// printf("bits_per_pixel: %d\nsize_line: %d\nendian: %d\n", bits_per_pixel, size_line, endian);
+	// printf("---img address\n\n");
+	// while (i < size_line)
+	// {
+	// 	printf("%d\n", d->img->img_adr[i]);
+	// 	// write(1, &d->img->img_adr[i], 1);
+	// 	i++;
+	// }
+
+
+	// mlx_put_image_to_window(d->mlx, d->win, d->img->img_ptr, 5, 5);
 }
 
 int	main(void)
@@ -189,6 +99,13 @@ int	main(void)
 		free_data(d);
 		return (1);
 	}
+	d->img = (t_image *) malloc(sizeof(t_image));
+	if (d->img == NULL)
+	{
+		free_data(d);
+		return (1);
+	}
+	creates_img(d);
 	setup_key_hooks(d);
 	setup_loop_hooks(d);
 	while (1)
