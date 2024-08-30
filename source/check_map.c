@@ -115,10 +115,8 @@ int loop_over_potential_walls(char *s)
 int validate_outer_walls(char *cpy)
 {
     int i;
-    int x;
 
     i = 0;
-    x = 0;
     if(!cpy)
         return(1); 
     while(cpy[i] && cpy[i] == 'X')

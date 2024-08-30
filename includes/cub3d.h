@@ -11,8 +11,8 @@
 # include <math.h>
 # include "libft/libft.h"
 
-# define screenWidth 1920
-# define screenHeight 1080
+# define screenWidth 600
+# define screenHeight 400
 
 # define KEY_W 119
 # define KEY_A 97
@@ -191,9 +191,10 @@ int check_up_down_left_right(char **map, int i, int j);
 int validating_map_content(char **s);
 int map_len(char **arr);
 void init_raycasting(t_data *d);
-int assign_initial_direction(t_raycast *r, t_map *map);
-
-
-
+int assign_direction_and_camera_plane(t_raycast *r, t_map *map);
+void loop_through_colum_on_screen(t_map *map, t_raycast *r);
+int calc_playerposition_and_stepvalues(t_raycast *r);
+int ray_hits_wall(t_map *map, t_raycast *ray);
+void determine_distance_to_wall(t_raycast *ray, int side);
 
 #endif

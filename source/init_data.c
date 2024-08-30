@@ -46,6 +46,21 @@ void raycast(t_raycast *ray)
     ray->dir_y = 0;
     ray->plane_x = 0; 
     ray->plane_y = 0; 
+    ray->camera_x = 0;
+    ray->camera_y = 0;
+    ray->rayDirX = 0;
+    ray->rayDirY = 0;
+    ray->deltaDistX = 0;
+    ray->deltaDistY = 0;
+    ray->sideDistX = 0;
+    ray->sideDistY = 0;
+    ray->stepX = 0;
+    ray->stepY = 0;
+    ray->mapX = 0;
+    ray->mapY = 0;
+    ray->perpWallDist = 0; 
+
+
 }
 
 void init_data(t_data *d) 
