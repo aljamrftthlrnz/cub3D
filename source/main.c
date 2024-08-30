@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, ALLOC_FAIL); 
 	init_data(d);
 	init_map(d,argv[1]);
-	start_raycasting(); 
+	init_raycasting(d); 
 	error_code = d->error;
 	free_data(d);
 	return(error_code);

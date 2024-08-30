@@ -40,6 +40,12 @@ void map(t_map *map) {
 void raycast(t_raycast *ray)
 {
     ft_bzero(ray, sizeof(t_raycast));
+    ray->p_pos_x = 0;
+    ray->p_pos_y = 0;
+    ray->dir_x = 0; 
+    ray->dir_y = 0;
+    ray->plane_x = 0; 
+    ray->plane_y = 0; 
 }
 
 void init_data(t_data *d) 
@@ -49,7 +55,6 @@ void init_data(t_data *d)
     if (!d->file)
         err_free_message(d, ALLOC_FAIL);
     ft_bzero(d->file, sizeof(t_file));
-    
     d->file->data = d; 
     
     d->file->elem = (t_element *)malloc(sizeof(t_element)); 
@@ -65,7 +70,7 @@ void init_data(t_data *d)
     d->file->map->file = d->file;
     
     d->file->ray = (t_raycast*)malloc(sizeof(t_raycast));
-    if(!d->file->ray->file)
+    if(!d->file->ray)
        err_free_message(d, ALLOC_FAIL); 
     raycast(d->file->ray);
     d->file->ray->file = d->file;

@@ -76,10 +76,30 @@ typedef struct s_raycast
 	// planeX and planeY the camera plane of the player.
 	float	plane_x;
 	float	plane_y;
+
+	float	camera_x;
+	float	camera_y;
+
+	float	rayDirX;
+	float	rayDirY;
+
+	float	deltaDistX;
+	float	deltaDistY;
+	
+    float	sideDistX;
+    float	sideDistY;
+
+	int stepX;
+    int stepY;
+
+	int mapX;
+    int mapY;
+
+	float perpWallDist; 
 	/*The variables time and oldTime will be used to store 
 	the time of the current and the previous frame*/
-	float	time;
-	float	old_time;
+	//float	time;
+	//float	old_time;
 	struct s_file	*file;
 
 } t_raycast;
@@ -160,7 +180,7 @@ int is_valid_map_char(char c);
 int order(char *trim, int *sum);
 int check_order_of_file(t_data *data);
 void textures_comp(char*trim, t_data *data, int *err, int *map);
-int replace_spaces_and_check_player(t_raycast *r, char **s);
+int replace_spaces_and_check_player(t_map *map, char **s);
 int check_empty_lines_in_map(t_map *m); 
 char **create_map_copy(t_map *map); 
 int validating_map_walls(char **cpy); 
@@ -171,6 +191,9 @@ int check_up_down_left_right(char **map, int i, int j);
 int validating_map_content(char **s);
 int map_len(char **arr);
 void init_raycasting(t_data *d);
+int assign_initial_direction(t_raycast *r, t_map *map);
+
+
 
 
 #endif

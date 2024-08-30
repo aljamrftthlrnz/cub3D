@@ -28,6 +28,8 @@ void	free_data(t_data *d)
 					free(d->file->elem->ceil_rgb);
 				free(d->file->elem); 
 			}
+			if(d->file->ray != NULL)
+				free(d->file->ray); 
 			free(d->file); 
 		}
 		free_array(d->file_arr); 
