@@ -22,14 +22,14 @@ int *parse_rgb_colors(char *str, t_data *data, char *ptr)
     num = file_length(rgb_values);
     if(num > 3)
     {
-        free(rgb_values);
+        free_array(rgb_values);
         free(ptr);
         err_free_message(data, FL_CEIL_M);
     }
     rgb = (int*)malloc(sizeof(int)*3); 
     if (rgb == NULL)
     {
-        free(rgb_values);
+        free_array(rgb_values);
         free(ptr);
         err_free_message(data, ALLOC_FAIL);
     }
