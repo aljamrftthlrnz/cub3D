@@ -14,6 +14,11 @@
 # define screenWidth 600
 # define screenHeight 400
 
+# define DIR_N 0
+# define DIR_E 90
+# define DIR_S 180
+# define DIR_W 270
+
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
@@ -62,45 +67,31 @@
 # define SPACE_PROT 27
 # define SPACE "MAP invalid: spaces are not secured properly\n"
 
-struct	s_file; 
 struct	s_data; 
 
 typedef struct s_raycast
 {
-	// posX and posY represent the position vector of the player
-	float	p_pos_y;
-	float	p_pos_x;
-	// dirX and dirY represent the direction of the player
-	float	dir_x; 
-	float	dir_y;
-	// planeX and planeY the camera plane of the player.
-	float	plane_x;
-	float	plane_y;
-
-	float	camera_x;
-	float	camera_y;
-
-	float	rayDirX;
-	float	rayDirY;
-
-	float	deltaDistX;
-	float	deltaDistY;
-	
-    float	sideDistX;
-    float	sideDistY;
-
-	int stepX;
-    int stepY;
-
-	int mapX;
-    int mapY;
-
-	float perpWallDist; 
-	/*The variables time and oldTime will be used to store 
-	the time of the current and the previous frame*/
-	//float	time;
-	//float	old_time;
-	struct s_file	*file;
+	// float		p_pos_y;
+	// float		p_pos_x;
+	float		dir_x; 
+	float		dir_y;
+	float		plane_x;
+	float		plane_y;		
+	float		camera_x;
+	float		camera_y;		
+	float		rayDirX;
+	float		rayDirY;		
+	float		deltaDistX;
+	float		deltaDistY;
+    float		sideDistX;
+    float		sideDistY;		
+	float		perpWallDist;
+	int			stepX;
+    int			stepY;		
+	int			mapX;
+    int			mapY;
+	int			side;
+	int			hit;
 
 } t_raycast;
 
@@ -112,89 +103,95 @@ typedef struct s_element
 	char			*ea_path;
 	int				*ceil_rgb;
 	int				*flo_rgb;
-	struct s_file	*file;
 }	t_element;
+
+typedef struct s_game
+{
+	float			pos_y;
+	float			pos_x;
+	int				p_pos_dir; 
+
+}	t_game;
 
 typedef struct s_map
 {
 	char			**map;
 	char			**cpy_map;
+	int				length;
+	int				width;
 	int				pos_y;
 	int				pos_x;
-	int				length;
-	int				width; 
-	struct s_file	*file;
+	int				p_pos_dir; 
 } t_map;
-
-typedef struct s_file 
-{
-	struct s_data	*data; // Use Forward declaration, is only init further down
-	t_element		*elem;
-	t_map			*map;
-	t_raycast		*ray; 
-}	t_file; 
 
 typedef struct s_data
 {
-	void	*mlx;
-	void	*win; 
-	int		error;
-	char	**file_arr; 
-	int		y_file; 
-	int		x_file;
-	t_file	*file; 
+	void		*mlx;
+	void		*win; 
+	int			error;
+	char		**file_arr; 
+	int			y_file; 
+	int			x_file;
+	t_element	*elem;
+	t_map		*map;
+	t_raycast	*ray;
+	t_game		*game; 
 }	t_data;
 
 
 /*FUNCTIONS IN FILE main.c*/
-int		main(int argc, char**argv);
-int arguments_and_extension (int argc, char *str, int *error);
-int		err_free_message(t_data *data, int error_code);
+int			main(int argc, char**argv);
+int			arguments_and_extension (int argc, char *str, int *error);
+int			err_free_message(t_data *data, int error_code);
 
 /*FUNCTIONS IN FILE utils_free.c*/
-void	free_data(t_data *d);
-void	free_array(char **arr); 
-
-/*FUNCTIONS IN FILE init_data.c*/
+void		free_data(t_data *d);
+void		free_array(char **arr); 
 void		init_data(t_data *d);
 
-int process_map(t_data *data);
-char **copy_map_parts_in_file(t_data *data, int begin);
-int is_map_line(char *line);
-int err_free_message(t_data *data, int error_code);
+/*FUNCTIONS IN FILE init_data.c*/
 
-int is_c_space(char c);
-int is_space(char *line);
-int is_character(char c);
-int is_wall_space(char c);
-int file_length(char **arr);
+int			process_map(t_data *data);
+char		**copy_map_parts_in_file(t_data *data, int begin);
+int			is_map_line(char *line);
+int			err_free_message(t_data *data, int error_code);
 
-void    init_map(t_data *data, char *argv);
-int get_dimensions_of_file(t_data *d, char *argv);
-int extract_textures(t_data *data, char **arr);
-int *parse_rgb_colors(char *str, t_data *data);
-int check_multiple_seperators(char *str);
-int check_order_of_map(t_data *data);
-int    create_file_array(t_data *d, char *argv); 
-int is_valid_map_char(char c);
-int order(char *trim, int *sum);
-int check_order_of_file(t_data *data);
-void textures_comp(char*trim, t_data *data, int *err, int *map);
-int replace_spaces_and_check_player(t_map *map, char **s);
-int check_empty_lines_in_map(t_map *m); 
-char **create_map_copy(t_map *map); 
-int validating_map_walls(char **cpy); 
-int loop_over_potential_walls(char *s);
-int validate_outer_walls(char *cpy);
-void map_related_checks(t_map *map);
-int check_up_down_left_right(char **map, int i, int j);
-int validating_map_content(char **s);
-int map_len(char **arr);
-void init_raycasting(t_data *d);
-int assign_direction_and_camera_plane(t_raycast *r, t_map *map);
-void loop_through_colum_on_screen(t_map *map, t_raycast *r);
-int calc_playerposition_and_stepvalues(t_raycast *r);
-int ray_hits_wall(t_map *map, t_raycast *ray);
-void determine_distance_to_wall(t_raycast *ray, int side);
+int			is_c_space(char c);
+int			is_space(char *line);
+int			is_character(char c);
+int			is_wall_space(char c);
+int			file_length(char **arr);
+
+void		init_map(t_data *data, char *argv);
+int			get_dimensions_of_file(t_data *d, char *argv);
+int			extract_textures(t_data *data, char **arr);
+int			*parse_rgb_colors(char *str, t_data *data);
+int			check_multiple_seperators(char *str);
+int			check_order_of_map(t_data *data);
+int			create_file_array(t_data *d, char *argv); 
+int			is_valid_map_char(char c);
+int			order(char *trim, int *sum);
+int			check_order_of_file(t_data *data);
+void		textures_comp(char*trim, t_data *data, int *err, int *map);
+int			replace_spaces_and_check_player(t_map *map, char **s);
+int			check_empty_lines_in_map(t_map *m); 
+char		**create_map_copy(t_map *map); 
+int			validating_map_walls(char **cpy); 
+int			loop_over_potential_walls(char *s);
+int			validate_outer_walls(char *cpy);
+void 		map_related_checks(t_data *data, t_map *map);
+int			check_up_down_left_right(char **map, int i, int j);
+int			validating_map_content(char **s);
+int			map_len(char **arr);
+void		raycasting(t_data *d);
+void init_ray(t_raycast *r, t_map *map, t_game *g);
+void init_east_west(int dir, t_raycast *r); 
+void init_north_south(int dir, t_raycast *r); 
+void position_and_stepvalues(t_game *g, t_raycast *r); 
+void determine_distance_to_wall(t_raycast *ray, t_game *game); 
+void wall_hit(t_map *map, t_raycast *ray); 
+void ray_loop(t_game *g, t_raycast *r, t_map *m); 
+void replace_initial_player_pos(t_map *m); 
+
 
 #endif

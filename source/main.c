@@ -28,7 +28,11 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, ALLOC_FAIL); 
 	init_data(d);
 	init_map(d,argv[1]);
-	init_raycasting(d); 
+	d->mlx = mlx_init();
+	if(!d->mlx)
+		err_free_message(d, ALLOC_FAIL);
+	raycasting(d);
+	d->win = mlx_new_window(d->mlx, screenWidth, screenHeight, "cub3D __ CAAL Enterprise");  
 	error_code = d->error;
 	free_data(d);
 	return(error_code);

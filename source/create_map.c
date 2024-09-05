@@ -90,10 +90,10 @@ int process_map(t_data *data)
         return(1); 
     begin = i;
     //printf("Begin ____ %d\n",   i); 
-    data->file->map->map = copy_map_parts_in_file(data, begin);
-    // for (int i = 0; data->file->map->map[i]; i++)
-    //     printf("Line [%d]___ %s\n", i, data->file->map->map[i]); 
-    if(data->file->map->map == NULL)
+    data->map->map = copy_map_parts_in_file(data, begin);
+    // for (int i = 0; data->map->map[i]; i++)
+    //     printf("Line [%d]___ %s\n", i, data->map->map[i]); 
+    if(data->map->map == NULL)
         return (1); 
     return (0); 
 }

@@ -72,16 +72,16 @@ void    init_map(t_data *data, char *argv)
 {
     t_map *map; 
 
-    map = data->file->map;
+    map = data->map;
     if(get_dimensions_of_file(data, argv))
         err_free_message(data, FILE_EMPTY); 
     if(create_file_array(data, argv))
         err_free_message(data, FILE_EMPTY); 
     if(extract_textures(data, data->file_arr))
         err_free_message(data, IDENT_W);
-    if(!data->file->elem->no_path || !data->file->elem->so_path || !data->file->elem->we_path || !data->file->elem->ea_path)
+    if(!data->elem->no_path || !data->elem->so_path || !data->elem->we_path || !data->elem->ea_path)
         err_free_message(data, PERS_M);
-    if(!data->file->elem->flo_rgb || !data->file->elem->ceil_rgb)
+    if(!data->elem->flo_rgb || !data->elem->ceil_rgb)
         err_free_message(data, FL_CEIL_M);
     if(process_map(data))
        err_free_message(data, MISSING_MAP);
@@ -89,6 +89,6 @@ void    init_map(t_data *data, char *argv)
         err_free_message(data, ORDER_ID);
     if(check_order_of_map(data))
         err_free_message (data, ORDER);
-    map_related_checks(map); 
+    map_related_checks(data, map); 
  
 }

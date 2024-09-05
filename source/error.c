@@ -1,40 +1,44 @@
 #include "../includes/cub3d.h"
 
+void free_element(t_element *e)
+{
+	if (e->we_path != NULL)
+		free(e->we_path); 
+	if (e->no_path != NULL)
+		free(e->no_path); 
+	if(e->so_path != NULL)
+		free(e->so_path);
+	if(e->ea_path != NULL)
+		free(e->ea_path);
+	if(e->flo_rgb != NULL)
+		free(e->flo_rgb);
+	if(e->ceil_rgb != NULL)
+		free(e->ceil_rgb);
+}
+
 void	free_data(t_data *d)
 {
 	if(d != NULL)
 	{
-		if(d->file != NULL)
+		if(d->map != NULL)
 		{
-			if(d->file->map != NULL)
-			{
-				free_array(d->file->map->cpy_map); 
-				free_array(d->file->map->map); 
-				free(d->file->map); 
-			}
-			if (d->file->elem != NULL)
-			{
-				if (d->file->elem->we_path != NULL)
-					free(d->file->elem->we_path); 
-				if (d->file->elem->no_path != NULL)
-					free(d->file->elem->no_path); 
-				if(d->file->elem->so_path != NULL)
-					free(d->file->elem->so_path);
-				if(d->file->elem->ea_path != NULL)
-					free(d->file->elem->ea_path);
-				if(d->file->elem->flo_rgb != NULL)
-					free(d->file->elem->flo_rgb);
-				if(d->file->elem->ceil_rgb != NULL)
-					free(d->file->elem->ceil_rgb);
-				free(d->file->elem); 
-			}
-			if(d->file->ray != NULL)
-				free(d->file->ray); 
-			free(d->file); 
+			free_array(d->map->cpy_map); 
+			free_array(d->map->map); 
+			free(d->map); 
 		}
+		if (d->elem != NULL)
+		{
+			free_element(d->elem);
+			free(d->elem); 
+		}
+		if(d->ray != NULL)
+			free(d->ray);
+		if(d->game != NULL)
+			free(d->game);
 		free_array(d->file_arr); 
 		free(d);
 	}
+	d = NULL;
 }
 
 void	free_array(char **arr)

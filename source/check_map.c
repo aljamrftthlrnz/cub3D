@@ -8,7 +8,6 @@ char **create_map_copy(t_map *map)
     
     i = 0;
     size = file_length(map->map);
-    //printf("The size of org map %d\n", size); 
     s = (char **)malloc(sizeof(char*)*(size+1)); 
     while(i < size)
     {
@@ -27,6 +26,22 @@ char **create_map_copy(t_map *map)
     }
     s[i] = NULL; 
     return (s); 
+}
+
+void    get_player_direction_position(int y, int x, t_map *m)
+{
+    m->pos_x = x; 
+    m->pos_y = y;
+    if (m->cpy_map[y][x] == 'N')
+        m->p_pos_dir = DIR_N;
+    else if (m->cpy_map[y][x] == 'S')
+        m->p_pos_dir = DIR_S;
+    else if (m->cpy_map[y][x] == 'W')
+        m->p_pos_dir = DIR_W;
+    else if (m->cpy_map[y][x] == 'E')
+        m->p_pos_dir = DIR_E;
+    else 
+        return ; 
 }
 
 int replace_spaces_and_check_player(t_map *map, char **s)
@@ -49,12 +64,7 @@ int replace_spaces_and_check_player(t_map *map, char **s)
             else if (s[i][j] && is_character(s[i][j]))
             {
                 p++;
-                //printf("Player position [%d][%d]\n", i, j);
-                if(p == 1)
-                {
-                    map->pos_x = j;
-                    map->pos_y = i;
-                }
+                get_player_direction_position (i, j, map); 
             }
             else if (s[i][j] && !is_valid_map_char(s[i][j]))
                 err++;
@@ -62,7 +72,6 @@ int replace_spaces_and_check_player(t_map *map, char **s)
         }
         i++; 
     }
-    //printf("P is [%d]\n",p); 
     if (p != 1 || err != 0)
         return(1);
     return(0); 
@@ -150,25 +159,22 @@ int validating_map_walls(char **cpy)
 
 }
 
-void map_related_checks(t_map *map)
+void map_related_checks(t_data *data, t_map *map)
 {
     t_raycast *ray; 
 
-    ray = map->file->ray;
+    ray = data->ray;
     if(check_empty_lines_in_map(map))
-        err_free_message(map->file->data, EMPTY_LINES);
+        err_free_message(data, EMPTY_LINES);
     map->cpy_map = create_map_copy(map);
     if(!map->cpy_map)
-        err_free_message(map->file->data, ALLOC_FAIL); 
-    // for (int i = 0; map->cpy_map[i]; i++)
-    //     printf("Line ___ %s\n", map->cpy_map[i]); 
+        err_free_message(data, ALLOC_FAIL);
     if(replace_spaces_and_check_player(map, map->cpy_map))
-        err_free_message(map->file->data, PLAYER_W);
+        err_free_message(data, PLAYER_W);
     if(validating_map_walls(map->cpy_map))
-        err_free_message(map->file->data, BORDER_M);
+        err_free_message(data, BORDER_M);
     if(validating_map_content(map->cpy_map))
-        err_free_message(map->file->data, SPACE_PROT);
-
+        err_free_message(data, SPACE_PROT);
 }
 
 int validating_map_content(char **s)
