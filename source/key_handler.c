@@ -19,16 +19,16 @@ int	key_handler(int keycode, void *d)
 {
 	if (keycode == ESC)
 		close_game(d);
-	if (keycode == KEY_W)
+	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A || keycode == KEY_D)
+	{
+		player_step(d, keycode);
 		return (0);
-	if (keycode == KEY_A)
-		return (0);
-	if (keycode == KEY_S)
-		return (0);
-	if (keycode == KEY_D)
-		return (0);
+	}
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
+	{
+		arrow_keys(d, keycode);
 		return (0);
+	}
 	return (0);
 }
 

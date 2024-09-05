@@ -21,6 +21,12 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
+# define DIR_N 0
+# define DIR_E 90
+# define DIR_S 180
+# define DIR_W 270
+
+
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
 # define ARG_FAIL 8 // Too little arguments
@@ -89,6 +95,7 @@ typedef struct s_map
 	int				width;
 	int				p_pos_y;
 	int				p_pos_x;
+	int				p_pos_dir;
 	struct s_file	*file;
 } t_map;
 
@@ -101,7 +108,12 @@ typedef struct s_file
 
 
 
-
+typedef struct s_game 
+{
+	float	player_x;
+	float	player_y;
+	int		player_dir;
+}	t_game;
 
 
 typedef struct s_data
@@ -113,10 +125,12 @@ typedef struct s_data
 	int		y_file; 
 	int		x_file;
 	t_file	*file; 
+	t_game	*game;
 }	t_data;
 
 
 /*FUNCTIONS IN FILE main.c*/
+void	init_game(t_data *d);
 int		main(int argc, char**argv);
 int arguments_and_extension (int argc, char *str, int *error);
 int		err_free_message(t_data *data, int error_code);
@@ -165,6 +179,9 @@ int validating_map_content(char **s);
 int map_len(char **arr);
 
 
+// check_map.c
+void    get_p_dir(t_map *map, char dir);
+
 
 
 
@@ -179,5 +196,11 @@ void	create_game(t_data *d);
 int		close_game(void *ptr);
 int		key_handler(int keycode, void *d);
 void	setup_key_buttons(t_data *d);
+
+// player_movement.c
+void	arrow_keys(t_data *d, int keycode);
+void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
+void	player_step(t_data *d, int keycode);
+
 
 #endif

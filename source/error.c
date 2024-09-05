@@ -45,6 +45,7 @@ void	free_data(t_data *d)
 			free(d->file); 
 		}
 		free_array(d->file_arr); 
+		free (d->game);
 		free(d);
 	}
 }

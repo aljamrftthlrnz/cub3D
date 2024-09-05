@@ -29,6 +29,19 @@ char **create_map_copy(t_map *map)
     return (s); 
 }
 
+void    get_p_dir(t_map *map, char dir)
+{
+    if (dir == 'N')
+        map->p_pos_dir = DIR_N;
+    if (dir == 'E')
+        map->p_pos_dir = DIR_E;
+    if (dir == 'S')
+        map->p_pos_dir = DIR_S;
+    if (dir == 'W')
+        map->p_pos_dir = DIR_W;
+}
+
+
 int replace_spaces_and_check_player(t_map *map, char **s)
 {
    int i;
@@ -54,6 +67,7 @@ int replace_spaces_and_check_player(t_map *map, char **s)
                 {
                     map->p_pos_x = j;
                     map->p_pos_y = i;
+                    get_p_dir(map, s[i][j]);
                 }
             }
             else if (s[i][j] && !is_valid_map_char(s[i][j]))
