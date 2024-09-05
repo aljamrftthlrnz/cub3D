@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int *parse_rgb_colors(char *str, t_data *data)
+int *parse_rgb_colors(char *str, t_data *data, char *ptr)
 {
     char **rgb_values;
     int *rgb; 
@@ -9,26 +9,52 @@ int *parse_rgb_colors(char *str, t_data *data)
 
     i= -1;
     if(check_multiple_seperators(str))
+    {
+        free(ptr);
+        ptr = NULL;
         err_free_message(data, FL_CEIL_M);
-    rgb = (int*)malloc(sizeof(int)*3); 
+    }
     rgb_values = ft_split(str, ',');
     if(!rgb_values)
-        return(free(rgb),NULL);
+    {
+        free (ptr);
+        ptr = NULL;
+        err_free_message(data, ALLOC_FAIL);
+    }
     num = file_length(rgb_values);
     if(num > 3)
     {
-        free(rgb); 
-        free(rgb_values);
+        free_array(rgb_values);
+        free(ptr);
+        rgb_values = NULL;
+        ptr = NULL;
         err_free_message(data, FL_CEIL_M);
+    }
+    rgb = (int*)malloc(sizeof(int)*3); 
+    if (rgb == NULL)
+    {
+        free_array(rgb_values);
+        rgb_values = NULL;
+        free(ptr);
+        ptr = NULL;
+        err_free_message(data, ALLOC_FAIL);
     }
     while(++i < 3)
     {
         rgb[i] = ft_atoi(rgb_values[i]);
         if(rgb[i] < 0 || rgb[i] > 255)
+        {
+            free(rgb);
+            rgb = NULL;
+            free_array(rgb_values);
+            rgb_values = NULL;
+            free(ptr);
+            ptr = NULL;
             err_free_message(data, RGB_W); 
-        free(rgb_values[i]); 
+        }
     }
-    free(rgb_values); 
+    free_array(rgb_values);
+    // free(ptr);
     return (rgb); 
 }
 
@@ -42,38 +68,56 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
     else if(!ft_strncmp(trim, "NO ", 3))
     {
         if(data->file->elem->no_path != NULL)
+        {
+            free (trim);
             err_free_message(data, PERS_D); 
+        }
         data->file->elem->no_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "SO ", 3))
     {
         if(data->file->elem->so_path != NULL)
+        {
+            free (trim);
             err_free_message(data, PERS_D);
+        }
         data->file->elem->so_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "WE ", 3))
     {
         if(data->file->elem->we_path != NULL)
+        {
+            free (trim);
             err_free_message(data, PERS_D);
+        }
         data->file->elem->we_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "EA ", 3))
     {
         if(data->file->elem->ea_path != NULL)
+        {
+            free (trim);
             err_free_message(data, PERS_D);
+        }
         data->file->elem->ea_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "F ", 2))
     {
         if(data->file->elem->flo_rgb != NULL)
+        {
+            free (trim);
             err_free_message(data, FL_CEIL_D);
-        data->file->elem->flo_rgb = parse_rgb_colors(trim + 2, data); 
+        }
+        data->file->elem->flo_rgb = parse_rgb_colors(trim + 2, data, trim); 
     }
     else if(!ft_strncmp(trim, "C ", 2))
     {
         if(data->file->elem->ceil_rgb != NULL)
+        {
+            free (trim);
             err_free_message(data, FL_CEIL_D);
-        data->file->elem->ceil_rgb = parse_rgb_colors(trim + 2, data);
+        }
+        data->file->elem->ceil_rgb = parse_rgb_colors(trim + 2, data, trim);
     }
     else 
     {
@@ -117,6 +161,7 @@ int extract_textures(t_data *data, char **arr)
             //printf("Trimmed -%s-\n", trim); 
             textures_comp(trim, data, &err, &map);
             free (trim);  
+            trim = NULL;
             i++;
         }        
     }

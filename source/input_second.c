@@ -14,7 +14,8 @@ int check_multiple_seperators(char *str)
             if (sep)
                 return (1);
             sep = 1;
-        } else 
+        }
+        else 
             sep = 0;
         i++;
     }

@@ -145,7 +145,7 @@ int file_length(char **arr);
 void    init_map(t_data *data, char *argv);
 int get_dimensions_of_file(t_data *d, char *argv);
 int extract_textures(t_data *data, char **arr);
-int *parse_rgb_colors(char *str, t_data *data);
+int *parse_rgb_colors(char *str, t_data *data, char *ptr);
 int check_multiple_seperators(char *str);
 int check_order_of_map(t_data *data);
 int    create_file_array(t_data *d, char *argv); 
