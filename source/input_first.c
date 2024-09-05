@@ -15,7 +15,10 @@ int *parse_rgb_colors(char *str, t_data *data, char *ptr)
     }
     rgb_values = ft_split(str, ',');
     if(!rgb_values)
-        return(NULL);
+    {
+        free (ptr);
+        err_free_message(data, ALLOC_FAIL);
+    }
     num = file_length(rgb_values);
     if(num > 3)
     {
