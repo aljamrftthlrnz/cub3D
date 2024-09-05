@@ -50,18 +50,47 @@ void	setup_loop_hooks(t_data *d)
 	mlx_loop_hook(d->mlx, render_frame, d);
 }
 
+void	pixel_to_img(t_image *img, int x, int y, int *rgb)
+{
+	int pixel_molecule = img->bits_per_pixel / 8;
+	// int i = pixel_molecule;
+	int position;
+
+	position = y * img->size_line * pixel_molecule;
+	printf("position: %d\n", position);
+	position = position + (x * pixel_molecule);
+	printf("position: %d\n", position);
+
+
+	(void) rgb;
+
+}
+
+
+void	setup_img(t_data *d, t_image *new_img)
+{
+	new_img->img_ptr = mlx_new_image(d->mlx, 1, 1);
+	new_img->img_adr = mlx_get_data_addr(new_img->img_ptr, &new_img->bits_per_pixel, &new_img->size_line, &new_img->endian);
+}
+
 void	creates_img(t_data *d)
 {
-	int	bits_per_pixel;
-	int size_line;
-	int	endian;
-	// int i = 0;
+	int rgb[3];
 
-	d->img->img_ptr = mlx_new_image(d->mlx, 1, 1);
-	d->img->img_adr = mlx_get_data_addr(d->img->img_ptr, &bits_per_pixel, &size_line, &endian);
-	d->img->img_adr[1] = 128;
-	d->img->img_adr[2] = 0;
-	d->img->img_adr[3] = 128;
+	rgb[1] = 128;
+	rgb[2] = 0;
+	rgb[3] = 128;
+
+	setup_img(d, d->img);
+
+	pixel_to_img(d->img, 0, 1, rgb);
+
+
+	// d->img->img_adr[1] = 128;
+	// d->img->img_adr[2] = 0;
+	// d->img->img_adr[3] = 128;
+
+
 	// printf("bits_per_pixel: %d\nsize_line: %d\nendian: %d\n", bits_per_pixel, size_line, endian);
 	// printf("---img address\n\n");
 	// while (i < size_line)

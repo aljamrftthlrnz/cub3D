@@ -55,9 +55,11 @@ typedef struct s_map
 typedef struct s_image
 {
 	void	*img_ptr;
-	
 	char	*img_adr;
-
+	
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
 
 }	t_image;
 typedef struct s_data
