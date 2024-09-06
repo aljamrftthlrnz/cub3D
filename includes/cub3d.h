@@ -11,13 +11,24 @@
 # include <math.h>
 # include "libft/libft.h"
 
-# define screenWidth 600
-# define screenHeight 400
+# define screenWidth	600
+# define screenHeight	400
+
+# define texSize		64
+
+# define FPS		60	
+# define PI			3.141592653589793
+# define DEGREES	90
 
 # define DIR_N 0
 # define DIR_E 90
 # define DIR_S 180
 # define DIR_W 270
+
+# define NORTH 0
+# define SOUTH 1
+# define WEST 2
+# define EAST 3
 
 # define KEY_W 119
 # define KEY_A 97
@@ -71,8 +82,7 @@ struct	s_data;
 
 typedef struct s_raycast
 {
-	// float		p_pos_y;
-	// float		p_pos_x;
+	float		rotation_speed; 
 	float		dir_x; 
 	float		dir_y;
 	float		plane_x;
@@ -86,12 +96,15 @@ typedef struct s_raycast
     float		sideDistX;
     float		sideDistY;		
 	float		perpWallDist;
+	double 		time; 
+	double		oldtime;
 	int			stepX;
     int			stepY;		
 	int			mapX;
     int			mapY;
 	int			side;
 	int			hit;
+	
 
 } t_raycast;
 
@@ -103,14 +116,27 @@ typedef struct s_element
 	char			*ea_path;
 	int				*ceil_rgb;
 	int				*flo_rgb;
+	int				texnum; 
+	int 			texx;
+	int				texy;
+	int				width; 
+	int 			height; 
+	double			wallx;
+	double			step;
+	double			texpos;
+	int				line_height;
+    int				drawStart;
+    int				drawEnd;
+	uint32
 }	t_element;
 
 typedef struct s_game
 {
 	float			pos_y;
 	float			pos_x;
+	float			dir_x; 
+	float			dir_y;
 	int				p_pos_dir; 
-
 }	t_game;
 
 typedef struct s_map
@@ -121,7 +147,7 @@ typedef struct s_map
 	int				width;
 	int				pos_y;
 	int				pos_x;
-	int				p_pos_dir; 
+	int				p_pos_dir;
 } t_map;
 
 typedef struct s_data
@@ -132,6 +158,7 @@ typedef struct s_data
 	char		**file_arr; 
 	int			y_file; 
 	int			x_file;
+	int			**texture;
 	t_element	*elem;
 	t_map		*map;
 	t_raycast	*ray;

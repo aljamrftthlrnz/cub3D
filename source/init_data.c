@@ -9,6 +9,11 @@ void element(t_element *e)
     e->ea_path = NULL; 
     e->ceil_rgb = NULL; 
     e->flo_rgb = NULL;
+    e->texnum = -1;
+    e->texx = 0;
+    e->width = texSize; 
+    e->height = texSize;
+    e->wallx = 0; 
 }
 
 void map(t_map *map) 
@@ -21,10 +26,8 @@ void map(t_map *map)
 
 void raycast(t_raycast *ray)
 {
-    ray->p_pos_x = 0;
-    ray->p_pos_y = 0;
-    ray->dir_x = 0; 
-    ray->dir_y = 0;
+    ray->rotation_speed = 0;
+    rotation(ray); 
     ray->plane_x = 0; 
     ray->plane_y = 0; 
     ray->camera_x = 0;
@@ -43,10 +46,13 @@ void raycast(t_raycast *ray)
     ray->hit = 0;
     ray->side = 0;
 }
+
 void game(t_game *g)
 {
     g->pos_x = 0; 
     g->pos_y = 0;
+    g->dir_x = 0; 
+    g->dir_y = 0;
     g->p_pos_dir = -1; 
 }
 
@@ -58,6 +64,14 @@ void data(t_data *d)
     d->error = 0;
     d->x_file = 0;
     d->y_file = 0;
+}
+
+void rotation(t_raycast *r)
+{
+    float radians_per_second; 
+
+    radians_per_second = (DEGREES * PI) / 180.0;
+    r->rotation_speed = radians_per_second / FPS; 
 }
 
 void init_data(t_data *d) 

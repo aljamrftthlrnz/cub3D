@@ -35,51 +35,63 @@ int *parse_rgb_colors(char *str, t_data *data)
 void textures_comp(char*trim, t_data *data, int *err, int *map)
 {
     if(!is_map_line(trim))
-    {
-        //printf("map line[%s]", trim); 
         (*map)++;
-    }
     else if(!ft_strncmp(trim, "NO ", 3))
     {
-        if(data->file->elem->no_path != NULL)
+        if(data->elem->no_path != NULL)
+        {
+            free (trim); 
             err_free_message(data, PERS_D); 
-        data->file->elem->no_path = ft_strdup(trim + 3);
+        }
+        data->elem->no_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "SO ", 3))
     {
-        if(data->file->elem->so_path != NULL)
+        if(data->elem->so_path != NULL)
+        {
+            free (trim); 
             err_free_message(data, PERS_D);
-        data->file->elem->so_path = ft_strdup(trim + 3);
+        }
+        data->elem->so_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "WE ", 3))
     {
-        if(data->file->elem->we_path != NULL)
+        if(data->elem->we_path != NULL)
+        {
+            free (trim); 
             err_free_message(data, PERS_D);
-        data->file->elem->we_path = ft_strdup(trim + 3);
+        }
+        data->elem->we_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "EA ", 3))
     {
-        if(data->file->elem->ea_path != NULL)
+        if(data->elem->ea_path != NULL)
+        {
+            free (trim); 
             err_free_message(data, PERS_D);
-        data->file->elem->ea_path = ft_strdup(trim + 3);
+        }
+        data->elem->ea_path = ft_strdup(trim + 3);
     }
     else if(!ft_strncmp(trim, "F ", 2))
     {
-        if(data->file->elem->flo_rgb != NULL)
+        if(data->elem->flo_rgb != NULL)
+        {
+            free (trim); 
             err_free_message(data, FL_CEIL_D);
-        data->file->elem->flo_rgb = parse_rgb_colors(trim + 2, data); 
+        }
+        data->elem->flo_rgb = parse_rgb_colors(trim + 2, data); 
     }
     else if(!ft_strncmp(trim, "C ", 2))
     {
-        if(data->file->elem->ceil_rgb != NULL)
+        if(data->elem->ceil_rgb != NULL)
+        {
+            free (trim); 
             err_free_message(data, FL_CEIL_D);
-        data->file->elem->ceil_rgb = parse_rgb_colors(trim + 2, data);
+        }
+        data->elem->ceil_rgb = parse_rgb_colors(trim + 2, data);
     }
     else 
-    {
-        (*err)++;  
-        //printf("error found with [%s]\n", trim);
-    }
+        (*err)++;
 }
 
 int extract_textures(t_data *data, char **arr)
@@ -131,10 +143,10 @@ int extract_textures(t_data *data, char **arr)
     //printf("map lines ___ %d\n", map);
     //printf("error counter ___ %d\n", err); 
 
-    printf("Texture SO\n%s\n", data->file->elem->so_path);
-    printf("Texture WE\n%s\n", data->file->elem->we_path);
-    printf("Texture EA\n%s\n", data->file->elem->ea_path);
-    printf("Texture NO\n%s\n", data->file->elem->no_path);
-    printf("COLOR CEILING\n%d|%d|%d\n", data->file->elem->flo_rgb[0], data->file->elem->flo_rgb[1], data->file->elem->flo_rgb[2]);
-    printf("COLOR FLOOR\n%d|%d|%d\n", data->file->elem->ceil_rgb[0], data->file->elem->ceil_rgb[1], data->file->elem->ceil_rgb[2])
+    printf("Texture SO\n%s\n", data->elem->so_path);
+    printf("Texture WE\n%s\n", data->elem->we_path);
+    printf("Texture EA\n%s\n", data->elem->ea_path);
+    printf("Texture NO\n%s\n", data->elem->no_path);
+    printf("COLOR CEILING\n%d|%d|%d\n", data->elem->flo_rgb[0], data->elem->flo_rgb[1], data->elem->flo_rgb[2]);
+    printf("COLOR FLOOR\n%d|%d|%d\n", data->elem->ceil_rgb[0], data->elem->ceil_rgb[1], data->elem->ceil_rgb[2])
 */

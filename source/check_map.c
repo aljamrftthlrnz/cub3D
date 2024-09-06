@@ -161,9 +161,6 @@ int validating_map_walls(char **cpy)
 
 void map_related_checks(t_data *data, t_map *map)
 {
-    t_raycast *ray; 
-
-    ray = data->ray;
     if(check_empty_lines_in_map(map))
         err_free_message(data, EMPTY_LINES);
     map->cpy_map = create_map_copy(map);
@@ -211,7 +208,6 @@ int check_up_down_left_right(char **map, int i, int j)
     }
     if(map[i+1][j] == 'X' || map[i-1][j] == 'X'|| map[i][j+1] == 'X'|| map[i][j-1] == 'X')
     {
-        // printf("Line %d ___ %s\n", i, map[i]); 
         return (1);
     }
     return (0);

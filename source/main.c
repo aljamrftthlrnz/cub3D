@@ -18,22 +18,20 @@ int arguments_and_extension (int argc, char *str, int *error)
 int	main(int argc, char **argv)
 {
 	int		error_code;
-	t_data	*d;
+	t_data	d;
 
 	error_code = 0; 
 	if(arguments_and_extension(argc,argv[1], &error_code))
 		err_free_message(NULL, error_code); 
-	d = (t_data *) malloc(sizeof(t_data));
-	if (d == NULL)
-		err_free_message(NULL, ALLOC_FAIL); 
-	init_data(d);
-	init_map(d,argv[1]);
-	d->mlx = mlx_init();
-	if(!d->mlx)
-		err_free_message(d, ALLOC_FAIL);
-	raycasting(d);
-	d->win = mlx_new_window(d->mlx, screenWidth, screenHeight, "cub3D __ CAAL Enterprise");  
-	error_code = d->error;
-	free_data(d);
+	init_data(&d);
+	init_map(&d,argv[1]);
+	d.mlx = mlx_init();
+	if(!d.mlx)
+		err_free_message(&d, ALLOC_FAIL);
+	d.win = mlx_new_window(d.mlx, screenWidth, screenHeight, "cub3D __ CAAL Enterprise");  
+	raycasting(&d);
+	mlx_loop(&d.mlx); 
+	error_code = d.error;
+	//free_data(&d);
 	return(error_code);
 }
