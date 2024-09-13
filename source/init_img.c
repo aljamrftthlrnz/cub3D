@@ -1,36 +1,29 @@
 #include "../includes/cub3d.h"
 
+void	setup_texture_img(t_data *d, t_image *new_img, char *path)
+{
+	new_img->img_ptr = mlx_xpm_file_to_image(d->mlx, path ,&new_img->width, &new_img->height);
+	if (new_img->img_ptr == NULL)
+	{
+		err_free_message(d, MLXIMG);
+	}
+	new_img->img_adr = mlx_get_data_addr(new_img->img_ptr, &new_img->bits_per_pixel, &new_img->size_line, &new_img->endian);
+	// new_img->img_ptr = mlx_new_image(d->mlx, IMG_WIDTH, IMG_HEIGHT);
+}
+
 void init_img(t_data *d)
 {
-	int	img_size;
+	int loop;
+
+	loop = 0;
 
 	d->NESW = (t_image *) ft_calloc(sizeof(t_image), 4);
 	if (d->NESW == NULL)
 	{
 		err_free_message(d, ALLOC_FAIL);
 	}
-
-	d->NESW[0].img_ptr = mlx_xpm_file_to_image(d->mlx, d->file->elem->no_path , &img_size, &img_size);
-	d->NESW[1].img_ptr = mlx_xpm_file_to_image(d->mlx, d->file->elem->ea_path, &img_size, &img_size);
-	d->NESW[2].img_ptr = mlx_xpm_file_to_image(d->mlx, d->file->elem->so_path, &img_size, &img_size);
-	d->NESW[3].img_ptr = mlx_xpm_file_to_image(d->mlx, d->file->elem->we_path, &img_size, &img_size);
-	if (d->NESW[0].img_ptr == NULL || d->NESW[1].img_ptr == NULL ||  d->NESW[2].img_ptr == NULL || d->NESW[3].img_ptr == NULL)
-	{
-		if (d->NESW[0].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[0].img_ptr);
-		if (d->NESW[1].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[1].img_ptr);
-		if (d->NESW[2].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[2].img_ptr);
-		if (d->NESW[3].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
-		err_free_message(d, MLXIMG);
-	}
-	// {
-	// 	mlx_destroy_image(d->mlx, d->NESW[0].img_ptr);
-	// 	mlx_destroy_image(d->mlx, d->NESW[1].img_ptr);
-	// 	mlx_destroy_image(d->mlx, d->NESW[2].img_ptr);
-	// 	mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
-	// }
-	
+	setup_texture_img(d, &d->NESW[0], d->file->elem->no_path);
+	setup_texture_img(d, &d->NESW[1], d->file->elem->ea_path);
+	setup_texture_img(d, &d->NESW[2], d->file->elem->so_path);
+	setup_texture_img(d, &d->NESW[3], d->file->elem->we_path);
 }
