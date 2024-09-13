@@ -139,6 +139,10 @@ typedef struct s_data
 	int		x_file;
 	t_file	*file; 
 	t_game	*game;
+
+
+	t_image	NESW[4];
+
 }	t_data;
 
 

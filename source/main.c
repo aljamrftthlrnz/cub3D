@@ -42,6 +42,7 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, ALLOC_FAIL); 
 	init_data(d);
 	init_map(d,argv[1]);
+	init_img(d);
 	play_game(d);
 	error_code = d->error;
 	free_mlx(d);
