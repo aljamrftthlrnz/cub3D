@@ -200,7 +200,7 @@ int map_len(char **arr);
 
 
 // check_map.c
-void    get_p_dir(t_map *map, char dir);
+void	get_p_dir(t_map *map, char dir);
 
 
 
@@ -224,7 +224,12 @@ void	player_step(t_data *d, int keycode);
 
 
 // init_img.c
+void	setup_texture_img(t_data *d, t_image *new_img, char *path);
 void init_img(t_data *d);
+
+// img_utils.c
+void	pixel_to_img(t_image *img, int x, int y, int *rgb);
+void	fill_color_img(t_image *image, int *rgb);
 
 
 #endif
