@@ -140,7 +140,7 @@ int	render_frame(t_data *d)
 	// usleep(1000000);
 	// draw_map(d);
 	// draw_player(d);
-	mlx_put_image_to_window(d->mlx, d->win, d->img->img_ptr, 5, 5);
+	mlx_put_image_to_window(d->mlx, d->win, d->img->img_ptr, 0, 0);
 	// draw_perspective(d);
 	return (0);
 }

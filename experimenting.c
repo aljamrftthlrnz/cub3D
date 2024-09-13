@@ -50,40 +50,81 @@ void	setup_loop_hooks(t_data *d)
 	mlx_loop_hook(d->mlx, render_frame, d);
 }
 
+// takes coordinates and puts color accordingly on coordinates of img-address
+// careful of segfault when coordinates are bigger than size of image
 void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 {
 	int pixel_molecule = img->bits_per_pixel / 8;
-	// int i = pixel_molecule;
 	int position;
 
-	position = y * img->size_line * pixel_molecule;
-	printf("position: %d\n", position);
+	position = y * img->size_line;// * pixel_molecule;
+	// printf("position: %d\n", position);
 	position = position + (x * pixel_molecule);
-	printf("position: %d\n", position);
-
-
-	(void) rgb;
-
+	// printf("position2: %d\n", position);
+	img->img_adr[position++] = rgb[0];
+	img->img_adr[position++] = rgb[1];
+	img->img_adr[position] = rgb[2];
 }
 
 
 void	setup_img(t_data *d, t_image *new_img)
 {
-	new_img->img_ptr = mlx_new_image(d->mlx, 1, 1);
+	new_img->img_ptr = mlx_new_image(d->mlx, 100, 100);
 	new_img->img_adr = mlx_get_data_addr(new_img->img_ptr, &new_img->bits_per_pixel, &new_img->size_line, &new_img->endian);
+}
+
+// takes pointer to image struct, height 
+void fill_color_img(t_image *image, int height, int width, int *rgb)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < height)
+	{
+		pixel_to_img(image, x++, y, rgb);
+		if (x >= width)
+		{
+			x = 0;
+			y++;
+		}
+	}
 }
 
 void	creates_img(t_data *d)
 {
 	int rgb[3];
 
-	rgb[1] = 128;
-	rgb[2] = 0;
-	rgb[3] = 128;
+	rgb[0] = 128;
+	rgb[1] = 0; 
+	rgb[2] = 128;
 
 	setup_img(d, d->img);
 
-	pixel_to_img(d->img, 0, 1, rgb);
+
+	// draw all pixels in square
+	// int u = 0;
+	// int s = 0;
+	fill_color_img(d->img, 100, 100, rgb);
+	// pixel_to_img(d->img, 2000000, 10, rgb);
+	// pixel_to_img(d->img, 1, 0, rgb);
+	// pixel_to_img(d->img, 2, 0, rgb);
+	// pixel_to_img(d->img, 3, 0, rgb);
+	// pixel_to_img(d->img, 4, 0, rgb);
+	// pixel_to_img(d->img, 5, 0, rgb);
+
+	// pixel_to_img(d->img, 0, 1, rgb);
+	// pixel_to_img(d->img, 0, 2, rgb);
+	// pixel_to_img(d->img, 0, 3, rgb);
+	// pixel_to_img(d->img, 0, 4, rgb);
+	// pixel_to_img(d->img, 0, 5, rgb);
+
+	// pixel_to_img(d->img, 1, 1, rgb);
+	// pixel_to_img(d->img, 1, 2, rgb);
+	// pixel_to_img(d->img, 1, 3, rgb);
+	// pixel_to_img(d->img, 1, 4, rgb);
+	// pixel_to_img(d->img, 1, 5, rgb);
 
 
 	// d->img->img_adr[1] = 128;

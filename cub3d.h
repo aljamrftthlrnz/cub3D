@@ -61,6 +61,9 @@ typedef struct s_image
 	int		size_line;
 	int		endian;
 
+	int		height;
+	int		width;
+
 }	t_image;
 typedef struct s_data
 {
@@ -69,6 +72,8 @@ typedef struct s_data
 	t_map	*map;
 	int		error;
 	t_image	*img;
+	t_image	*NESW;
+
 }	t_data;
 
 
