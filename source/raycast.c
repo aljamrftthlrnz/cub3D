@@ -171,14 +171,21 @@ void handle_texture_update(t_raycast *r, t_element *e)
         e->texx = e->width - e->texx - 1;
     if(r->side == 1 && r->rayDirY < 0)
         e->texx = e->width - e->texx -1;
+
+    
     e->step = 1.0 * e->height / e->line_height;
     e->texpos = (e->drawStart - screenHeight / 2 + e->line_height / 2) * e->step; 
     y = e->drawStart;
     while(y < e->drawEnd)
     {
         e->texy = (int)e->texpos & (e->height - 1); 
-        e->texpos += e->step; 
-        
+        e->texpos += e->step;
+        // Uint32 color = texture[texNum][texHeight * texY + texX];
+        /*
+        if(side == 1) 
+            color = (color >> 1) & 8355711;
+        buffer[y][x] = color;
+        */
         y++;
     }
 }
@@ -188,36 +195,19 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e)
     int x;
 
     x = 0;
+    // while(!done())
     while(x < screenWidth)
     {
         init_loop(x, r, g); 
         position_and_stepvalues(g, r);
         wall_hit(m, r);
         determine_distance_to_wall(r, g);
-        //printf("Distance to wall %f\n", r->perpWallDist);
         vertical_line_height(e, r, g);
-        handle_texture_update(e); 
+        handle_texture_update(r, e);
+        
 
 
         x++;
-
-
-
-    /*while (game_loop)
-    {
-        // Player auf map ersetzen
-        // assign player direction
-        // assign player position
-        // camera_x | raydirX | raydirY
-        // mapX | mapY 
-        // deltaDistX | deltaDistY
-        // stepX and stepY || sideDistX and sideDistY
-        // see which side was hit and when is wall from position of player
-        // calculate distance to the wall hit        
-
-
-    }
-    */
     }
 }
 void replace_initial_player_pos(t_map *m)

@@ -8,6 +8,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <stdint.h>
 # include <math.h>
 # include "libft/libft.h"
 
@@ -127,7 +128,9 @@ typedef struct s_element
 	int				line_height;
     int				drawStart;
     int				drawEnd;
-	uint32
+	uint32_t		color;
+	int				**texture;
+	int				**texel;
 }	t_element;
 
 typedef struct s_game
@@ -158,11 +161,11 @@ typedef struct s_data
 	char		**file_arr; 
 	int			y_file; 
 	int			x_file;
-	int			**texture;
 	t_element	*elem;
 	t_map		*map;
 	t_raycast	*ray;
-	t_game		*game; 
+	t_game		*game;
+
 }	t_data;
 
 
@@ -211,14 +214,14 @@ int			check_up_down_left_right(char **map, int i, int j);
 int			validating_map_content(char **s);
 int			map_len(char **arr);
 void		raycasting(t_data *d);
-void init_ray(t_raycast *r, t_map *map, t_game *g);
-void init_east_west(int dir, t_raycast *r); 
-void init_north_south(int dir, t_raycast *r); 
-void position_and_stepvalues(t_game *g, t_raycast *r); 
-void determine_distance_to_wall(t_raycast *ray, t_game *game); 
-void wall_hit(t_map *map, t_raycast *ray); 
-void ray_loop(t_game *g, t_raycast *r, t_map *m); 
-void replace_initial_player_pos(t_map *m); 
-
+void 		init_ray(t_raycast *r, t_map *map, t_game *g);
+void 		init_north_south(t_game *g, t_raycast *r);
+void 		init_east_west(t_game *g, t_raycast *r);
+void 		position_and_stepvalues(t_game *g, t_raycast *r);
+void 		wall_hit(t_map *map, t_raycast *ray);
+void 		determine_distance_to_wall(t_raycast *ray, t_game *game);
+void 		vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
+void 		handle_texture_update(t_raycast *r, t_element *e);
+void 		decide_map_texture(t_raycast *r, t_element *e);
 
 #endif
