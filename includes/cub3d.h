@@ -71,7 +71,8 @@
 # define MLXIN_M "mlx initialization failed\n"
 # define MLXWI 101
 # define MLXWI_M "mlx window creation failed\n"
-
+# define MLXIMG 102
+# define MLXIMG_M "mlx image creation failed\n"
 
 struct	s_file; 
 struct	s_data; 

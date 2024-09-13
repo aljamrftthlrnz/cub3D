@@ -2,7 +2,9 @@
 
 int	render_frame(t_data *d)
 {
+	// d->NESW[1]
 	(void) d;
+
 	return (0);
 }
 
