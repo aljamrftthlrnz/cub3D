@@ -141,7 +141,7 @@ typedef struct s_data
 	t_game	*game;
 
 
-	t_image	NESW[4];
+	t_image	*NESW;
 
 }	t_data;
 
@@ -220,6 +220,10 @@ void	setup_key_buttons(t_data *d);
 void	arrow_keys(t_data *d, int keycode);
 void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
 void	player_step(t_data *d, int keycode);
+
+
+// init_img.c
+void init_img(t_data *d);
 
 
 #endif
