@@ -107,6 +107,19 @@ typedef struct s_file
 }	t_file; 
 
 
+typedef struct s_image
+{
+	void	*img_ptr;
+	char	*img_adr;
+	
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+
+	int		height;
+	int		width;
+
+}	t_image;
 
 typedef struct s_game 
 {
@@ -127,6 +140,8 @@ typedef struct s_data
 	t_file	*file; 
 	t_game	*game;
 }	t_data;
+
+
 
 
 /*FUNCTIONS IN FILE main.c*/
