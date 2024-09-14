@@ -26,6 +26,9 @@
 # define DIR_S 180
 # define DIR_W 270
 
+# define SCREEN_W 600
+# define SCREEN_H 500
+
 
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
@@ -143,6 +146,7 @@ typedef struct s_data
 
 
 	t_image	*NESW;
+	t_image *screen;
 
 }	t_data;
 
@@ -224,7 +228,7 @@ void	player_step(t_data *d, int keycode);
 
 
 // init_img.c
-void	setup_texture_img(t_data *d, t_image *new_img, char *path);
+void	setup_img(t_data *d, t_image *new_img, char *path);
 void init_img(t_data *d);
 
 // img_utils.c
