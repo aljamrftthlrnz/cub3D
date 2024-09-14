@@ -1,12 +1,118 @@
 #include "../includes/cub3d.h"
+/* 
+void	copy_column_to_img(t_data *d, t_image *img)
+{
+
+}
+
+//copy the img from NESW to screen
+void	make_texture_bigger(t_data *d, t_image *img, int height, int width)
+{
+	float quo;
+	float p;
+
+	quo = img->height/height;
+	p = 0;
+	while (p < height)
+	{
+		copy_column_to_img(d, img);
+		p += quo;
+	}
+
+
+} */
+
+//destination image, source image, destination position, source position
+void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos)
+{
+	int	i;
+
+	i = 0;
+
+	while (i < 3)
+	{
+		d_img->img_adr[d_pos++] = s_img->img_adr[s_pos++];
+		i++;
+	}
+}
+
+// takes img that is to be displayed
+// takes h as in height that needs to be displayed
+// takes x and y as coordinates where raycasting meets the wall
+	// and where it should be displayed
+// startx signifies the position of x inside the img_adr that should first be accessed
+void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
+{
+	float quo;
+	float wall;
+	int		upper_y_pos;
+	int		source_pos;
+	int		dest_pos;
+
+	quo = img->height/h;
+	wall = 0;
+	upper_y_pos = y - h; 
+
+	while (wall < h)
+	{
+		source_pos = img_get_pos(img, startx, (int) wall);
+		dest_pos = img_get_pos(d->screen, x, upper_y_pos++);
+		if (source_pos < 0 || dest_pos < 0)
+			return ;
+		copy_pos_to_img(d->screen, img, dest_pos, source_pos);
+		wall += quo;
+		// upper_y_pos++;
+	}
+
+}
 
 int	render_frame(t_data *d)
 {
 	static long l = 0;
+	static int height = 64;
+	static int width = 64;
+	int bg_color[3] = {12, 20, 28};
+	int i;
+
+	i = 0;
 
 	// d->NESW[1]
 
-	mlx_put_image_to_window(d->mlx, d->win, d->NESW[0].img_ptr, 200, 200);
+	fill_color_img(d->screen, bg_color);
+	while (i < 64)
+	{
+		img_dis_col(d, &d->NESW[0], height, 100 + i, 400, i);
+		i++;
+	}
+	i = 0;
+	while (i < 64)
+	{
+		img_dis_col(d, &d->NESW[1], height, 170 + i, 400, i);
+		i++;
+	}
+	i = 0;
+	while (i < 64)
+	{
+		img_dis_col(d, &d->NESW[2], height, 240 + i, 400, i);
+		i++;
+	}
+	i = 0;
+	while (i < 64)
+	{
+		img_dis_col(d, &d->NESW[3], height, 310 + i, 400, i);
+		i++;
+	}
+	// make_texture_bigger(d, &d->NESW[0], height, width);
+	height++;
+	width++;
+	if (height > 200 || width > 200)
+	{
+		height = 64;
+		width = 64;
+	}
+	mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
+
+	// mlx_put_image_to_window(d->mlx, d->win, d->NESW[0].img_ptr, 200, 200);
 
 
 	usleep(50000);
