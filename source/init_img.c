@@ -8,7 +8,11 @@ void	setup_img(t_data *d, t_image *new_img, char *path)
 	if (path)
 		new_img->img_ptr = mlx_xpm_file_to_image(d->mlx, path ,&new_img->width, &new_img->height);
 	else
+	{
 		new_img->img_ptr = mlx_new_image(d->mlx, SCREEN_W, SCREEN_H);
+		new_img->width = SCREEN_W;
+		new_img->height = SCREEN_H;
+	}
 	if (new_img->img_ptr == NULL)
 	{
 		err_free_message(d, MLXIMG);
