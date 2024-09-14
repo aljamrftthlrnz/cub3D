@@ -232,6 +232,7 @@ void	setup_img(t_data *d, t_image *new_img, char *path);
 void init_img(t_data *d);
 
 // img_utils.c
+int	img_get_pos(t_image *img, int x, int y);
 void	pixel_to_img(t_image *img, int x, int y, int *rgb);
 void	fill_color_img(t_image *image, int *rgb);
 
