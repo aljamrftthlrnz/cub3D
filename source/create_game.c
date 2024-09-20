@@ -130,23 +130,16 @@ int	render_frame(t_data *d)
 	static long l = 0;
 	static int height = 64;
 	static int width = 64;
-	// int bg_color[3] = {12, 20, 28};
+	int bg_color[3] = {12, 20, 28};
 	int i;
 
 	i = 0;
 
-	// render_column(d);
 
 
 
 	// d->NESW[1]
 
-	// fill_color_img(d->screen, bg_color);
-	while (i < 64)
-	{
-		img_dis_col(d, &d->NESW[0], height, 100 + i, 400, i);
-		i++;
-	}
 /* 	i = 0;
 	while (i < 64)
 	{
@@ -166,6 +159,7 @@ int	render_frame(t_data *d)
 		i++;
 	} */
 	// make_texture_bigger(d, &d->NESW[0], height, width);
+
 	height++;
 	width++;
 	if (height > 200 || width > 200)
@@ -173,13 +167,24 @@ int	render_frame(t_data *d)
 		height = 64;
 		width = 64;
 	}
-
 	// mlx_put_image_to_window(d->mlx, d->win, d->NESW[0].img_ptr, 200, 200);
 
 	if (time_to_render() == 1)
 	{
-		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 		//render
+		// experimenting
+		fill_color_img(d->screen, bg_color);
+		while (i < 64)
+		{
+			img_dis_col(d, &d->NESW[0], height, 100 + i, 400, i);
+			i++;
+		}
+		// experimenting end
+
+
+		// render_column(d);
+
+		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 		printf("renders\n");
 	}
 
