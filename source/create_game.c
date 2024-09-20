@@ -60,7 +60,7 @@ void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
 		return ;
 	while (ray_hit_wall_y < SCREEN_H)
 	{
-		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y, d->file->elem->flo_rgb);
+		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y, d->elem->flo_rgb);
 		ray_hit_wall_y++;
 	}
 }
@@ -71,7 +71,7 @@ void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit
 		return ;
 	while (ray_hit_wall_y - wall_height >= 0)
 	{
-		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y - wall_height, d->file->elem->ceil_rgb);
+		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y - wall_height, d->elem->ceil_rgb);
 		ray_hit_wall_y--;
 	}
 }
@@ -83,9 +83,9 @@ void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit
 void	render_column(t_data *d)
 {
 	int column_width = 10; //delete/replace later with actual width from struct or define
-	int	ray_hit_wall_x = 400; //delete/replace
-	int	ray_hit_wall_y = 500; //delete/replace
-	int	wall_height = 150; //delete/replace
+	int	ray_hit_wall_x = d->ray->mapX; //delete/replace
+	int	ray_hit_wall_y = d->ray->mapY; //delete/replace
+	int	wall_height = d->ray->perpWallDist; //delete/replace
 
 	int	texture_segment = 0; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
 

@@ -296,4 +296,6 @@ void 		vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
 void 		handle_texture_update(t_raycast *r, t_element *e);
 void 		decide_map_texture(t_raycast *r, t_element *e);
 
+void rotation(t_raycast *r);
+
 #endif

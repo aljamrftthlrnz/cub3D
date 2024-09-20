@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int *parse_rgb_colors(char *str, t_data *data, char *ptr)
+int *parse_rgb_colors(char *str, t_data *data)
 {
     char **rgb_values;
     int *rgb; 

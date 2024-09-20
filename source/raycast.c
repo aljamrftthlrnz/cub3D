@@ -78,6 +78,7 @@ void determine_distance_to_wall(t_raycast *ray, t_game *game)
         ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
     else 
         ray->perpWallDist = (ray->sideDistY - ray->deltaDistY); 
+    (void) game;
 }
 
 void wall_hit(t_map *map, t_raycast *ray)
@@ -105,13 +106,13 @@ void wall_hit(t_map *map, t_raycast *ray)
 
 void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
-    e->line_height = (int)(screenHeight / ray->perpWallDist);
-    e->drawStart = -(e->line_height) / 2 + screenHeight / 2;
+    e->line_height = (int)(SCREEN_H / ray->perpWallDist);
+    e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
     if(e->drawStart < 0)
         e->drawStart = 0;
-    e->drawEnd = e->line_height / 2 + screenHeight / 2;
-    if(e->drawEnd >= screenHeight)
-        e->drawEnd = screenHeight - 1;
+    e->drawEnd = e->line_height / 2 + SCREEN_H / 2;
+    if(e->drawEnd >= SCREEN_H)
+        e->drawEnd = SCREEN_H - 1;
     if(ray->side == 0)
         e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
     else 
@@ -123,7 +124,7 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 
 void init_loop(int x, t_raycast *r, t_game *g)
 {
-    r->camera_x = 2 * x / (double)screenWidth - 1;
+    r->camera_x = 2 * x / (double)SCREEN_W - 1;
     //printf("Camera_x %f \n", r->camera_x);
     r->rayDirX = r->dir_x + r->plane_x * r->camera_x;
     r->rayDirY = r->dir_y + r->plane_y * r->camera_x;
@@ -162,7 +163,7 @@ void decide_map_texture(t_raycast *r, t_element *e)
 void handle_texture_update(t_raycast *r, t_element *e)
 {
     int y;
-    int colour; 
+    // int colour; 
 
     y = 0; 
     decide_map_texture(r, e);
@@ -174,7 +175,7 @@ void handle_texture_update(t_raycast *r, t_element *e)
 
     
     e->step = 1.0 * e->height / e->line_height;
-    e->texpos = (e->drawStart - screenHeight / 2 + e->line_height / 2) * e->step; 
+    e->texpos = (e->drawStart - SCREEN_H / 2 + e->line_height / 2) * e->step; 
     y = e->drawStart;
     while(y < e->drawEnd)
     {
@@ -196,7 +197,7 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e)
 
     x = 0;
     // while(!done())
-    while(x < screenWidth)
+    while(x < SCREEN_W)
     {
         init_loop(x, r, g); 
         position_and_stepvalues(g, r);

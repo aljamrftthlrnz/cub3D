@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int *fill_texture(t_data *d, t_element *e, char *path, int dir)
+/* int *fill_texture(t_data *d, t_element *e, char *path, int dir)
 {
     e->texture[dir] = mlx_xpm_file_to_image(d->mlx, path, &e->width, &e->height); 
     if(!e->texture[dir])
@@ -21,4 +21,4 @@ void init_texture_images(t_data *d)
     e->texture[SOUTH] = 
     e->texture[EAST] = 
     e->texture[WEST] = 
-}
+} */

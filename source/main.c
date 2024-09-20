@@ -3,8 +3,8 @@
 void	init_game(t_data *d)
 {
 	d->game_l->player_dir = d->map->p_pos_dir;
-	d->game_l->player_x = d->map->p_pos_x;
-	d->game_l->player_y = d->map->p_pos_y;
+	d->game_l->player_x = d->map->pos_x;
+	d->game_l->player_y = d->map->pos_y;
 	d->mlx = mlx_init();
 	if (d->mlx == NULL)
 	{
