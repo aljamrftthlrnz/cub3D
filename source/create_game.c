@@ -32,6 +32,11 @@ void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
 	wall = 0;
 	upper_y_pos = y - h; 
 
+	if (upper_y_pos < 0)
+	{
+		wall = (upper_y_pos * (-1)) * quo;
+		upper_y_pos = 0;
+	}
 	while (wall < h)
 	{
 		source_pos = img_get_pos(img, startx, (int) wall);
@@ -79,7 +84,7 @@ void	render_column(t_data *d)
 {
 	int column_width = 10; //delete/replace later with actual width from struct or define
 	int	ray_hit_wall_x = 400; //delete/replace
-	int	ray_hit_wall_y = 400; //delete/replace
+	int	ray_hit_wall_y = 500; //delete/replace
 	int	wall_height = 150; //delete/replace
 
 	int	texture_segment = 0; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
@@ -91,7 +96,7 @@ void	render_column(t_data *d)
 	{
 		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
 		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
-		img_dis_col(d, &d->NESW[0], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
+		img_dis_col(d, &d->NESW[1], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
 		loop++;
 	}
 	return ;
