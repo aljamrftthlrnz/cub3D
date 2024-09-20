@@ -1,26 +1,5 @@
 #include "../includes/cub3d.h"
-/* 
-void	copy_column_to_img(t_data *d, t_image *img)
-{
 
-}
-
-//copy the img from NESW to screen
-void	make_texture_bigger(t_data *d, t_image *img, int height, int width)
-{
-	float quo;
-	float p;
-
-	quo = img->height/height;
-	p = 0;
-	while (p < height)
-	{
-		copy_column_to_img(d, img);
-		p += quo;
-	}
-
-
-} */
 
 //destination image, source image, destination position, source position
 void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos)
@@ -69,15 +48,26 @@ void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
 	}
 
 }
-/* 
+
 void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
 {
 	if (ray_hit_wall_y >= SCREEN_H - 1)
 		return ;
 	while (ray_hit_wall_y < SCREEN_H)
 	{
-		
+		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y, d->file->elem->flo_rgb);
 		ray_hit_wall_y++;
+	}
+}
+
+void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit_wall_y)
+{
+	if (ray_hit_wall_y - wall_height < 0)
+		return ;
+	while (ray_hit_wall_y - wall_height >= 0)
+	{
+		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y - wall_height, d->file->elem->ceil_rgb);
+		ray_hit_wall_y--;
 	}
 }
 
@@ -104,10 +94,9 @@ void	render_column(t_data *d)
 		img_dis_col(d, &d->NESW[0], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
 		loop++;
 	}
-
 	return ;
 }
- */
+
 int	time_to_render(void)
 {
 	struct timeval	t;
@@ -121,80 +110,18 @@ int	time_to_render(void)
 		time = time_new_ms;
 		return (1);
 	}
-	// time = time_new_ms;
 	return (0);
 }
 
 int	render_frame(t_data *d)
 {
-	static long l = 0;
-	static int height = 64;
-	static int width = 64;
-	int bg_color[3] = {12, 20, 28};
-	int i;
-
-	i = 0;
-
-
-
-
-	// d->NESW[1]
-
-/* 	i = 0;
-	while (i < 64)
-	{
-		img_dis_col(d, &d->NESW[1], height, 170 + i, 400, i);
-		i++;
-	}
-	i = 0;
-	while (i < 64)
-	{
-		img_dis_col(d, &d->NESW[2], height, 240 + i, 400, i);
-		i++;
-	}
-	i = 0;
-	while (i < 64)
-	{
-		img_dis_col(d, &d->NESW[3], height, 310 + i, 400, i);
-		i++;
-	} */
-	// make_texture_bigger(d, &d->NESW[0], height, width);
-
-	height++;
-	width++;
-	if (height > 200 || width > 200)
-	{
-		height = 64;
-		width = 64;
-	}
-	// mlx_put_image_to_window(d->mlx, d->win, d->NESW[0].img_ptr, 200, 200);
-
 	if (time_to_render() == 1)
 	{
 		//render
-		// experimenting
-		fill_color_img(d->screen, bg_color);
-		while (i < 64)
-		{
-			img_dis_col(d, &d->NESW[0], height, 100 + i, 400, i);
-			i++;
-		}
-		// experimenting end
-
-
-		// render_column(d);
-
+		render_column(d);
 		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 		printf("renders\n");
 	}
-
-	// usleep(50000);
-	// printf("%ld\n", l);
-	l++;
-
-
-	(void) d;
-
 	return (0);
 }
 
