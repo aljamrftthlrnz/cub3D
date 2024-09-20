@@ -1,5 +1,26 @@
 #include "../includes/cub3d.h"
 
+void	init_game(t_data *d)
+{
+	d->game_l->player_dir = d->map->p_pos_dir;
+	d->game_l->player_x = d->map->p_pos_x;
+	d->game_l->player_y = d->map->p_pos_y;
+	d->mlx = mlx_init();
+	if (d->mlx == NULL)
+	{
+		err_free_message(d, MLXIN);
+		return ;
+	}
+}
+
+void	play_game(t_data *d)
+{
+	init_game(d);
+	init_img(d);
+	open_window(d);
+	create_game(d);
+}
+
 int arguments_and_extension (int argc, char *str, int *error)
 {
     if(argc != 2)
@@ -25,13 +46,14 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, error_code); 
 	init_data(&d);
 	init_map(&d,argv[1]);
+	play_game(&d);
 	d.mlx = mlx_init();
 	if(!d.mlx)
 		err_free_message(&d, ALLOC_FAIL);
-	d.win = mlx_new_window(d.mlx, screenWidth, screenHeight, "cub3D __ CAAL Enterprise");  
 	raycasting(&d);
 	mlx_loop(&d.mlx); 
 	error_code = d.error;
-	//free_data(&d);
+	free_mlx(&d);
+	free_data(&d);
 	return(error_code);
 }

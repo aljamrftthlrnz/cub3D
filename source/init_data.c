@@ -66,6 +66,8 @@ void data(t_data *d)
     d->y_file = 0;
 }
 
+
+
 void rotation(t_raycast *r)
 {
     float radians_per_second; 
@@ -93,6 +95,9 @@ void init_data(t_data *d)
     if(!d->game)
         err_free_message(d, ALLOC_FAIL);
     game(d->game); 
+     d->game_l = (t_game_luca *) malloc(sizeof(t_game_luca));
+    if (d->game_l == NULL)
+        err_free_message(d, ALLOC_FAIL);
     return ; 
 }
 

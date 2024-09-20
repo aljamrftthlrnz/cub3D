@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int *parse_rgb_colors(char *str, t_data *data)
+int *parse_rgb_colors(char *str, t_data *data, char *ptr)
 {
     char **rgb_values;
     int *rgb; 
@@ -32,6 +32,27 @@ int *parse_rgb_colors(char *str, t_data *data)
     return (rgb); 
 }
 
+char	*parse_texture(t_data *d, char *trim)
+{
+	char *path;
+	int	i;
+
+	i = 0;
+	path = ft_strdup(trim + 3);
+	if (path ==  NULL)
+	{
+		free (trim);
+		err_free_message(d, ALLOC_FAIL);
+	}
+	while (path && path[i])
+	{
+		if (path[i] == '\n')
+			path[i] = 0;
+		i++;
+	}
+	return (path);
+}
+
 void textures_comp(char*trim, t_data *data, int *err, int *map)
 {
     if(!is_map_line(trim))
@@ -43,7 +64,7 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
             free (trim); 
             err_free_message(data, PERS_D); 
         }
-        data->elem->no_path = ft_strdup(trim + 3);
+        data->elem->no_path = parse_texture(data, trim);
     }
     else if(!ft_strncmp(trim, "SO ", 3))
     {
@@ -52,7 +73,7 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
             free (trim); 
             err_free_message(data, PERS_D);
         }
-        data->elem->so_path = ft_strdup(trim + 3);
+        data->elem->so_path = parse_texture(data, trim);
     }
     else if(!ft_strncmp(trim, "WE ", 3))
     {
@@ -61,7 +82,7 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
             free (trim); 
             err_free_message(data, PERS_D);
         }
-        data->elem->we_path = ft_strdup(trim + 3);
+        data->elem->we_path = parse_texture(data, trim);
     }
     else if(!ft_strncmp(trim, "EA ", 3))
     {
@@ -70,7 +91,7 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
             free (trim); 
             err_free_message(data, PERS_D);
         }
-        data->elem->ea_path = ft_strdup(trim + 3);
+        data->elem->ea_path = parse_texture(data, trim);
     }
     else if(!ft_strncmp(trim, "F ", 2))
     {
@@ -129,6 +150,7 @@ int extract_textures(t_data *data, char **arr)
             //printf("Trimmed -%s-\n", trim); 
             textures_comp(trim, data, &err, &map);
             free (trim);  
+			trim = NULL;  
             i++;
         }        
     }

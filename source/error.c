@@ -1,5 +1,7 @@
 #include "../includes/cub3d.h"
 
+
+
 void free_element(t_element *e)
 {
 	if (e->we_path != NULL)
@@ -33,12 +35,37 @@ void	free_data(t_data *d)
 		// }
 		// if(d->ray != NULL)
 		// 	free(d->ray);
-		// if(d->game != NULL)
-		// 	free(d->game);
+		if(d->game != NULL)
+			free(d->game);
 		//free_array(d->file_arr); 
 		free(d);
 	}
 	d = NULL;
+}
+
+void	free_mlx(t_data *d)
+{
+	if (d->win)
+	{
+		mlx_destroy_window(d->mlx, d->win);
+	}
+	if (d->NESW)
+	{
+		if (d->NESW[0].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[0].img_ptr);
+		if (d->NESW[1].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[1].img_ptr);
+		if (d->NESW[2].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[2].img_ptr);
+		if (d->NESW[3].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
+		free (d->NESW);
+	}
+	if (d->mlx)
+	{
+		mlx_destroy_display(d->mlx);
+		free(d->mlx);
+	}
 }
 
 void	free_array(char **arr)
@@ -95,6 +122,12 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", PLAYER);
 	else if(error_code == SPACE_PROT)
 		printf("%s", SPACE); 
+	else if (error_code == MLXIN)
+		printf("%s", MLXIN_M); 
+	else if (error_code == MLXWI)
+		printf("%s", MLXWI_M); 
+	else if (error_code == MLXIMG)
+		printf("%s", MLXIMG_M); 
 	free_data(data); 
 	exit (error_code);  
 }

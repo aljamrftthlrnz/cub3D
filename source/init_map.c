@@ -12,10 +12,17 @@ int    create_file_array(t_data *d, char *argv)
         return (1);
     line = get_next_line(fd);
     if(!line)
+    {
+        close (fd);
         return(1);
+    }
     d->file_arr = (char **)ft_calloc((d->y_file + 1), sizeof(char*)); 
     if(!d->file_arr)
-        return (1); 
+    {
+        close (fd);
+        free (line);
+        return(1);
+    }
     while(line && i < d->y_file)
     {
         d->file_arr[i] = (char*)ft_calloc(ft_strlen(line)+1, sizeof(char));
