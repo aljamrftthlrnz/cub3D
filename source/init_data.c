@@ -53,7 +53,7 @@ void game(t_game *g)
     g->pos_y = 0;
     g->dir_x = 0; 
     g->dir_y = 0;
-    g->p_pos_dir = -1; 
+    // g->p_pos_dir = -1; 
 }
 
 void data(t_data *d) 

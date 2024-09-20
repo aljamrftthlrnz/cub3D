@@ -1,5 +1,7 @@
 #include "../includes/cub3d.h"
 
+
+
 void init_north_south(t_game *g, t_raycast *r)
 {
     if (g->p_pos_dir == DIR_N)  // Use the passed 'dir' parameter instead of global 'g'
@@ -38,13 +40,15 @@ void init_east_west(t_game *g, t_raycast *r)
 
 void init_ray(t_raycast *r, t_map *map, t_game *g)
 {
-    g->p_pos_dir = map->p_pos_dir;
-    g->pos_x = map->pos_x;
-    g->pos_y = map->pos_y;
+    // overwriting values all the time
+    // g->p_pos_dir = map->p_pos_dir; 
+    // g->pos_x = map->pos_x;
+    // g->pos_y = map->pos_y;
     if(g->p_pos_dir == DIR_N || g->p_pos_dir == DIR_S)
         init_north_south(g,r);
     else 
         init_east_west(g,r);
+    (void) map;
 }
 
 void position_and_stepvalues(t_game *g, t_raycast *r)
@@ -97,6 +101,7 @@ void wall_hit(t_map *map, t_raycast *ray)
             ray->mapY += ray->stepY;
             ray->side = 1;
         }
+
         if(map->map[ray->mapY][ray->mapX] == '1')
         {
             ray->hit = 1; 
@@ -104,9 +109,19 @@ void wall_hit(t_map *map, t_raycast *ray)
     }
 }
 
+float   avoid_zero_at_all_costs(float definitely_not_zero)
+{
+    if (definitely_not_zero == 0)
+    {
+        return (0.0001);
+    }
+    return (definitely_not_zero);
+}
+
+
 void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
-    e->line_height = (int)(SCREEN_H / ray->perpWallDist);
+    e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
     e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
     if(e->drawStart < 0)
         e->drawStart = 0;
@@ -117,14 +132,14 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
         e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
     else 
         e->wallx = g->pos_x + ray->perpWallDist * ray->rayDirX;
-    e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
+    // e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
 }
 
 
 
 void init_loop(int x, t_raycast *r, t_game *g)
 {
-    r->camera_x = 2 * x / (double)SCREEN_W - 1;
+    r->camera_x = 2 * x / avoid_zero_at_all_costs((double)SCREEN_W - 1);
     //printf("Camera_x %f \n", r->camera_x);
     r->rayDirX = r->dir_x + r->plane_x * r->camera_x;
     r->rayDirY = r->dir_y + r->plane_y * r->camera_x;
@@ -191,7 +206,7 @@ void handle_texture_update(t_raycast *r, t_element *e)
     }
 }
 
-void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e)
+void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 {
     int x;
 
@@ -205,12 +220,18 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e)
         determine_distance_to_wall(r, g);
         vertical_line_height(e, r, g);
         handle_texture_update(r, e);
+		render_column(d, x);
+        r->hit = 0;
         
 
 
-        x++;
+        x += 5;
     }
 }
+
+// this is way too much; why parse the entire map every frame,
+    // this can be done once in or directly after input parsing
+// even if it finds the player position it will still go on... it should break then
 void replace_initial_player_pos(t_map *m)
 {
     char    c;
@@ -229,6 +250,7 @@ void replace_initial_player_pos(t_map *m)
                printf("OLD: %c\n", c);
                m->map[i][j] = '0';
                printf("NEW: %c\n", m->map[i][j]); 
+               break ;
 
             }
             j++; 
@@ -249,7 +271,7 @@ void raycasting(t_data *d)
     map = d->map;
     e = d->elem;
     init_ray(ray,map,g);
-    replace_initial_player_pos(map); 
-    ray_loop(g, ray, map, e);
+    // replace_initial_player_pos(map); 
+    ray_loop(g, ray, map, e, d);
     printf("DONE\n"); 
 }

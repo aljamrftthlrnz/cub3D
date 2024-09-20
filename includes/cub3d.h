@@ -219,6 +219,8 @@ void	open_window(t_data *d);
 
 // create_game.c
 int		render_frame(t_data *d);
+void	render_column(t_data *d, int x);
+
 void	create_game(t_data *d);
 
 // key_handler.c
@@ -297,5 +299,12 @@ void 		handle_texture_update(t_raycast *r, t_element *e);
 void 		decide_map_texture(t_raycast *r, t_element *e);
 
 void rotation(t_raycast *r);
+
+void replace_initial_player_pos(t_map *m);
+float   avoid_zero_at_all_costs(float definitely_not_zero);
+
+
+
+
 
 #endif

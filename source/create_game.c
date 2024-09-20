@@ -80,14 +80,15 @@ void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit
 	// texture (N)
 	// floor and ceiling
 	// correct width
-void	render_column(t_data *d)
+void	render_column(t_data *d, int x)
 {
-	int column_width = 10; //delete/replace later with actual width from struct or define
-	int	ray_hit_wall_x = d->ray->mapX; //delete/replace
-	int	ray_hit_wall_y = d->ray->mapY; //delete/replace
-	int	wall_height = d->ray->perpWallDist; //delete/replace
+	int column_width = 5; //delete/replace later with actual width from struct or define
+	int	ray_hit_wall_x = x; //delete/replace
+	int	ray_hit_wall_y = (SCREEN_H - d->elem->line_height) / 2 + d->elem->line_height; //delete/replace
+	// int	wall_height = d->ray->perpWallDist; //delete/replace
+	int	wall_height = d->elem->line_height; //delete/replace
 
-	int	texture_segment = 0; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
+	int	texture_segment = d->elem->wallx; //* 64; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
 
 	int	loop;
 
@@ -123,7 +124,9 @@ int	render_frame(t_data *d)
 	if (time_to_render() == 1)
 	{
 		//render
-		render_column(d);
+		raycasting(d);
+
+		// render_column(d);
 		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 		printf("renders\n");
 	}

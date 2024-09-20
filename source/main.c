@@ -2,9 +2,9 @@
 
 void	init_game(t_data *d)
 {
-	d->game_l->player_dir = d->map->p_pos_dir;
-	d->game_l->player_x = d->map->pos_x;
-	d->game_l->player_y = d->map->pos_y;
+	d->game->p_pos_dir = d->map->p_pos_dir;
+	d->game->pos_x = d->map->pos_x;
+	d->game->pos_y = d->map->pos_y;
 	d->mlx = mlx_init();
 	if (d->mlx == NULL)
 	{
@@ -46,12 +46,13 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, error_code); 
 	init_data(&d);
 	init_map(&d,argv[1]);
+    replace_initial_player_pos(d.map); 
 	play_game(&d);
-	d.mlx = mlx_init();
-	if(!d.mlx)
-		err_free_message(&d, ALLOC_FAIL);
-	raycasting(&d);
-	mlx_loop(&d.mlx); 
+	// d.mlx = mlx_init();
+	// if(!d.mlx)
+	// 	err_free_message(&d, ALLOC_FAIL);
+	// raycasting(&d);
+	// mlx_loop(&d.mlx); 
 	error_code = d.error;
 	free_mlx(&d);
 	free_data(&d);
