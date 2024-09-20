@@ -58,7 +58,11 @@ void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
 		source_pos = img_get_pos(img, startx, (int) wall);
 		dest_pos = img_get_pos(d->screen, x, upper_y_pos++);
 		if (source_pos < 0 || dest_pos < 0)
-			return ;
+		{
+			// wall += quo; //this lags immensely
+			// continue ;
+			break ;
+		}
 		copy_pos_to_img(d->screen, img, dest_pos, source_pos);
 		wall += quo;
 		// upper_y_pos++;
@@ -66,25 +70,67 @@ void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
 
 }
 
+void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
+{
+	if (ray_hit_wall_y >= SCREEN_H - 1)
+		return ;
+	while (ray_hit_wall_y < SCREEN_H)
+	{
+		
+		ray_hit_wall_y++;
+	}
+}
+
+// this function will take the raycasting struct and render entire column
+	// texture (N)
+	// floor and ceiling
+	// correct width
+void	render_column(t_data *d)
+{
+	int column_width = 10; //delete/replace later with actual width from struct or define
+	int	ray_hit_wall_x = 400; //delete/replace
+	int	ray_hit_wall_y = 400; //delete/replace
+	int	wall_height = 150; //delete/replace
+
+	int	texture_segment = 0; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
+
+	int	loop;
+
+	loop = 0;
+	while (loop < column_width)
+	{
+		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
+		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
+		img_dis_col(d, &d->NESW[0], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
+		loop++;
+	}
+
+	return ;
+}
+
 int	render_frame(t_data *d)
 {
 	static long l = 0;
 	static int height = 64;
 	static int width = 64;
-	int bg_color[3] = {12, 20, 28};
+	// int bg_color[3] = {12, 20, 28};
 	int i;
 
 	i = 0;
 
+	render_column(d);
+
+
+
 	// d->NESW[1]
 
-	fill_color_img(d->screen, bg_color);
+	// fill_color_img(d->screen, bg_color);
 	while (i < 64)
 	{
 		img_dis_col(d, &d->NESW[0], height, 100 + i, 400, i);
 		i++;
 	}
-	i = 0;
+/* 	i = 0;
 	while (i < 64)
 	{
 		img_dis_col(d, &d->NESW[1], height, 170 + i, 400, i);
@@ -101,7 +147,7 @@ int	render_frame(t_data *d)
 	{
 		img_dis_col(d, &d->NESW[3], height, 310 + i, 400, i);
 		i++;
-	}
+	} */
 	// make_texture_bigger(d, &d->NESW[0], height, width);
 	height++;
 	width++;
