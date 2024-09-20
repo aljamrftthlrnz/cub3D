@@ -8,7 +8,10 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <sys/time.h>
+
 # include "libft/libft.h"
+
 
 # define MAX_LENGTH 
 # define MAX_WIDTH 
@@ -29,6 +32,7 @@
 # define SCREEN_W 600
 # define SCREEN_H 500
 
+# define FRMRT 32
 
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"

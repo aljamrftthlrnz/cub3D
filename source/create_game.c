@@ -69,7 +69,7 @@ void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
 	}
 
 }
-
+/* 
 void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
 {
 	if (ray_hit_wall_y >= SCREEN_H - 1)
@@ -107,6 +107,23 @@ void	render_column(t_data *d)
 
 	return ;
 }
+ */
+int	time_to_render(void)
+{
+	struct timeval	t;
+	static long time = 0;
+	long	time_new_ms;
+
+	gettimeofday(&t, NULL);
+	time_new_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	if (time + (1000 / FRMRT) <= time_new_ms)
+	{
+		time = time_new_ms;
+		return (1);
+	}
+	// time = time_new_ms;
+	return (0);
+}
 
 int	render_frame(t_data *d)
 {
@@ -118,7 +135,7 @@ int	render_frame(t_data *d)
 
 	i = 0;
 
-	render_column(d);
+	// render_column(d);
 
 
 
@@ -156,13 +173,18 @@ int	render_frame(t_data *d)
 		height = 64;
 		width = 64;
 	}
-	mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 
 	// mlx_put_image_to_window(d->mlx, d->win, d->NESW[0].img_ptr, 200, 200);
 
+	if (time_to_render() == 1)
+	{
+		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
+		//render
+		printf("renders\n");
+	}
 
-	usleep(50000);
-	printf("%ld\n", l);
+	// usleep(50000);
+	// printf("%ld\n", l);
 	l++;
 
 

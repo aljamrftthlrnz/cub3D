@@ -7,7 +7,7 @@ int	img_get_pos(t_image *img, int x, int y)
 
 	if (x > img->width || y > img->height)
 	{
-		printf("pixel_to_img: entered coordinates are outside of image x=%d y=%d\n", x, y);
+		// printf("pixel_to_img: entered coordinates are outside of image x=%d y=%d\n", x, y);
 		return (-1);
 	}
 	position = y * img->size_line;// * pixel_molecule;
@@ -25,7 +25,7 @@ void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 
 	if (x > img->width || y > img->height)
 	{
-		printf("pixel_to_img: entered coordinates are outside of image");
+		// printf("pixel_to_img: entered coordinates are outside of image");
 		return ;
 	}
 	position = y * img->size_line;// * pixel_molecule;
