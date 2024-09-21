@@ -20,6 +20,8 @@
 // # define SCREEN_W 100
 // # define SCREEN_H 80
 
+# define PLANE 0.9
+
 # define texSize		64
 
 # define FPS		60	

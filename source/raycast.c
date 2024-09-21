@@ -8,14 +8,14 @@ void init_north_south(t_game *g, t_raycast *r)
     {
         g->dir_x = 0; 
         g->dir_y = -1;
-        r->plane_x = 0.66; 
+        r->plane_x = PLANE; 
         r->plane_y = 0;
     }
     else if (g->p_pos_dir == DIR_S)
     {
         g->dir_x = 0; 
         g->dir_y = 1;
-        r->plane_x = -0.66; 
+        r->plane_x = -PLANE; 
         r->plane_y = 0;
     }
 }
@@ -27,14 +27,14 @@ void init_east_west(t_game *g, t_raycast *r)
         g->dir_x = -1; 
         g->dir_y = 0;
         r->plane_x = 0;
-        r->plane_y = -0.66; 
+        r->plane_y = -PLANE; 
     }
     else if(g->p_pos_dir == DIR_E)
     {
         g->dir_x = 1; 
         g->dir_y = 0;
         r->plane_x = 0;
-        r->plane_y = 0.66;
+        r->plane_y = PLANE;
     }
 }
 
@@ -65,23 +65,23 @@ void    translate_angle_to_cube(t_game *g, t_raycast *r)
     }
     if (g->p_pos_dir > 315 || g->p_pos_dir <= 45)
     {
-        r->plane_x = 0.66; 
+        r->plane_x = PLANE; 
         r->plane_y = 0;
     }
     else if (g->p_pos_dir > 225)
     {
         r->plane_x = 0;
-        r->plane_y = -0.66;
+        r->plane_y = -PLANE;
     }
     else if (g->p_pos_dir > 135)
     {
-        r->plane_x = -0.66; 
+        r->plane_x = -PLANE; 
         r->plane_y = 0;
     }
     else if (g->p_pos_dir > 45)
     {
         r->plane_x = 0;
-        r->plane_y = 0.66;
+        r->plane_y = PLANE;
     }
 }
 
