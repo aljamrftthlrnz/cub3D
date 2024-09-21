@@ -67,12 +67,17 @@ void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
 
 void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit_wall_y)
 {
-	if (ray_hit_wall_y - wall_height < 0)
+	int	paint_color;
+
+	paint_color = ray_hit_wall_y - wall_height;
+	if (paint_color < 0)
 		return ;
-	while (ray_hit_wall_y - wall_height >= 0)
+	if (paint_color > SCREEN_H) //used to get stuck because paint_color ended up being millions big
+		paint_color = SCREEN_H;
+	while (paint_color >= 0)
 	{
-		pixel_to_img(d->screen, ray_hit_wall_x, ray_hit_wall_y - wall_height, d->elem->ceil_rgb);
-		ray_hit_wall_y--;
+		pixel_to_img(d->screen, ray_hit_wall_x, paint_color, d->elem->ceil_rgb);
+		paint_color--;
 	}
 }
 
@@ -99,6 +104,7 @@ void	render_column(t_data *d, int x)
 	}
 	while (loop < column_width)
 	{
+		// fill_color_img(d->screen, d->elem->ceil_rgb);
 		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
 		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
 		if (d->ray->hit == 1)

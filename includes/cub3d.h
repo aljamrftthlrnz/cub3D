@@ -17,6 +17,8 @@
 
 # define SCREEN_W 600
 # define SCREEN_H 500
+// # define SCREEN_W 100
+// # define SCREEN_H 80
 
 # define texSize		64
 
