@@ -17,6 +17,8 @@
 
 # define SCREEN_W 600
 # define SCREEN_H 500
+
+# define LINE_W 20
 // # define SCREEN_W 100
 // # define SCREEN_H 80
 
@@ -47,6 +49,8 @@
 # define ESC 65307
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
+
+# define KEY_STP_SIZ 0.1
 
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"

@@ -285,7 +285,7 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
         
 
 
-        x += 5;
+        x += LINE_W;
     }
 }
 

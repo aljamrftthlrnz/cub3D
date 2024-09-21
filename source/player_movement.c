@@ -56,23 +56,23 @@ void	player_step(t_data *d, int keycode)
 	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
 	if (d->game->p_pos_dir < 90)
 	{
-		d->game->pos_x += p_left;
-		d->game->pos_y -= p_right;
+		d->game->pos_x += p_left * KEY_STP_SIZ;
+		d->game->pos_y -= p_right * KEY_STP_SIZ;
 	}
 	else if (d->game->p_pos_dir < 180)
 	{
-		d->game->pos_x += p_right;
-		d->game->pos_y += p_left;
+		d->game->pos_x += p_right * KEY_STP_SIZ;
+		d->game->pos_y += p_left * KEY_STP_SIZ;
 	}
 	else if (d->game->p_pos_dir < 270)
 	{
-		d->game->pos_x -= p_left;
-		d->game->pos_y += p_right;
+		d->game->pos_x -= p_left * KEY_STP_SIZ;
+		d->game->pos_y += p_right * KEY_STP_SIZ;
 	}
 	else if (d->game->p_pos_dir < 360)
 	{
-		d->game->pos_x -= p_right;
-		d->game->pos_y -= p_left;
+		d->game->pos_x -= p_right * KEY_STP_SIZ;
+		d->game->pos_y -= p_left * KEY_STP_SIZ;
 	}
 	printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
 }

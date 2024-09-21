@@ -87,7 +87,7 @@ void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit
 	// correct width
 void	render_column(t_data *d, int x)
 {
-	int column_width = 5; //delete/replace later with actual width from struct or define
+	int column_width = LINE_W; //delete/replace later with actual width from struct or define
 	int	ray_hit_wall_x = x; //delete/replace
 	int	ray_hit_wall_y = (SCREEN_H - d->elem->line_height) / 2 + d->elem->line_height; //delete/replace
 	// int	wall_height = d->ray->perpWallDist; //delete/replace
