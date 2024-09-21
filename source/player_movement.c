@@ -45,7 +45,7 @@ void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
 		*p_left = *p_right;
 		*p_right = tmp * (-1);
 	}
-	printf("px: %f\npy: %f\n", *p_left, *p_right); //debugging help
+	printf("px: %f | py: %f\n", *p_left, *p_right); //debugging help
 }
 
 void	player_step(t_data *d, int keycode)
@@ -74,4 +74,5 @@ void	player_step(t_data *d, int keycode)
 		d->game->pos_x -= p_right;
 		d->game->pos_y -= p_left;
 	}
+	printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
 }

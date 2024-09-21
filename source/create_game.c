@@ -73,7 +73,7 @@ void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit
 	if (paint_color < 0)
 		return ;
 	if (paint_color > SCREEN_H) //used to get stuck because paint_color ended up being millions big
-		paint_color = SCREEN_H;
+		paint_color = SCREEN_H / 2;
 	while (paint_color >= 0)
 	{
 		pixel_to_img(d->screen, ray_hit_wall_x, paint_color, d->elem->ceil_rgb);
@@ -104,9 +104,13 @@ void	render_column(t_data *d, int x)
 	}
 	while (loop < column_width)
 	{
-		// fill_color_img(d->screen, d->elem->ceil_rgb);
+		if (d->ray->hit == 0)
+		{
+			ray_hit_wall_y = SCREEN_H / 2;
+		}
 		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
 		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
+		// fill_color_img(d->screen, d->elem->ceil_rgb);
 		if (d->ray->hit == 1)
 		{
 			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
