@@ -143,6 +143,7 @@ typedef struct s_raycast
 	int			side;
 	int			hit;
 	
+	int			activate;
 
 } t_raycast;
 

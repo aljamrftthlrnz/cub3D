@@ -45,6 +45,7 @@ void raycast(t_raycast *ray)
     ray->perpWallDist = 0;
     ray->hit = 0;
     ray->side = 0;
+    ray->activate = 1;
 }
 
 void game(t_game *g)

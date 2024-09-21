@@ -139,7 +139,7 @@ int	time_to_render(void)
 
 int	render_frame(t_data *d)
 {
-	if (time_to_render() == 1)
+	if (time_to_render() == 1 && d->ray->activate == 1)
 	{
 		//render
 		raycasting(d);
@@ -147,6 +147,7 @@ int	render_frame(t_data *d)
 		// render_column(d);
 		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 		// printf("renders\n");
+		d->ray->activate = 0;
 	}
 	return (0);
 }
