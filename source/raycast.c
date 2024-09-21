@@ -137,7 +137,10 @@ void determine_distance_to_wall(t_raycast *ray, t_game *game)
 
 void wall_hit(t_map *map, t_raycast *ray)
 {
-    while (!ray->hit)
+    int loop;
+
+    loop = 0;
+    while (!ray->hit && loop < 10)
     {
         if(ray->sideDistX < ray->sideDistY)
         {
@@ -151,11 +154,15 @@ void wall_hit(t_map *map, t_raycast *ray)
             ray->mapY += ray->stepY;
             ray->side = 1;
         }
-
-        if(map->map[ray->mapY][ray->mapX] == '1')
+        if (ray->mapX < 0 || ray->mapX >= map->width || ray->mapY < 0 || ray->mapY >= map->length)
+        {
+            return ;
+        }
+        if(map->map[ray->mapY][ray->mapX] == '1') // segfaults
         {
             ray->hit = 1; 
         }
+        loop++;
     }
 }
 
@@ -267,9 +274,12 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
         init_loop(x, r, g); 
         position_and_stepvalues(g, r);
         wall_hit(m, r);
-        determine_distance_to_wall(r, g);
-        vertical_line_height(e, r, g);
-        handle_texture_update(r, e);
+        if (r->hit == 1)
+        {
+            determine_distance_to_wall(r, g);
+            vertical_line_height(e, r, g);
+            handle_texture_update(r, e);
+        }
 		render_column(d, x);
         r->hit = 0;
         
@@ -324,5 +334,5 @@ void raycasting(t_data *d)
     init_ray(ray,map,g);
     // replace_initial_player_pos(map); 
     ray_loop(g, ray, map, e, d);
-    printf("DONE\n"); 
+    // printf("DONE\n"); 
 }

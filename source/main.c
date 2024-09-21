@@ -36,6 +36,18 @@ int arguments_and_extension (int argc, char *str, int *error)
 	return(0); 
 }
 
+int	get_map_length(char **map)
+{
+	int	y;
+
+	y = 0;
+	while (map && map[y])
+	{
+		y++;
+	}
+	return (y);
+}
+
 int	main(int argc, char **argv)
 {
 	int		error_code;
@@ -47,6 +59,8 @@ int	main(int argc, char **argv)
 	init_data(&d);
 	init_map(&d,argv[1]);
     replace_initial_player_pos(d.map); 
+	d.map->width = ft_strlen(d.map->map[0]);
+	d.map->length = get_map_length(d.map->map);
 	play_game(&d);
 	// d.mlx = mlx_init();
 	// if(!d.mlx)

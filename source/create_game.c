@@ -93,11 +93,19 @@ void	render_column(t_data *d, int x)
 	int	loop;
 
 	loop = 0;
+	if (d->ray->hit == 0)
+	{
+		wall_height = 0;
+	}
 	while (loop < column_width)
 	{
 		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
 		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
-		img_dis_col(d, &d->NESW[1], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
+		if (d->ray->hit == 1)
+		{
+			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
+		}
+		
 		loop++;
 	}
 	return ;
@@ -128,7 +136,7 @@ int	render_frame(t_data *d)
 
 		// render_column(d);
 		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
-		printf("renders\n");
+		// printf("renders\n");
 	}
 	return (0);
 }
