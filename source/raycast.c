@@ -38,6 +38,27 @@ void init_east_west(t_game *g, t_raycast *r)
     }
 }
 
+void    normalize_vector(double *x, double *y)
+{
+    double  magnitude;
+    // double   experiment_x;
+    // double   experiment_y;
+
+    magnitude = sqrt(*x * *x + *y * *y);
+    printf("magnitude is %f\n", magnitude);
+    if (magnitude == 0)
+        printf("keep thinking...magnitude is zero\n");
+    else if (magnitude != 1)
+    {
+        *x = *x * (1/magnitude);
+        *y = *y * (1/magnitude);
+        magnitude = sqrt(*x * *x + *y * *y);
+        printf("new magnitude is %f x: %f, y: %f\n", magnitude, *x, *y);
+
+    }
+    
+}
+
 void    translate_angle_to_cube(t_game *g, t_raycast *r)
 {
     int angle;
@@ -45,44 +66,50 @@ void    translate_angle_to_cube(t_game *g, t_raycast *r)
     angle = g->p_pos_dir % 90;
     if (g->p_pos_dir > 270)
     {
-        g->dir_x = (float) (angle / 9 / 10) * (-1);
-	    g->dir_y = (float)(1 - angle / 9 / 10) * (-1);
+        g->dir_x = (double) (angle / 9 / 10) * (-1);
+	    g->dir_y = (double)(1 - angle / 9 / 10) * (-1);
+        normalize_vector(&g->dir_x, &g->dir_y);
     }
     else if (g->p_pos_dir > 180)
     {
-        g->dir_y = (float) angle / 9 / 10;
-	    g->dir_x = (float) (1 - (angle / 9 / 10)) * (-1);        
+        g->dir_y = (double) angle / 9 / 10;
+	    g->dir_x = (double) (1 - (angle / 9 / 10)) * (-1);        
+        normalize_vector(&g->dir_x, &g->dir_y);
     }
     else if (g->p_pos_dir > 90)
     {
-        g->dir_x = (float) angle / 9 / 10;
-	    g->dir_y = (float) 1 - (angle / 9 / 10);        
+        g->dir_x = (double) angle / 9 / 10;
+	    g->dir_y = (double) 1 - (angle / 9 / 10);        
+        normalize_vector(&g->dir_x, &g->dir_y);
     }
     else
     {
-        g->dir_y = (float) (angle / 9 / 10) * (-1);
-	    g->dir_x = (float) 1 - (angle / 9 / 10);        
+        g->dir_y = (double) (angle / 9 / 10) * (-1);
+	    g->dir_x = (double) 1 - (angle / 9 / 10);        
+        normalize_vector(&g->dir_x, &g->dir_y);
     }
-    if (g->p_pos_dir > 315 || g->p_pos_dir <= 45)
-    {
-        r->plane_x = PLANE; 
-        r->plane_y = 0;
-    }
-    else if (g->p_pos_dir > 225)
-    {
-        r->plane_x = 0;
-        r->plane_y = -PLANE;
-    }
-    else if (g->p_pos_dir > 135)
-    {
-        r->plane_x = -PLANE; 
-        r->plane_y = 0;
-    }
-    else if (g->p_pos_dir > 45)
-    {
-        r->plane_x = 0;
-        r->plane_y = PLANE;
-    }
+
+    (void) r;
+    // if (g->p_pos_dir > 315 || g->p_pos_dir <= 45)
+    // {
+    //     r->plane_x = PLANE; 
+    //     r->plane_y = 0;
+    // }
+    // else if (g->p_pos_dir > 225)
+    // {
+    //     r->plane_x = 0;
+    //     r->plane_y = -PLANE;
+    // }
+    // else if (g->p_pos_dir > 135)
+    // {
+    //     r->plane_x = -PLANE; 
+    //     r->plane_y = 0;
+    // }
+    // else if (g->p_pos_dir > 45)
+    // {
+    //     r->plane_x = 0;
+    //     r->plane_y = PLANE;
+    // }
 }
 
 
@@ -166,7 +193,7 @@ void wall_hit(t_map *map, t_raycast *ray)
     }
 }
 
-float   avoid_zero_at_all_costs(float definitely_not_zero)
+double   avoid_zero_at_all_costs(double definitely_not_zero)
 {
     if (definitely_not_zero == 0)
     {
@@ -189,7 +216,7 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
         e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
     else 
         e->wallx = g->pos_x + ray->perpWallDist * ray->rayDirX;
-    // e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
+    e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
 }
 
 

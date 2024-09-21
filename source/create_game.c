@@ -20,10 +20,10 @@ void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos)
 // takes x and y as coordinates where raycasting meets the wall
 	// and where it should be displayed
 // startx signifies the position of x inside the img_adr that should first be accessed
-void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
+void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx)
 {
-	float quo;
-	float wall;
+	double quo;
+	double wall;
 	int		upper_y_pos;
 	int		source_pos;
 	int		dest_pos;
@@ -54,7 +54,7 @@ void	img_dis_col(t_data *d, t_image *img, float h, float x, float y, int startx)
 
 }
 
-void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
+void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y)
 {
 	if (ray_hit_wall_y >= SCREEN_H - 1)
 		return ;
@@ -65,7 +65,7 @@ void	color_below(t_data *d, float ray_hit_wall_x, float ray_hit_wall_y)
 	}
 }
 
-void	color_above(t_data *d, int wall_height, float ray_hit_wall_x, float ray_hit_wall_y)
+void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y)
 {
 	int	paint_color;
 
@@ -96,6 +96,9 @@ void	render_column(t_data *d, int x)
 	int	texture_segment = d->elem->wallx; //* 64; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
 
 	int	loop;
+
+	// if (d->ray->mapX % 1 == 0)
+
 
 	loop = 0;
 	if (d->ray->hit == 0)

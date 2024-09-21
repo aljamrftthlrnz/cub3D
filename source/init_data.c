@@ -71,7 +71,7 @@ void data(t_data *d)
 
 void rotation(t_raycast *r)
 {
-    float radians_per_second; 
+    double radians_per_second; 
 
     radians_per_second = (DEGREES * PI) / 180.0;
     r->rotation_speed = radians_per_second / FPS; 

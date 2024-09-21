@@ -18,7 +18,7 @@
 # define SCREEN_W 600
 # define SCREEN_H 500
 
-# define LINE_W 20
+# define LINE_W 10
 // # define SCREEN_W 100
 // # define SCREEN_H 80
 
@@ -117,27 +117,27 @@ typedef struct s_image
 
 typedef struct s_game_luca 
 {
-	float	player_x;
-	float	player_y;
+	double	player_x;
+	double	player_y;
 	int		player_dir;
 }	t_game_luca;
 
 typedef struct s_raycast
 {
-	float		rotation_speed; 
-	float		dir_x; 
-	float		dir_y;
-	float		plane_x;
-	float		plane_y;		
-	float		camera_x;
-	float		camera_y;		
-	float		rayDirX;
-	float		rayDirY;		
-	float		deltaDistX;
-	float		deltaDistY;
-    float		sideDistX;
-    float		sideDistY;		
-	float		perpWallDist;
+	double		rotation_speed; 
+	double		dir_x; 
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;		
+	double		camera_x;
+	double		camera_y;		
+	double		rayDirX;
+	double		rayDirY;		
+	double		deltaDistX;
+	double		deltaDistY;
+    double		sideDistX;
+    double		sideDistY;		
+	double		perpWallDist;
 	double 		time; 
 	double		oldtime;
 	int			stepX;
@@ -177,10 +177,10 @@ typedef struct s_element
 
 typedef struct s_game
 {
-	float			pos_y;
-	float			pos_x;
-	float			dir_x; 
-	float			dir_y;
+	double			pos_y;
+	double			pos_x;
+	double			dir_x; 
+	double			dir_y;
 	int				p_pos_dir; 
 }	t_game;
 
@@ -239,7 +239,7 @@ void	setup_key_buttons(t_data *d);
 
 // player_movement.c
 void	arrow_keys(t_data *d, int keycode);
-void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
+void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
 void	player_step(t_data *d, int keycode);
 
 
@@ -310,7 +310,7 @@ void 		decide_map_texture(t_raycast *r, t_element *e);
 void rotation(t_raycast *r);
 
 void replace_initial_player_pos(t_map *m);
-float   avoid_zero_at_all_costs(float definitely_not_zero);
+double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 
 

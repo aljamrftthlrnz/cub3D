@@ -2,13 +2,20 @@
 
 void	arrow_keys(t_data *d, int keycode)
 {
+	double	tmp;
 	if (keycode == KEY_LEFT)
 	{
 		d->game->p_pos_dir -= 2;
+		tmp = d->ray->plane_x;
+		d->ray->plane_x = d->ray->plane_x * cos(2) - d->ray->plane_y * sin(2);
+		d->ray->plane_y = tmp * sin(2) + d->ray->plane_y * cos(2);
 	}
 	if (keycode == KEY_RIGHT)
 	{
 		d->game->p_pos_dir += 2;
+		tmp = d->ray->plane_x;
+		d->ray->plane_x = d->ray->plane_x * cos(-2) - d->ray->plane_y * sin(-2);
+		d->ray->plane_y = tmp * sin(-2) + d->ray->plane_y * cos(-2);
 	}
 	while (d->game->p_pos_dir < 0)
 	{
@@ -21,12 +28,12 @@ void	arrow_keys(t_data *d, int keycode)
 	printf("direction: %d\n", d->game->p_pos_dir); //debugging help
 }
 
-void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
+void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 {
-	float	tmp;
+	double	tmp;
 
 	printf("angle: %d\n", angle); //debugging help
-	*p_left = (float) angle / 9 / 10;
+	*p_left = (double) angle / 9 / 10;
 	*p_right = 1 - *p_left;
 	if (keycode == KEY_S)
 	{
@@ -50,8 +57,8 @@ void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
 
 void	player_step(t_data *d, int keycode)
 {
-	float	p_left;
-	float	p_right;
+	double	p_left;
+	double	p_right;
 
 	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
 	if (d->game->p_pos_dir < 90)
