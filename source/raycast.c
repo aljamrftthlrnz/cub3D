@@ -38,6 +38,54 @@ void init_east_west(t_game *g, t_raycast *r)
     }
 }
 
+void    translate_angle_to_cube(t_game *g, t_raycast *r)
+{
+    int angle;
+
+    angle = g->p_pos_dir % 90;
+    if (g->p_pos_dir > 270)
+    {
+        g->dir_x = (float) (angle / 9 / 10) * (-1);
+	    g->dir_y = (float)(1 - angle / 9 / 10) * (-1);
+    }
+    else if (g->p_pos_dir > 180)
+    {
+        g->dir_y = (float) angle / 9 / 10;
+	    g->dir_x = (float) (1 - (angle / 9 / 10)) * (-1);        
+    }
+    else if (g->p_pos_dir > 90)
+    {
+        g->dir_x = (float) angle / 9 / 10;
+	    g->dir_y = (float) 1 - (angle / 9 / 10);        
+    }
+    else
+    {
+        g->dir_y = (float) (angle / 9 / 10) * (-1);
+	    g->dir_x = (float) 1 - (angle / 9 / 10);        
+    }
+    if (g->p_pos_dir > 315 || g->p_pos_dir <= 45)
+    {
+        r->plane_x = 0.66; 
+        r->plane_y = 0;
+    }
+    else if (g->p_pos_dir > 225)
+    {
+        r->plane_x = 0;
+        r->plane_y = -0.66;
+    }
+    else if (g->p_pos_dir > 135)
+    {
+        r->plane_x = -0.66; 
+        r->plane_y = 0;
+    }
+    else if (g->p_pos_dir > 45)
+    {
+        r->plane_x = 0;
+        r->plane_y = 0.66;
+    }
+}
+
+
 void init_ray(t_raycast *r, t_map *map, t_game *g)
 {
     // overwriting values all the time
@@ -46,8 +94,10 @@ void init_ray(t_raycast *r, t_map *map, t_game *g)
     // g->pos_y = map->pos_y;
     if(g->p_pos_dir == DIR_N || g->p_pos_dir == DIR_S)
         init_north_south(g,r);
-    else 
+    else if (g->p_pos_dir == DIR_E || g->p_pos_dir == DIR_W)
         init_east_west(g,r);
+    else
+        translate_angle_to_cube(g, r);
     (void) map;
 }
 
@@ -113,7 +163,7 @@ float   avoid_zero_at_all_costs(float definitely_not_zero)
 {
     if (definitely_not_zero == 0)
     {
-        return (0.0001);
+        return (0.00000000001);
     }
     return (definitely_not_zero);
 }
@@ -139,7 +189,7 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 
 void init_loop(int x, t_raycast *r, t_game *g)
 {
-    r->camera_x = 2 * x / avoid_zero_at_all_costs((double)SCREEN_W - 1);
+    r->camera_x = 2 * x / avoid_zero_at_all_costs(SCREEN_W) - 1;
     //printf("Camera_x %f \n", r->camera_x);
     r->rayDirX = r->dir_x + r->plane_x * r->camera_x;
     r->rayDirY = r->dir_y + r->plane_y * r->camera_x;
@@ -231,6 +281,7 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 
 // this is way too much; why parse the entire map every frame,
     // this can be done once in or directly after input parsing
+// purpose is to replace the starting out character NESW with a 0 right?
 // even if it finds the player position it will still go on... it should break then
 void replace_initial_player_pos(t_map *m)
 {
