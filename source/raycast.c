@@ -115,7 +115,7 @@ void    translate_angle_to_cube(t_game *g, t_raycast *r)
 
 void init_ray(t_raycast *r, t_map *map, t_game *g)
 {
-    // overwriting values all the time
+    // game struct is already initialized
     // g->p_pos_dir = map->p_pos_dir; 
     // g->pos_x = map->pos_x;
     // g->pos_y = map->pos_y;
@@ -181,11 +181,11 @@ void wall_hit(t_map *map, t_raycast *ray)
             ray->mapY += ray->stepY;
             ray->side = 1;
         }
-        if (ray->mapX < 0 || ray->mapX >= map->width || ray->mapY < 0 || ray->mapY >= map->length)
+        if (ray->mapX < 0 || ray->mapX >= map->width || ray->mapY < 0 || ray->mapY >= map->length) //avoid segfault
         {
             return ;
         }
-        if(map->map[ray->mapY][ray->mapX] == '1') // segfaults
+        if(map->map[ray->mapY][ray->mapX] == '1') // used to segfault
         {
             ray->hit = 1; 
         }
@@ -197,6 +197,7 @@ double   avoid_zero_at_all_costs(double definitely_not_zero)
 {
     if (definitely_not_zero == 0)
     {
+        printf("avoided zero\n");
         return (0.00000000001);
     }
     return (definitely_not_zero);
@@ -223,7 +224,7 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 
 void init_loop(int x, t_raycast *r, t_game *g)
 {
-    r->camera_x = 2 * x / avoid_zero_at_all_costs(SCREEN_W) - 1;
+    r->camera_x = 2 * x / (double) SCREEN_W - 1;
     //printf("Camera_x %f \n", r->camera_x);
     r->rayDirX = r->dir_x + r->plane_x * r->camera_x;
     r->rayDirY = r->dir_y + r->plane_y * r->camera_x;
@@ -316,10 +317,9 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
     }
 }
 
-// this is way too much; why parse the entire map every frame,
-    // this can be done once in or directly after input parsing
-// purpose is to replace the starting out character NESW with a 0 right?
-// even if it finds the player position it will still go on... it should break then
+
+// purpose is to replace the starting out character NESW with a 0 right? so only needs to be run once
+// i moved the function call outside of raycasting into main
 void replace_initial_player_pos(t_map *m)
 {
     char    c;

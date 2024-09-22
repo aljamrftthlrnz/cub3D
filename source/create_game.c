@@ -39,8 +39,10 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 	}
 	while (wall < h)
 	{
+		/* getting position of source and destination image. */
 		source_pos = img_get_pos(img, startx, (int) wall);
 		dest_pos = img_get_pos(d->screen, x, upper_y_pos++);
+		/* if queried position is outside of range, then -1 is returned and loop will break */
 		if (source_pos < 0 || dest_pos < 0)
 		{
 			// wall += quo; //this lags immensely
@@ -54,6 +56,8 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 
 }
 
+
+/* colors pixels from middle of screen to lower end of screen */
 void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y)
 {
 	if (ray_hit_wall_y >= SCREEN_H - 1)
@@ -65,6 +69,8 @@ void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y)
 	}
 }
 
+
+/* colors pixels from middle of screen to upper end of screen */
 void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y)
 {
 	int	paint_color;
@@ -88,12 +94,23 @@ void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_h
 void	render_column(t_data *d, int x)
 {
 	int column_width = LINE_W; //delete/replace later with actual width from struct or define
-	int	ray_hit_wall_x = x; //delete/replace
-	int	ray_hit_wall_y = (SCREEN_H - d->elem->line_height) / 2 + d->elem->line_height; //delete/replace
-	// int	wall_height = d->ray->perpWallDist; //delete/replace
-	int	wall_height = d->elem->line_height; //delete/replace
 
-	int	texture_segment = d->elem->wallx; //* 64; // this is where the ray hits the texture... zero means on the left most, 32 in the middle, 63 is the right most
+
+	/* coordinates where ray hits the wall */
+	int	ray_hit_wall_x = x; //delete/replace
+	int	ray_hit_wall_y = d->elem->drawEnd; //delete/replace
+	// int	ray_hit_wall_y = (SCREEN_H - d->elem->line_height) / 2 + d->elem->line_height; //delete/replace
+	
+
+	/* wall/line height */
+	int	wall_height = d->elem->line_height; //delete/replace
+	// int	wall_height = d->ray->perpWallDist; //delete/replace
+
+
+	/* this is the x coordinate of the texture */
+	/* expected input: zero means on the left most, 32 in the middle, 63 is the right most */
+	int	texture_segment = d->elem->wallx; //* 64
+
 
 	int	loop;
 
@@ -101,19 +118,17 @@ void	render_column(t_data *d, int x)
 
 
 	loop = 0;
+	
+	/* adjusting some variables for "no wall hit" */
 	if (d->ray->hit == 0)
 	{
 		wall_height = 0;
+		ray_hit_wall_y = SCREEN_H / 2;
 	}
 	while (loop < column_width)
 	{
-		if (d->ray->hit == 0)
-		{
-			ray_hit_wall_y = SCREEN_H / 2;
-		}
 		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
 		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
-		// fill_color_img(d->screen, d->elem->ceil_rgb);
 		if (d->ray->hit == 1)
 		{
 			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
@@ -144,12 +159,8 @@ int	render_frame(t_data *d)
 {
 	if (time_to_render() == 1 && d->ray->activate == 1)
 	{
-		//render
 		raycasting(d);
-
-		// render_column(d);
 		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
-		// printf("renders\n");
 		d->ray->activate = 0;
 	}
 	return (0);
