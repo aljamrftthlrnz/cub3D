@@ -7,6 +7,18 @@ void	free_mlx(t_data *d)
 	{
 		mlx_destroy_window(d->mlx, d->win);
 	}
+	if (d->NESW)
+	{
+		if (d->NESW[0].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[0].img_ptr);
+		if (d->NESW[1].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[1].img_ptr);
+		if (d->NESW[2].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[2].img_ptr);
+		if (d->NESW[3].img_ptr)
+			mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
+		free (d->NESW);
+	}
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
@@ -108,6 +120,8 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", MLXIN_M); 
 	else if (error_code == MLXWI)
 		printf("%s", MLXWI_M); 
+	else if (error_code == MLXIMG)
+		printf("%s", MLXIMG_M); 
 	free_data(data); 
 	exit (error_code);  
 }

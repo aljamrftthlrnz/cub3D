@@ -8,7 +8,10 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <sys/time.h>
+
 # include "libft/libft.h"
+
 
 # define MAX_LENGTH 
 # define MAX_WIDTH 
@@ -26,6 +29,10 @@
 # define DIR_S 180
 # define DIR_W 270
 
+# define SCREEN_W 600
+# define SCREEN_H 500
+
+# define FRMRT 32
 
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
@@ -71,7 +78,8 @@
 # define MLXIN_M "mlx initialization failed\n"
 # define MLXWI 101
 # define MLXWI_M "mlx window creation failed\n"
-
+# define MLXIMG 102
+# define MLXIMG_M "mlx image creation failed\n"
 
 struct	s_file; 
 struct	s_data; 
@@ -107,6 +115,19 @@ typedef struct s_file
 }	t_file; 
 
 
+typedef struct s_image
+{
+	void	*img_ptr;
+	char	*img_adr;
+	
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+
+	int		height;
+	int		width;
+
+}	t_image;
 
 typedef struct s_game 
 {
@@ -126,7 +147,14 @@ typedef struct s_data
 	int		x_file;
 	t_file	*file; 
 	t_game	*game;
+
+
+	t_image	*NESW;
+	t_image *screen;
+
 }	t_data;
+
+
 
 
 /*FUNCTIONS IN FILE main.c*/
@@ -180,7 +208,7 @@ int map_len(char **arr);
 
 
 // check_map.c
-void    get_p_dir(t_map *map, char dir);
+void	get_p_dir(t_map *map, char dir);
 
 
 
@@ -201,6 +229,16 @@ void	setup_key_buttons(t_data *d);
 void	arrow_keys(t_data *d, int keycode);
 void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
 void	player_step(t_data *d, int keycode);
+
+
+// init_img.c
+void	setup_img(t_data *d, t_image *new_img, char *path);
+void init_img(t_data *d);
+
+// img_utils.c
+int	img_get_pos(t_image *img, int x, int y);
+void	pixel_to_img(t_image *img, int x, int y, int *rgb);
+void	fill_color_img(t_image *image, int *rgb);
 
 
 #endif

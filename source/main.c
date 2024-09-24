@@ -5,11 +5,18 @@ void	init_game(t_data *d)
 	d->game->player_dir = d->file->map->p_pos_dir;
 	d->game->player_x = d->file->map->p_pos_x;
 	d->game->player_y = d->file->map->p_pos_y;
+	d->mlx = mlx_init();
+	if (d->mlx == NULL)
+	{
+		err_free_message(d, MLXIN);
+		return ;
+	}
 }
 
 void	play_game(t_data *d)
 {
 	init_game(d);
+	init_img(d);
 	open_window(d);
 	create_game(d);
 }
