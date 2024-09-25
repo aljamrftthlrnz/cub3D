@@ -22,7 +22,7 @@
 // # define SCREEN_W 100
 // # define SCREEN_H 80
 
-# define PLANE 0.9
+# define PLANE 0.66
 
 # define texSize		64
 
@@ -306,6 +306,10 @@ void 		determine_distance_to_wall(t_raycast *ray, t_game *game);
 void 		vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
 void 		handle_texture_update(t_raycast *r, t_element *e);
 void 		decide_map_texture(t_raycast *r, t_element *e);
+
+void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d);
+
+
 
 void rotation(t_raycast *r);
 

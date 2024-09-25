@@ -11,11 +11,13 @@ void	init_game(t_data *d)
 		err_free_message(d, MLXIN);
 		return ;
 	}
+	
 }
 
 void	play_game(t_data *d)
 {
 	init_game(d);
+	raycasting(d);
 	init_img(d);
 	open_window(d);
 	create_game(d);
