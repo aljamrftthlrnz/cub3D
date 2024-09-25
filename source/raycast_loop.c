@@ -1,3 +1,6 @@
+#include "../includes/cub3d.h"
+
+
 
 void position_and_stepvalues(t_game *g, t_raycast *r)
 {
@@ -24,6 +27,7 @@ void position_and_stepvalues(t_game *g, t_raycast *r)
 }
 
 
+
 void determine_distance_to_wall(t_raycast *ray, t_game *game)
 {
     if(ray->side == 0)
@@ -32,6 +36,7 @@ void determine_distance_to_wall(t_raycast *ray, t_game *game)
         ray->perpWallDist = (ray->sideDistY - ray->deltaDistY); 
     (void) game;
 }
+
 
 void wall_hit(t_map *map, t_raycast *ray)
 {
@@ -64,7 +69,6 @@ void wall_hit(t_map *map, t_raycast *ray)
     }
 }
 
-
 void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
     e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
@@ -80,8 +84,6 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
         e->wallx = g->pos_x + ray->perpWallDist * ray->rayDirX;
     e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
 }
-
-
 
 void init_loop(int x, t_raycast *r, t_game *g)
 {
@@ -105,8 +107,22 @@ void init_loop(int x, t_raycast *r, t_game *g)
 void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 {
     int x;
+	int	how_many_rays;
+	double	plane_step;
+	double plane_save_x;
+	double plane_save_y;
 
+	// r->plane_x = PLANE * (-1); 
+
+	plane_save_x = r->plane_x;
+	plane_save_y = r->plane_y;
     x = 0;
+	how_many_rays = SCREEN_W / LINE_W;
+	plane_step = r->plane_x / how_many_rays;
+	if (plane_step < 0)
+		plane_step = plane_step * (-1);
+	printf("planestep: %f\n", plane_step);
+
     // while(!done())
     while(x < SCREEN_W)
     {
@@ -121,9 +137,15 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
         }
 		render_column(d, x);
         r->hit = 0;
-        
+        printf("planex: %f\n", r->plane_x);
+		r->plane_x = avoid_zero_at_all_costs(r->plane_x + plane_step);
+
+
 
 
         x += LINE_W;
     }
+	// reset
+	r->plane_x = plane_save_x;
+	r->plane_y = plane_save_y;
 }
