@@ -2,21 +2,26 @@
 
 void	arrow_keys(t_data *d, int keycode)
 {
+	double radian_angle;
 	double	tmp;
+	
+
 	if (keycode == KEY_LEFT)
 	{
-		d->game->p_pos_dir -= 2;
-		tmp = d->ray->plane_x;
-		d->ray->plane_x = d->ray->plane_x * cos(2) - d->ray->plane_y * sin(2);
-		d->ray->plane_y = tmp * sin(2) + d->ray->plane_y * cos(2);
+		d->game->p_pos_dir -= KEY_ROT_ANGL;
+		radian_angle = -KEY_ROT_ANGL * (PI / 180);
 	}
 	if (keycode == KEY_RIGHT)
 	{
-		d->game->p_pos_dir += 2;
-		tmp = d->ray->plane_x;
-		d->ray->plane_x = d->ray->plane_x * cos(-2) - d->ray->plane_y * sin(-2);
-		d->ray->plane_y = tmp * sin(-2) + d->ray->plane_y * cos(-2);
+		d->game->p_pos_dir += KEY_ROT_ANGL;
+		radian_angle = KEY_ROT_ANGL * (PI / 180);
 	}
+	tmp = d->ray->plane_x;
+	d->ray->plane_x = d->ray->plane_x * cos(radian_angle) - d->ray->plane_y * sin(radian_angle);
+	d->ray->plane_y = tmp * sin(radian_angle) + d->ray->plane_y * cos(radian_angle);
+	tmp = d->game->dir_x;
+	d->game->dir_x = d->game->dir_x * cos(radian_angle) - d->game->dir_y * sin(radian_angle);
+	d->game->dir_y = tmp * sin(radian_angle) + d->game->dir_y * cos(radian_angle);
 	while (d->game->p_pos_dir < 0)
 	{
 		d->game->p_pos_dir = 360 + d->game->p_pos_dir;

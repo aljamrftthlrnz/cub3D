@@ -51,6 +51,8 @@
 # define KEY_RIGHT 65363
 
 # define KEY_STP_SIZ 0.1
+# define KEY_ROT_ANGL 4
+
 
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
@@ -315,6 +317,7 @@ void replace_initial_player_pos(t_map *m);
 double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 
+void    translate_angle_to_cube(t_game *g, t_raycast *r);
 
 
 
