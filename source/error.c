@@ -60,6 +60,13 @@ void	free_mlx(t_data *d)
 			mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
 		free (d->NESW);
 	}
+	if (d->screen)
+	{
+		if (d->screen->img_ptr)
+			mlx_destroy_image(d->mlx, d->screen->img_ptr);
+		free (d->screen);
+	}
+
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);

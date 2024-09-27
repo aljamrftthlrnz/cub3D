@@ -117,12 +117,6 @@ typedef struct s_image
 
 }	t_image;
 
-typedef struct s_game_luca 
-{
-	double	player_x;
-	double	player_y;
-	int		player_dir;
-}	t_game_luca;
 
 typedef struct s_raycast
 {
@@ -208,7 +202,6 @@ typedef struct s_data
 	t_map		*map;
 	t_raycast	*ray;
 	t_game		*game;
-	t_game_luca	*game_l;
 	t_image		*NESW;
 	t_image 	*screen;
 
