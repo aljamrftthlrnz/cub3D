@@ -38,7 +38,6 @@ void	free_data(t_data *d)
 		if(d->game != NULL)
 			free(d->game);
 		free_array(d->file_arr); 
-		free(d);
 	}
 	d = NULL;
 }
