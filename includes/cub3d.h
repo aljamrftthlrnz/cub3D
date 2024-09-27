@@ -125,8 +125,6 @@ typedef struct s_game_luca
 typedef struct s_raycast
 {
 	double		rotation_speed; 
-	double		dir_x; 
-	double		dir_y;
 	double		plane_x;
 	double		plane_y;		
 	double		camera_x;
