@@ -2,31 +2,24 @@
 
 
 
-void position_and_stepvalues(t_game *g, t_raycast *r)
+
+
+
+void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
-    if(r->rayDirX < 0)
-    {
-        r->stepX = -1;
-        r->sideDistX = (g->pos_x - r->mapX) * r->deltaDistX;
-    }
+    e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
+    e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
+    if(e->drawStart < 0)
+        e->drawStart = 0;
+    e->drawEnd = e->line_height / 2 + SCREEN_H / 2;
+    if(e->drawEnd >= SCREEN_H)
+        e->drawEnd = SCREEN_H - 1;
+    if(ray->side == 0)
+        e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
     else 
-    {
-        r->stepX = 1;
-        r->sideDistX = (r->mapX + 1.0 - g->pos_x) * r->deltaDistX; 
-    }
-    if(r->rayDirY < 0)
-    {
-        r->stepY = -1; 
-        r->sideDistY = (g->pos_y - r->mapY) * r->deltaDistY; 
-    }
-    else 
-    {
-        r->stepY = 1; 
-        r->sideDistY = (r->mapY + 1.0 - g->pos_y) * r->deltaDistY;
-    }
+        e->wallx = g->pos_x + ray->perpWallDist * ray->rayDirX;
+    e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
 }
-
-
 
 void determine_distance_to_wall(t_raycast *ray, t_game *game)
 {
@@ -36,7 +29,6 @@ void determine_distance_to_wall(t_raycast *ray, t_game *game)
         ray->perpWallDist = (ray->sideDistY - ray->deltaDistY); 
     (void) game;
 }
-
 
 void wall_hit(t_map *map, t_raycast *ray)
 {
@@ -69,28 +61,37 @@ void wall_hit(t_map *map, t_raycast *ray)
     }
 }
 
-void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
+
+void position_and_stepvalues(t_game *g, t_raycast *r)
 {
-    e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
-    e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
-    if(e->drawStart < 0)
-        e->drawStart = 0;
-    e->drawEnd = e->line_height / 2 + SCREEN_H / 2;
-    if(e->drawEnd >= SCREEN_H)
-        e->drawEnd = SCREEN_H - 1;
-    if(ray->side == 0)
-        e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
+    if(r->rayDirX < 0)
+    {
+        r->stepX = -1;
+        r->sideDistX = (g->pos_x - r->mapX) * r->deltaDistX;
+    }
     else 
-        e->wallx = g->pos_x + ray->perpWallDist * ray->rayDirX;
-    e->wallx -= floor(e->wallx);  // get the fractional part by substracting the integer part
+    {
+        r->stepX = 1;
+        r->sideDistX = (r->mapX + 1.0 - g->pos_x) * r->deltaDistX; 
+    }
+    if(r->rayDirY < 0)
+    {
+        r->stepY = -1; 
+        r->sideDistY = (g->pos_y - r->mapY) * r->deltaDistY; 
+    }
+    else 
+    {
+        r->stepY = 1; 
+        r->sideDistY = (r->mapY + 1.0 - g->pos_y) * r->deltaDistY;
+    }
 }
 
 void init_loop(int x, t_raycast *r, t_game *g)
 {
     r->camera_x = 2 * x / (double) SCREEN_W - 1;
     //printf("Camera_x %f \n", r->camera_x);
-    r->rayDirX = r->dir_x + r->plane_x * r->camera_x;
-    r->rayDirY = r->dir_y + r->plane_y * r->camera_x;
+    r->rayDirX = g->dir_x + r->plane_x * r->camera_x;
+    r->rayDirY = g->dir_y + r->plane_y * r->camera_x;
     r->mapX = (int)g->pos_x;
     r->mapY = (int)g->pos_y;
     if(r->rayDirX == 0)
@@ -107,23 +108,8 @@ void init_loop(int x, t_raycast *r, t_game *g)
 void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 {
     int x;
-	int	how_many_rays;
-	double	plane_step;
-	double plane_save_x;
-	double plane_save_y;
 
-	// r->plane_x = PLANE * (-1); 
-
-	plane_save_x = r->plane_x;
-	plane_save_y = r->plane_y;
     x = 0;
-	how_many_rays = SCREEN_W / LINE_W;
-	plane_step = r->plane_x / how_many_rays;
-	if (plane_step < 0)
-		plane_step = plane_step * (-1);
-	printf("planestep: %f\n", plane_step);
-
-    // while(!done())
     while(x < SCREEN_W)
     {
         init_loop(x, r, g); 
@@ -137,15 +123,7 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
         }
 		render_column(d, x);
         r->hit = 0;
-        printf("planex: %f\n", r->plane_x);
-		r->plane_x = avoid_zero_at_all_costs(r->plane_x + plane_step);
-
-
-
 
         x += LINE_W;
     }
-	// reset
-	r->plane_x = plane_save_x;
-	r->plane_y = plane_save_y;
 }
