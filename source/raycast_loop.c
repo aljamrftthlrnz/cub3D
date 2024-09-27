@@ -35,7 +35,7 @@ void wall_hit(t_map *map, t_raycast *ray)
 	int loop;
 
 	loop = 0;
-	while (!ray->hit && loop < 10)
+	while (!ray->hit && loop < 50)
 	{
 		if(ray->sideDistX < ray->sideDistY)
 		{
