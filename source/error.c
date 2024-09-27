@@ -22,22 +22,22 @@ void	free_data(t_data *d)
 {
 	if(d != NULL)
 	{
-		// if(d->map != NULL)
-		// {
-		// 	free_array(d->map->cpy_map); 
-		// 	free_array(d->map->map); 
-		// 	free(d->map); 
-		// }
-		// if (d->elem != NULL)
-		// {
-		// 	free_element(d->elem);
-		// 	free(d->elem); 
-		// }
-		// if(d->ray != NULL)
-		// 	free(d->ray);
+		if(d->map != NULL)
+		{
+			free_array(d->map->cpy_map); 
+			free_array(d->map->map); 
+			free(d->map); 
+		}
+		if (d->elem != NULL)
+		{
+			free_element(d->elem);
+			free(d->elem); 
+		}
+		if(d->ray != NULL)
+			free(d->ray);
 		if(d->game != NULL)
 			free(d->game);
-		//free_array(d->file_arr); 
+		free_array(d->file_arr); 
 		free(d);
 	}
 	d = NULL;

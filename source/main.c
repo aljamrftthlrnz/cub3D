@@ -64,11 +64,6 @@ int	main(int argc, char **argv)
 	d.map->width = ft_strlen(d.map->map[0]);
 	d.map->length = get_map_length(d.map->map);
 	play_game(&d);
-	// d.mlx = mlx_init();
-	// if(!d.mlx)
-	// 	err_free_message(&d, ALLOC_FAIL);
-	// raycasting(&d);
-	// mlx_loop(&d.mlx); 
 	error_code = d.error;
 	free_mlx(&d);
 	free_data(&d);
