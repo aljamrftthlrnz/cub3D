@@ -9,8 +9,10 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+
 # include <stdint.h>
 # include <math.h>
+
 # include <sys/time.h>
 
 # include "libft/libft.h"
@@ -41,6 +43,9 @@
 # define EAST 1
 # define SOUTH 2
 # define WEST 3
+
+# define MAX_LENGTH 
+# define MAX_WIDTH 
 
 # define KEY_W 119
 # define KEY_A 97
@@ -101,6 +106,7 @@
 # define MLXIMG 102
 # define MLXIMG_M "mlx image creation failed\n"
 
+struct	s_file; 
 struct	s_data; 
 
 typedef struct s_image
@@ -189,7 +195,6 @@ typedef struct s_map
 	int				pos_x;
 	int				p_pos_dir;
 } t_map;
-
 typedef struct s_data
 {
 	void		*mlx;
@@ -204,14 +209,19 @@ typedef struct s_data
 	t_game		*game;
 	t_image		*NESW;
 	t_image 	*screen;
-
 }	t_data;
+typedef struct s_file 
+{
+	struct s_data	*data; // Use Forward declaration, is only init further down
+	t_element		*elem;
+	t_map			*map;
+}	t_file; 
+
 
 /*Functions von Luca*/
 void init_game(t_data *d);
 void play_game(t_data *d);
 void free_mlx(t_data *d);
-int			*parse_rgb_colors(char *str, t_data *data);
 
 // check_map.c
 void	get_p_dir(t_map *map, char dir);
@@ -245,15 +255,25 @@ int	img_get_pos(t_image *img, int x, int y);
 void	pixel_to_img(t_image *img, int x, int y, int *rgb);
 void	fill_color_img(t_image *image, int *rgb);
 
+
+
 /*FUNCTIONS IN FILE main.c*/
+void	init_game(t_data *d);
 int			main(int argc, char**argv);
 int			arguments_and_extension (int argc, char *str, int *error);
 int			err_free_message(t_data *data, int error_code);
 
+void	play_game(t_data *d);
 /*FUNCTIONS IN FILE utils_free.c*/
 void		free_data(t_data *d);
 void		free_array(char **arr); 
 void		init_data(t_data *d);
+
+
+/*FUNCTIONS IN FILE error.c*/
+void	free_mlx(t_data *d);
+void	free_data(t_data *d);
+void	free_array(char **arr); 
 
 /*FUNCTIONS IN FILE init_data.c*/
 
@@ -312,6 +332,70 @@ double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 void    translate_angle_to_cube(t_game *g, t_raycast *r);
 
+int process_map(t_data *data);
+char **copy_map_parts_in_file(t_data *data, int begin);
+int is_map_line(char *line);
+int err_free_message(t_data *data, int error_code);
+
+int is_c_space(char c);
+int is_space(char *line);
+int is_character(char c);
+int is_wall_space(char c);
+int file_length(char **arr);
+
+void    init_map(t_data *data, char *argv);
+int get_dimensions_of_file(t_data *d, char *argv);
+int extract_textures(t_data *data, char **arr);
+int *parse_rgb_colors(char *str, t_data *data, char *ptr);
+int check_multiple_seperators(char *str);
+int check_order_of_map(t_data *data);
+int    create_file_array(t_data *d, char *argv); 
+int is_valid_map_char(char c);
+int order(char *trim, int *sum);
+int check_order_of_file(t_data *data);
+void textures_comp(char*trim, t_data *data, int *err, int *map);
+int replace_spaces_and_check_player(t_map *map, char **s); 
+int check_empty_lines_in_map(t_map *m); 
+char **create_map_copy(t_map *map); 
+int validating_map_walls(char **cpy); 
+int loop_over_potential_walls(char *s);
+int validate_outer_walls(char *cpy);
+int check_up_down_left_right(char **map, int i, int j);
+int validating_map_content(char **s);
+int map_len(char **arr);
+
+
+// check_map.c
+void	get_p_dir(t_map *map, char dir);
+
+
+
+
+// open_window.c
+void	open_window(t_data *d);
+
+// create_game.c
+int		render_frame(t_data *d);
+void	create_game(t_data *d);
+
+// key_handler.c
+int		close_game(void *ptr);
+int		key_handler(int keycode, void *d);
+void	setup_key_buttons(t_data *d);
+
+// player_movement.c
+void	arrow_keys(t_data *d, int keycode);
+void	player_step(t_data *d, int keycode);
+
+
+// init_img.c
+void	setup_img(t_data *d, t_image *new_img, char *path);
+void init_img(t_data *d);
+
+// img_utils.c
+int	img_get_pos(t_image *img, int x, int y);
+void	pixel_to_img(t_image *img, int x, int y, int *rgb);
+void	fill_color_img(t_image *image, int *rgb);
 
 
 #endif

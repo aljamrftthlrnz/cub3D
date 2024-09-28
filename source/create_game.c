@@ -24,6 +24,7 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 {
 	double quo;
 	double wall;
+
 	int		upper_y_pos;
 	int		source_pos;
 	int		dest_pos;

@@ -44,6 +44,7 @@ void    get_player_direction_position(int y, int x, t_map *m)
 		return ; 
 }
 
+
 int replace_spaces_and_check_player(t_map *map, char **s)
 {
    int i;

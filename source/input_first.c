@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int *parse_rgb_colors(char *str, t_data *data)
+int *parse_rgb_colors(char *str, t_data *data, char *ptr)
 {
 	char **rgb_values;
 	int *rgb; 
@@ -9,26 +9,52 @@ int *parse_rgb_colors(char *str, t_data *data)
 
 	i= -1;
 	if(check_multiple_seperators(str))
+	{
+		free(ptr);
+		ptr = NULL;
 		err_free_message(data, FL_CEIL_M);
-	rgb = (int*)malloc(sizeof(int)*3); 
+	}
 	rgb_values = ft_split(str, ',');
 	if(!rgb_values)
-		return(free(rgb),NULL);
+	{
+		free (ptr);
+		ptr = NULL;
+		err_free_message(data, ALLOC_FAIL);
+	}
 	num = file_length(rgb_values);
 	if(num > 3)
 	{
-		free(rgb); 
-		free(rgb_values);
+		free_array(rgb_values);
+		free(ptr);
+		rgb_values = NULL;
+		ptr = NULL;
 		err_free_message(data, FL_CEIL_M);
+	}
+	rgb = (int*)malloc(sizeof(int)*3); 
+	if (rgb == NULL)
+	{
+		free_array(rgb_values);
+		rgb_values = NULL;
+		free(ptr);
+		ptr = NULL;
+		err_free_message(data, ALLOC_FAIL);
 	}
 	while(++i < 3)
 	{
 		rgb[i] = ft_atoi(rgb_values[i]);
 		if(rgb[i] < 0 || rgb[i] > 255)
+		{
+			free(rgb);
+			rgb = NULL;
+			free_array(rgb_values);
+			rgb_values = NULL;
+			free(ptr);
+			ptr = NULL;
 			err_free_message(data, RGB_W); 
-		free(rgb_values[i]); 
+		}
 	}
-	free(rgb_values); 
+	free_array(rgb_values);
+	// free(ptr);
 	return (rgb); 
 }
 
@@ -100,7 +126,7 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
 			free (trim); 
 			err_free_message(data, FL_CEIL_D);
 		}
-		data->elem->flo_rgb = parse_rgb_colors(trim + 2, data); 
+		data->elem->flo_rgb = parse_rgb_colors(trim + 2, data, trim); 
 	}
 	else if(!ft_strncmp(trim, "C ", 2))
 	{
@@ -109,7 +135,7 @@ void textures_comp(char*trim, t_data *data, int *err, int *map)
 			free (trim); 
 			err_free_message(data, FL_CEIL_D);
 		}
-		data->elem->ceil_rgb = parse_rgb_colors(trim + 2, data);
+		data->elem->ceil_rgb = parse_rgb_colors(trim + 2, data, trim);
 	}
 	else 
 		(*err)++;

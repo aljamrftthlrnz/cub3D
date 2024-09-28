@@ -50,29 +50,35 @@ int get_dimensions_of_file(t_data *d, char *argv)
 	int     max;
 	int     count; 
 
-	count = 0; 
-	max = 0; 
-	fd = open(argv, O_RDONLY); 
-	if(fd < 0)
-		return (1);
-	line = get_next_line(fd);
-	if(!line)
-		return (1);
-	max = ft_strlen(line);
-	while(line != NULL)
-	{
-		count++; 
-		free(line); 
-		line = get_next_line(fd); 
-		if((size_t)max < ft_strlen(line))
-			max = ft_strlen(line); 
-	}
-	if (max < 3 || count < 1)
-		return (1); 
-	d->y_file = count;
-	d->x_file = max;
-	close(fd);
-	return (0); 
+    count = 0; 
+    max = 0; 
+    fd = open(argv, O_RDONLY); 
+    if(fd < 0)
+        return (1);
+    line = get_next_line(fd);
+    if(!line)
+    {
+        close (fd);
+        return (1);
+    }
+    max = ft_strlen(line);
+    while(line != NULL)
+    {
+        count++; 
+        free(line); 
+        line = get_next_line(fd); 
+        if((size_t)max < ft_strlen(line))
+            max = ft_strlen(line); 
+    }
+    if (max < 3 || count < 1)
+    {
+        close (fd);
+        return (1); 
+    }
+    d->y_file = count;
+    d->x_file = max;
+    close(fd);
+    return (0); 
 }
 
 void    init_map(t_data *data, char *argv)

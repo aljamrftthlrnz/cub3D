@@ -22,7 +22,6 @@ void	play_game(t_data *d)
 	open_window(d);
 	create_game(d);
 }
-
 int arguments_and_extension (int argc, char *str, int *error)
 {
     if(argc != 2)
@@ -51,6 +50,7 @@ int	get_map_length(char **map)
 }
 
 int	main(int argc, char **argv)
+
 {
 	int		error_code;
 	t_data	d;
