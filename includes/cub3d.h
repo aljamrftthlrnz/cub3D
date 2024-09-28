@@ -30,7 +30,7 @@
 # define PI			3.141592653589793
 # define DEGREES	90
 
-# define FRMRT 32
+# define FRMRT 16
 
 # define DIR_N 0
 # define DIR_E 90
