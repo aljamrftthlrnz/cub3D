@@ -217,14 +217,12 @@ typedef struct s_file
 	t_map			*map;
 }	t_file; 
 
-
 /* check_map.c */
 char 	**create_map_copy(t_map *map);
 void    get_player_direction_position(int y, int x, t_map *m);
 int		replace_spaces_and_check_player(t_map *map, char **s);
 int		check_empty_lines_in_map(t_map *m);
 void	map_related_checks(t_data *data, t_map *map);
-
 
 /* check_map_2.c */
 int		validating_map_content(char **s);
@@ -239,32 +237,98 @@ int		render_frame(t_data *d);
 void	create_game(t_data *d);
 
 /* create_map.c */
-int is_valid_map_char(char c);
-int is_map_line(char *line);
-int calc_map_size(t_data *data, int begin);
-char **copy_map_parts_in_file(t_data *data, int begin);
-int process_map(t_data *data);
+int		is_valid_map_char(char c);
+int		is_map_line(char *line);
+int		calc_map_size(t_data *data, int begin);
+char	**copy_map_parts_in_file(t_data *data, int begin);
+int		process_map(t_data *data);
 
 /*FUNCTIONS IN FILE error.c*/
-void free_element(t_element *e);
+void	free_element(t_element *e);
 void	free_data(t_data *d);
 void	free_mlx(t_data *d);
 void	free_array(char **arr); 
-int err_free_message(t_data *data, int error_code);
+int 	err_free_message(t_data *data, int error_code);
 
 /* img_utils.c */
-int	img_get_pos(t_image *img, int x, int y);
+int		img_get_pos(t_image *img, int x, int y);
 void	pixel_to_img(t_image *img, int x, int y, int *rgb);
 void	fill_color_img(t_image *image, int *rgb);
 void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos);
 
 /*FUNCTIONS IN FILE init_data.c*/
-void init_element(t_element *e);
-void init_raycast(t_raycast *ray);
-void init_data_struct(t_data *d);
-void rotation(t_raycast *r);
-void init_data(t_data *d);
+void 	init_element(t_element *e);
+void 	init_raycast(t_raycast *ray);
+void	 init_data_struct(t_data *d);
+void	 rotation(t_raycast *r);
+void	 init_data(t_data *d);
 
+/* init_img.c */
+void	setup_img(t_data *d, t_image *new_img, char *path);
+void	init_img(t_data *d);
+
+/* init_map_helper.c */
+int is_space(char *line);
+int is_character(char c);
+int is_wall_space(char c);
+int file_length(char **arr);
+int map_len(char **arr);
+
+/* init_map.c */
+int    create_file_array(t_data *d, char *argv);
+int		get_dimensions_of_file(t_data *d, char *argv);
+void	replace_initial_player_pos(t_map *m);
+int		get_map_length(char **map);
+void    init_map(t_data *data, char *argv);
+
+/* input_first.c */
+int *parse_rgb_colors(char *str, t_data *data, char *ptr);
+char	*parse_texture(t_data *d, char *trim);
+void textures_comp(char*trim, t_data *data, int *err, int *map);
+int extract_textures(t_data *data, char **arr);
+
+/* input_second.c */
+int check_multiple_seperators(char *str);
+int check_order_of_map(t_data *data);
+int order(char *trim, int *sum);
+int check_order_of_file(t_data *data);
+
+/* key_handler.c */
+int		close_game(void *ptr);
+int		key_handler(int keycode, void *d);
+void	setup_key_buttons(t_data *d);
+
+/*FUNCTIONS IN FILE main.c*/
+void	init_game(t_data *d);
+void	play_game(t_data *d);
+int			arguments_and_extension (int argc, char *str, int *error);
+int			main(int argc, char**argv);
+
+/* open_window.c */
+void	open_window(t_data *d);
+
+// player_movement.c
+void	arrow_keys(t_data *d, int keycode);
+void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
+void	player_step(t_data *d, int keycode);
+
+/* raycast_loop.c */
+void vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
+void determine_distance_to_wall(t_raycast *ray, t_game *game);
+void wall_hit(t_map *map, t_raycast *ray);
+void position_and_stepvalues(t_game *g, t_raycast *r);
+void init_loop(int x, t_raycast *r, t_game *g);
+void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d);
+
+/* raycast_texture.c */
+void decide_map_texture(t_raycast *r, t_element *e);
+void handle_texture_update(t_raycast *r, t_element *e);
+
+/* raycast.c */
+void init_north_south(t_game *g, t_raycast *r);
+void init_east_west(t_game *g, t_raycast *r);
+void init_raycasting(t_raycast *r, t_map *map, t_game *g);
+double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 /* render_column.c */
 void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx);
@@ -273,180 +337,5 @@ void	render_column(t_data *d, int x);
 /* render_c_f.c */
 void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
 void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
-
-
-
-
-
-/////////////////////////
-/////////////////////////
-/////////////////////////
-/////////////////////////
-/////////////////////////
-/////////////////////////
-
-
-/*Functions von Luca*/
-void init_game(t_data *d);
-void play_game(t_data *d);
-void free_mlx(t_data *d);
-
-
-
-
-
-// open_window.c
-void	open_window(t_data *d);
-
-
-// key_handler.c
-int		close_game(void *ptr);
-int		key_handler(int keycode, void *d);
-void	setup_key_buttons(t_data *d);
-
-// player_movement.c
-void	arrow_keys(t_data *d, int keycode);
-void	player_step(t_data *d, int keycode);
-
-
-// init_img.c
-void	setup_img(t_data *d, t_image *new_img, char *path);
-void init_img(t_data *d);
-
-
-// check_map.c
-void	get_p_dir(t_map *map, char dir);
-
-// open_window.c
-void	open_window(t_data *d);
-
-
-// key_handler.c
-int		close_game(void *ptr);
-int		key_handler(int keycode, void *d);
-void	setup_key_buttons(t_data *d);
-
-// player_movement.c
-void	arrow_keys(t_data *d, int keycode);
-void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
-void	player_step(t_data *d, int keycode);
-
-
-// init_img.c
-void	setup_img(t_data *d, t_image *new_img, char *path);
-void init_img(t_data *d);
-
-// img_utils.c
-int	img_get_pos(t_image *img, int x, int y);
-void	pixel_to_img(t_image *img, int x, int y, int *rgb);
-void	fill_color_img(t_image *image, int *rgb);
-
-
-
-/*FUNCTIONS IN FILE main.c*/
-void	init_game(t_data *d);
-int			main(int argc, char**argv);
-int			arguments_and_extension (int argc, char *str, int *error);
-int			err_free_message(t_data *data, int error_code);
-
-void	play_game(t_data *d);
-/*FUNCTIONS IN FILE utils_free.c*/
-void		free_data(t_data *d);
-void		free_array(char **arr); 
-void		init_data(t_data *d);
-
-
-
-
-
-int			process_map(t_data *data);
-char		**copy_map_parts_in_file(t_data *data, int begin);
-int			is_map_line(char *line);
-int			err_free_message(t_data *data, int error_code);
-
-int			is_c_space(char c);
-int			is_space(char *line);
-int			is_character(char c);
-int			is_wall_space(char c);
-int			file_length(char **arr);
-
-void		init_map(t_data *data, char *argv);
-int			get_dimensions_of_file(t_data *d, char *argv);
-int			extract_textures(t_data *data, char **arr);
-
-int			check_multiple_seperators(char *str);
-int			check_order_of_map(t_data *data);
-int			create_file_array(t_data *d, char *argv); 
-int			is_valid_map_char(char c);
-int			order(char *trim, int *sum);
-int			check_order_of_file(t_data *data);
-void		textures_comp(char*trim, t_data *data, int *err, int *map);
-int			replace_spaces_and_check_player(t_map *map, char **s);
-int			check_empty_lines_in_map(t_map *m); 
-char		**create_map_copy(t_map *map); 
-int			validating_map_walls(char **cpy); 
-int			loop_over_potential_walls(char *s);
-int			validate_outer_walls(char *cpy);
-void 		map_related_checks(t_data *data, t_map *map);
-int			check_up_down_left_right(char **map, int i, int j);
-int			validating_map_content(char **s);
-int			map_len(char **arr);
-void		raycasting(t_data *d);
-void 		init_ray(t_raycast *r, t_map *map, t_game *g);
-void 		init_north_south(t_game *g, t_raycast *r);
-void 		init_east_west(t_game *g, t_raycast *r);
-void 		position_and_stepvalues(t_game *g, t_raycast *r);
-void 		wall_hit(t_map *map, t_raycast *ray);
-void 		determine_distance_to_wall(t_raycast *ray, t_game *game);
-void 		vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
-void 		handle_texture_update(t_raycast *r, t_element *e);
-void 		decide_map_texture(t_raycast *r, t_element *e);
-
-void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d);
-
-
-
-void rotation(t_raycast *r);
-
-void replace_initial_player_pos(t_map *m);
-double   avoid_zero_at_all_costs(double definitely_not_zero);
-
-
-void    translate_angle_to_cube(t_game *g, t_raycast *r);
-
-int process_map(t_data *data);
-char **copy_map_parts_in_file(t_data *data, int begin);
-int is_map_line(char *line);
-int err_free_message(t_data *data, int error_code);
-
-int is_c_space(char c);
-int is_space(char *line);
-int is_character(char c);
-int is_wall_space(char c);
-int file_length(char **arr);
-
-void    init_map(t_data *data, char *argv);
-int get_dimensions_of_file(t_data *d, char *argv);
-int extract_textures(t_data *data, char **arr);
-int *parse_rgb_colors(char *str, t_data *data, char *ptr);
-int check_multiple_seperators(char *str);
-int check_order_of_map(t_data *data);
-int    create_file_array(t_data *d, char *argv); 
-int is_valid_map_char(char c);
-int order(char *trim, int *sum);
-int check_order_of_file(t_data *data);
-void textures_comp(char*trim, t_data *data, int *err, int *map);
-int replace_spaces_and_check_player(t_map *map, char **s); 
-int check_empty_lines_in_map(t_map *m); 
-char **create_map_copy(t_map *map); 
-int validating_map_walls(char **cpy); 
-int loop_over_potential_walls(char *s);
-int validate_outer_walls(char *cpy);
-int check_up_down_left_right(char **map, int i, int j);
-int validating_map_content(char **s);
-int map_len(char **arr);
-
-
-
 
 #endif

@@ -1,10 +1,5 @@
 #include "../includes/cub3d.h"
 
-
-
-
-
-
 void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
 	e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));

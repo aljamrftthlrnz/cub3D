@@ -81,6 +81,47 @@ int get_dimensions_of_file(t_data *d, char *argv)
     return (0); 
 }
 
+// purpose is to replace the starting out character NESW with a 0 right? so only needs to be run once
+// i moved the function call outside of raycasting into main
+void replace_initial_player_pos(t_map *m)
+{
+	char    c;
+	int     i;
+	int     j;
+
+	i = 0; 
+	c = m->map[m->pos_y][m->pos_x];
+	while(m->map[i] != NULL)
+	{
+		j = 0;
+		while(m->map[i][j] != '\0')
+		{
+			if(m->map[i][j] == c)
+			{
+			   printf("OLD: %c\n", c);
+			   m->map[i][j] = '0';
+			   printf("NEW: %c\n", m->map[i][j]); 
+			   break ;
+
+			}
+			j++; 
+		}
+		i++;
+	}
+}
+
+int	get_map_length(char **map)
+{
+	int	y;
+
+	y = 0;
+	while (map && map[y])
+	{
+		y++;
+	}
+	return (y);
+}
+
 void    init_map(t_data *data, char *argv)
 {
 	t_map *map; 
@@ -103,5 +144,7 @@ void    init_map(t_data *data, char *argv)
 	if(check_order_of_map(data))
 		err_free_message (data, ORDER);
 	map_related_checks(data, map); 
- 
+    replace_initial_player_pos(data->map); 
+	data->map->width = ft_strlen(data->map->map[0]); // is this the correct map file?
+	data->map->length = get_map_length(data->map->map);
 }

@@ -17,8 +17,8 @@ void	init_game(t_data *d)
 void	play_game(t_data *d)
 {
 	init_game(d);
-	raycasting(d);
 	init_img(d);
+	init_raycasting(d->ray, d->map, d->game);
 	open_window(d);
 	create_game(d);
 }
@@ -37,20 +37,7 @@ int arguments_and_extension (int argc, char *str, int *error)
 	return(0); 
 }
 
-int	get_map_length(char **map)
-{
-	int	y;
-
-	y = 0;
-	while (map && map[y])
-	{
-		y++;
-	}
-	return (y);
-}
-
 int	main(int argc, char **argv)
-
 {
 	int		error_code;
 	t_data	d;
@@ -60,12 +47,10 @@ int	main(int argc, char **argv)
 		err_free_message(NULL, error_code); 
 	init_data(&d);
 	init_map(&d,argv[1]);
-    replace_initial_player_pos(d.map); 
-	d.map->width = ft_strlen(d.map->map[0]);
-	d.map->length = get_map_length(d.map->map);
 	play_game(&d);
-	error_code = d.error;
-	free_mlx(&d);
-	free_data(&d);
+	/* not needed because it never returns from play_game? */
+	// error_code = d.error;
+	// free_mlx(&d);
+	// free_data(&d);
 	return(error_code);
 }

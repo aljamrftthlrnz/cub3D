@@ -5,7 +5,8 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 FILES = main.c init_data.c init_map.c init_map_helper.c \
 		input_first.c input_second.c error.c create_map.c \
-		check_map.c check_map_2.c raycast.c raycast_loop.c \
+		check_map.c check_map_2.c \
+		raycast.c raycast_loop.c raycast_texture.c \
 		images.c \
 		open_window.c create_game.c \
 		render_column.c render_c_f.c \

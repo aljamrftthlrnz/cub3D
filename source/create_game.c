@@ -21,9 +21,7 @@ int	render_frame(t_data *d)
 {
 	if (time_to_render() == 1 && d->ray->activate == 1)
 	{
-		// raycasting(d);
 	    ray_loop(d->game, d->ray, d->map, d->elem, d);
-
 		mlx_put_image_to_window(d->mlx, d->win, d->screen->img_ptr, 0, 0);
 		d->ray->activate = 0;
 	}
