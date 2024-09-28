@@ -238,11 +238,32 @@ int		time_to_render(void);
 int		render_frame(t_data *d);
 void	create_game(t_data *d);
 
+/* create_map.c */
+int is_valid_map_char(char c);
+int is_map_line(char *line);
+int calc_map_size(t_data *data, int begin);
+char **copy_map_parts_in_file(t_data *data, int begin);
+int process_map(t_data *data);
+
+/*FUNCTIONS IN FILE error.c*/
+void free_element(t_element *e);
+void	free_data(t_data *d);
+void	free_mlx(t_data *d);
+void	free_array(char **arr); 
+int err_free_message(t_data *data, int error_code);
+
 /* img_utils.c */
 int	img_get_pos(t_image *img, int x, int y);
 void	pixel_to_img(t_image *img, int x, int y, int *rgb);
 void	fill_color_img(t_image *image, int *rgb);
 void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos);
+
+/*FUNCTIONS IN FILE init_data.c*/
+void init_element(t_element *e);
+void init_raycast(t_raycast *ray);
+void init_data_struct(t_data *d);
+void rotation(t_raycast *r);
+void init_data(t_data *d);
 
 
 /* render_column.c */
@@ -252,6 +273,8 @@ void	render_column(t_data *d, int x);
 /* render_c_f.c */
 void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
 void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
+
+
 
 
 
@@ -297,11 +320,6 @@ void	get_p_dir(t_map *map, char dir);
 // open_window.c
 void	open_window(t_data *d);
 
-// create_game.c
-int		render_frame(t_data *d);
-void	render_column(t_data *d, int x);
-
-void	create_game(t_data *d);
 
 // key_handler.c
 int		close_game(void *ptr);
@@ -338,12 +356,8 @@ void		free_array(char **arr);
 void		init_data(t_data *d);
 
 
-/*FUNCTIONS IN FILE error.c*/
-void	free_mlx(t_data *d);
-void	free_data(t_data *d);
-void	free_array(char **arr); 
 
-/*FUNCTIONS IN FILE init_data.c*/
+
 
 int			process_map(t_data *data);
 char		**copy_map_parts_in_file(t_data *data, int begin);
