@@ -29,9 +29,9 @@ void init_img(t_data *d)
 	{
 		err_free_message(d, ALLOC_FAIL);
 	}
-	setup_img(d, &d->NESW[0], d->file->elem->no_path);
-	setup_img(d, &d->NESW[1], d->file->elem->ea_path);
-	setup_img(d, &d->NESW[2], d->file->elem->so_path);
-	setup_img(d, &d->NESW[3], d->file->elem->we_path);
+	setup_img(d, &d->NESW[0], d->elem->no_path);
+	setup_img(d, &d->NESW[1], d->elem->ea_path);
+	setup_img(d, &d->NESW[2], d->elem->so_path);
+	setup_img(d, &d->NESW[3], d->elem->we_path);
 	setup_img(d, d->screen, NULL);
 }

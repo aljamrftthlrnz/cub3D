@@ -1,6 +1,47 @@
 #include "../includes/cub3d.h"
 
 
+
+void free_element(t_element *e)
+{
+	if (e->we_path != NULL)
+		free(e->we_path); 
+	if (e->no_path != NULL)
+		free(e->no_path); 
+	if(e->so_path != NULL)
+		free(e->so_path);
+	if(e->ea_path != NULL)
+		free(e->ea_path);
+	if(e->flo_rgb != NULL)
+		free(e->flo_rgb);
+	if(e->ceil_rgb != NULL)
+		free(e->ceil_rgb);
+}
+
+void	free_data(t_data *d)
+{
+	if(d != NULL)
+	{
+		if(d->map != NULL)
+		{
+			free_array(d->map->cpy_map); 
+			free_array(d->map->map); 
+			free(d->map); 
+		}
+		if (d->elem != NULL)
+		{
+			free_element(d->elem);
+			free(d->elem); 
+		}
+		if(d->ray != NULL)
+			free(d->ray);
+		if(d->game != NULL)
+			free(d->game);
+		free_array(d->file_arr); 
+	}
+	d = NULL;
+}
+
 void	free_mlx(t_data *d)
 {
 	if (d->win)
@@ -19,46 +60,17 @@ void	free_mlx(t_data *d)
 			mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
 		free (d->NESW);
 	}
+	if (d->screen)
+	{
+		if (d->screen->img_ptr)
+			mlx_destroy_image(d->mlx, d->screen->img_ptr);
+		free (d->screen);
+	}
+
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
 		free(d->mlx);
-	}
-}
-
-void	free_data(t_data *d)
-{
-	if(d != NULL)
-	{
-		if(d->file != NULL)
-		{
-			if(d->file->map != NULL)
-			{
-				free_array(d->file->map->cpy_map); 
-				free_array(d->file->map->map); 
-				free(d->file->map); 
-			}
-			if (d->file->elem != NULL)
-			{
-				if (d->file->elem->we_path != NULL)
-					free(d->file->elem->we_path); 
-				if (d->file->elem->no_path != NULL)
-					free(d->file->elem->no_path); 
-				if(d->file->elem->so_path != NULL)
-					free(d->file->elem->so_path);
-				if(d->file->elem->ea_path != NULL)
-					free(d->file->elem->ea_path);
-				if(d->file->elem->flo_rgb != NULL)
-					free(d->file->elem->flo_rgb);
-				if(d->file->elem->ceil_rgb != NULL)
-					free(d->file->elem->ceil_rgb);
-				free(d->file->elem); 
-			}
-			free(d->file); 
-		}
-		free_array(d->file_arr); 
-		free (d->game);
-		free(d);
 	}
 }
 
@@ -79,7 +91,7 @@ void	free_array(char **arr)
 	arr = NULL;
 }
 
-int err_free_message(t_data *data, int error_code)
+int err_free_message(t_data *d, int error_code)
 {
 	printf("Error\n");
 	if(error_code == ARG_FAIL)
@@ -122,6 +134,6 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", MLXWI_M); 
 	else if (error_code == MLXIMG)
 		printf("%s", MLXIMG_M); 
-	free_data(data); 
+	free_data(d); 
 	exit (error_code);  
 }

@@ -15,18 +15,25 @@ int	close_game(void *ptr)
 }
 
 // handles all key presses
-int	key_handler(int keycode, void *d)
+int	key_handler(int keycode, void *d_ptr)
 {
+	t_data *d;
+
+	d = d_ptr;
 	if (keycode == ESC)
+	{
 		close_game(d);
+	}
 	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A || keycode == KEY_D)
 	{
 		player_step(d, keycode);
+		d->ray->activate = 1;
 		return (0);
 	}
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
 	{
 		arrow_keys(d, keycode);
+		d->ray->activate = 1;
 		return (0);
 	}
 	return (0);

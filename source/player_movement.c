@@ -2,31 +2,43 @@
 
 void	arrow_keys(t_data *d, int keycode)
 {
+	double radian_angle;
+	double	tmp;
+	
+
 	if (keycode == KEY_LEFT)
 	{
-		d->game->player_dir -= 2;
+		d->game->p_pos_dir -= KEY_ROT_ANGL;
+		radian_angle = -KEY_ROT_ANGL * (PI / 180);
 	}
 	if (keycode == KEY_RIGHT)
 	{
-		d->game->player_dir += 2;
+		d->game->p_pos_dir += KEY_ROT_ANGL;
+		radian_angle = KEY_ROT_ANGL * (PI / 180);
 	}
-	while (d->game->player_dir < 0)
+	tmp = d->ray->plane_x;
+	d->ray->plane_x = d->ray->plane_x * cos(radian_angle) - d->ray->plane_y * sin(radian_angle);
+	d->ray->plane_y = tmp * sin(radian_angle) + d->ray->plane_y * cos(radian_angle);
+	tmp = d->game->dir_x;
+	d->game->dir_x = d->game->dir_x * cos(radian_angle) - d->game->dir_y * sin(radian_angle);
+	d->game->dir_y = tmp * sin(radian_angle) + d->game->dir_y * cos(radian_angle);
+	while (d->game->p_pos_dir < 0)
 	{
-		d->game->player_dir = 360 + d->game->player_dir;
+		d->game->p_pos_dir = 360 + d->game->p_pos_dir;
 	}
-	while (d->game->player_dir > 359)
+	while (d->game->p_pos_dir > 359)
 	{
-		d->game->player_dir = d->game->player_dir - 360;
+		d->game->p_pos_dir = d->game->p_pos_dir - 360;
 	}
-	printf("direction: %d\n", d->game->player_dir); //debugging help
+	printf("direction: %d\n", d->game->p_pos_dir); //debugging help
 }
 
-void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
+void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 {
-	float	tmp;
+	double	tmp;
 
 	printf("angle: %d\n", angle); //debugging help
-	*p_left = (float) angle / 9 / 10;
+	*p_left = (double) angle / 9 / 10;
 	*p_right = 1 - *p_left;
 	if (keycode == KEY_S)
 	{
@@ -45,33 +57,34 @@ void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
 		*p_left = *p_right;
 		*p_right = tmp * (-1);
 	}
-	printf("px: %f\npy: %f\n", *p_left, *p_right); //debugging help
+	printf("px: %f | py: %f\n", *p_left, *p_right); //debugging help
 }
 
 void	player_step(t_data *d, int keycode)
 {
-	float	p_left;
-	float	p_right;
+	double	p_left;
+	double	p_right;
 
-	angle_calc(d->game->player_dir % 90, keycode, &p_left, &p_right);
-	if (d->game->player_dir < 90)
+	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
+	if (d->game->p_pos_dir < 90)
 	{
-		d->game->player_x += p_left;
-		d->game->player_y -= p_right;
+		d->game->pos_x += p_left * KEY_STP_SIZ;
+		d->game->pos_y -= p_right * KEY_STP_SIZ;
 	}
-	else if (d->game->player_dir < 180)
+	else if (d->game->p_pos_dir < 180)
 	{
-		d->game->player_x += p_right;
-		d->game->player_y += p_left;
+		d->game->pos_x += p_right * KEY_STP_SIZ;
+		d->game->pos_y += p_left * KEY_STP_SIZ;
 	}
-	else if (d->game->player_dir < 270)
+	else if (d->game->p_pos_dir < 270)
 	{
-		d->game->player_x -= p_left;
-		d->game->player_y += p_right;
+		d->game->pos_x -= p_left * KEY_STP_SIZ;
+		d->game->pos_y += p_right * KEY_STP_SIZ;
 	}
-	else if (d->game->player_dir < 360)
+	else if (d->game->p_pos_dir < 360)
 	{
-		d->game->player_x -= p_right;
-		d->game->player_y -= p_left;
+		d->game->pos_x -= p_right * KEY_STP_SIZ;
+		d->game->pos_y -= p_left * KEY_STP_SIZ;
 	}
+	printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
 }

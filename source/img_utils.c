@@ -23,7 +23,7 @@ void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 	int pixel_molecule = img->bits_per_pixel / 8;
 	int position;
 
-	if (x > img->width || y > img->height)
+	if (x >= img->width || y >= img->height)
 	{
 		// printf("pixel_to_img: entered coordinates are outside of image");
 		return ;
@@ -32,6 +32,8 @@ void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 	// printf("position: %d\n", position);
 	position = position + (x * pixel_molecule);
 	// printf("position2: %d\n", position);
+	// if ((int) ft_strlen(img->img_adr) < position)
+	// 	return;
 	img->img_adr[position++] = rgb[0];
 	img->img_adr[position++] = rgb[1];
 	img->img_adr[position] = rgb[2];
@@ -54,5 +56,19 @@ void fill_color_img(t_image *image, int *rgb)
 			x = 0;
 			y++;
 		}
+	}
+}
+
+//destination image, source image, destination position, source position
+void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos)
+{
+	int	i;
+
+	i = 0;
+
+	while (i < 3)
+	{
+		d_img->img_adr[d_pos++] = s_img->img_adr[s_pos++];
+		i++;
 	}
 }

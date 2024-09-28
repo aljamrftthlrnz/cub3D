@@ -1,6 +1,7 @@
 
-#ifndef CUB3D_H
+# ifndef CUB3D_H
 # define CUB3D_H
+
 # include <mlx.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -8,10 +9,40 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+
+# include <stdint.h>
+# include <math.h>
+
 # include <sys/time.h>
 
 # include "libft/libft.h"
 
+# define SCREEN_W 600
+# define SCREEN_H 500
+
+# define LINE_W 10
+// # define SCREEN_W 100
+// # define SCREEN_H 80
+
+# define PLANE 0.66
+
+# define texSize		64
+
+# define FPS		60	
+# define PI			3.141592653589793
+# define DEGREES	90
+
+# define FRMRT 16
+
+# define DIR_N 0
+# define DIR_E 90
+# define DIR_S 180
+# define DIR_W 270
+
+# define NORTH 0
+# define EAST 1
+# define SOUTH 2
+# define WEST 3
 
 # define MAX_LENGTH 
 # define MAX_WIDTH 
@@ -24,15 +55,9 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
-# define DIR_N 0
-# define DIR_E 90
-# define DIR_S 180
-# define DIR_W 270
+# define KEY_STP_SIZ 0.1
+# define KEY_ROT_ANGL 4
 
-# define SCREEN_W 600
-# define SCREEN_H 500
-
-# define FRMRT 32
 
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
@@ -84,42 +109,11 @@
 struct	s_file; 
 struct	s_data; 
 
-typedef struct s_element
-{
-	char			*we_path;
-	char			*so_path;
-	char			*no_path;
-	char			*ea_path;
-	int				*ceil_rgb;
-	int				*flo_rgb;
-	struct s_file	*file;
-}	t_element;
-
-typedef struct s_map
-{
-	char			**map;
-	char			**cpy_map;
-	int				length;
-	int				width;
-	int				p_pos_y;
-	int				p_pos_x;
-	int				p_pos_dir;
-	struct s_file	*file;
-} t_map;
-
-typedef struct s_file 
-{
-	struct s_data	*data; // Use Forward declaration, is only init further down
-	t_element		*elem;
-	t_map			*map;
-}	t_file; 
-
-
 typedef struct s_image
 {
 	void	*img_ptr;
 	char	*img_adr;
-	
+
 	int		bits_per_pixel;
 	int		size_line;
 	int		endian;
@@ -129,116 +123,219 @@ typedef struct s_image
 
 }	t_image;
 
-typedef struct s_game 
+
+typedef struct s_raycast
 {
-	float	player_x;
-	float	player_y;
-	int		player_dir;
+	double		rotation_speed; 
+	double		plane_x;
+	double		plane_y;		
+	double		camera_x;
+	double		camera_y;		
+	double		rayDirX;
+	double		rayDirY;		
+	double		deltaDistX;
+	double		deltaDistY;
+    double		sideDistX;
+    double		sideDistY;		
+	double		perpWallDist;
+	double 		time; 
+	double		oldtime;
+	int			stepX;
+    int			stepY;		
+	int			mapX;
+    int			mapY;
+	int			side;
+	int			hit;
+	
+	int			activate;
+
+} t_raycast;
+
+typedef struct s_element
+{
+	char			*we_path;
+	char			*so_path;
+	char			*no_path;
+	char			*ea_path;
+	int				*ceil_rgb;
+	int				*flo_rgb;
+	int				texnum; 
+	int 			texx;
+	int				texy;
+	int				width; 
+	int 			height; 
+	double			wallx;
+	double			step;
+	double			texpos;
+	int				line_height;
+    int				drawStart;
+    int				drawEnd;
+	uint32_t		color;
+	int				**texture;
+	int				**texel;
+}	t_element;
+
+typedef struct s_game
+{
+	double			pos_y;
+	double			pos_x;
+	double			dir_x; 
+	double			dir_y;
+	int				p_pos_dir; 
 }	t_game;
 
 
+typedef struct s_map
+{
+	char			**map;
+	char			**cpy_map;
+	int				length;
+	int				width;
+	int				pos_y;
+	int				pos_x;
+	int				p_pos_dir;
+} t_map;
 typedef struct s_data
 {
-	void	*mlx;
-	void	*win; 
-	int		error;
-	char	**file_arr; 
-	int		y_file; 
-	int		x_file;
-	t_file	*file; 
-	t_game	*game;
-
-
-	t_image	*NESW;
-	t_image *screen;
-
+	void		*mlx;
+	void		*win; 
+	int			error;
+	char		**file_arr; 
+	int			y_file; 
+	int			x_file;
+	t_element	*elem;
+	t_map		*map;
+	t_raycast	*ray;
+	t_game		*game;
+	t_image		*NESW;
+	t_image 	*screen;
 }	t_data;
+typedef struct s_file 
+{
+	struct s_data	*d; // Use Forward declaration, is only init further down
+	t_element		*elem;
+	t_map			*map;
+}	t_file; 
 
+/* check_map.c */
+char 	**create_map_copy(t_map *map);
+void    get_player_direction_position(int y, int x, t_map *m);
+int		replace_spaces_and_check_player(t_map *map, char **s);
+int		check_empty_lines_in_map(t_map *m);
+void	map_related_checks(t_data *d, t_map *map);
 
+/* check_map_2.c */
+int		validating_map_content(char **s);
+int		check_up_down_left_right(char **map, int i, int j);
+int		loop_over_potential_walls(char *s);
+int		validate_outer_walls(char *cpy);
+int		validating_map_walls(char **cpy);
 
+/* create_game.c */
+int		time_to_render(void);
+int		render_frame(t_data *d);
+void	create_game(t_data *d);
 
-/*FUNCTIONS IN FILE main.c*/
-void	init_game(t_data *d);
-int		main(int argc, char**argv);
-int arguments_and_extension (int argc, char *str, int *error);
-int		err_free_message(t_data *data, int error_code);
-void	play_game(t_data *d);
-
+/* create_map.c */
+int		is_valid_map_char(char c);
+int		is_map_line(char *line);
+int		calc_map_size(t_data *d, int begin);
+char	**copy_map_parts_in_file(t_data *d, int begin);
+int		process_map(t_data *d);
 
 /*FUNCTIONS IN FILE error.c*/
-void	free_mlx(t_data *d);
+void	free_element(t_element *e);
 void	free_data(t_data *d);
+void	free_mlx(t_data *d);
 void	free_array(char **arr); 
+int 	err_free_message(t_data *d, int error_code);
+
+/* img_utils.c */
+int		img_get_pos(t_image *img, int x, int y);
+void	pixel_to_img(t_image *img, int x, int y, int *rgb);
+void	fill_color_img(t_image *image, int *rgb);
+void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos);
 
 /*FUNCTIONS IN FILE init_data.c*/
-void		init_data(t_data *d);
+void 	init_element(t_element *e);
+void 	init_raycast(t_raycast *ray);
+void	 init_data_struct(t_data *d);
+void	 rotation(t_raycast *r);
+void	 init_data(t_data *d);
 
-int process_map(t_data *data);
-char **copy_map_parts_in_file(t_data *data, int begin);
-int is_map_line(char *line);
-int err_free_message(t_data *data, int error_code);
+/* init_img.c */
+void	setup_img(t_data *d, t_image *new_img, char *path);
+void	init_img(t_data *d);
 
-int is_c_space(char c);
+/* init_map_helper.c */
 int is_space(char *line);
 int is_character(char c);
 int is_wall_space(char c);
 int file_length(char **arr);
-
-void    init_map(t_data *data, char *argv);
-int get_dimensions_of_file(t_data *d, char *argv);
-int extract_textures(t_data *data, char **arr);
-int *parse_rgb_colors(char *str, t_data *data, char *ptr);
-int check_multiple_seperators(char *str);
-int check_order_of_map(t_data *data);
-int    create_file_array(t_data *d, char *argv); 
-int is_valid_map_char(char c);
-int order(char *trim, int *sum);
-int check_order_of_file(t_data *data);
-void textures_comp(char*trim, t_data *data, int *err, int *map);
-int replace_spaces_and_check_player(t_map *map, char **s); 
-int check_empty_lines_in_map(t_map *m); 
-char **create_map_copy(t_map *map); 
-int validating_map_walls(char **cpy); 
-int loop_over_potential_walls(char *s);
-int validate_outer_walls(char *cpy);
-void map_related_checks(t_map *map);
-int check_up_down_left_right(char **map, int i, int j);
-int validating_map_content(char **s);
 int map_len(char **arr);
 
+/* init_map.c */
+int    create_file_array(t_data *d, char *argv);
+int		get_dimensions_of_file(t_data *d, char *argv);
+void	replace_initial_player_pos(t_map *m);
+int		get_map_length(char **map);
+void    init_map(t_data *d, char *argv);
 
-// check_map.c
-void	get_p_dir(t_map *map, char dir);
+/* input_first.c */
+int *parse_rgb_colors(char *str, t_data *d, char *ptr);
+char	*parse_texture(t_data *d, char *trim);
+void textures_comp(char*trim, t_data *d, int *err, int *map);
+int extract_textures(t_data *d, char **arr);
 
+/* input_second.c */
+int check_multiple_seperators(char *str);
+int check_order_of_map(t_data *d);
+int order(char *trim, int *sum);
+int check_order_of_file(t_data *d);
 
-
-
-// open_window.c
-void	open_window(t_data *d);
-
-// create_game.c
-int		render_frame(t_data *d);
-void	create_game(t_data *d);
-
-// key_handler.c
+/* key_handler.c */
 int		close_game(void *ptr);
 int		key_handler(int keycode, void *d);
-void	setup_key_buttons(t_data *d);
+void	setup_key_buttons(t_data *d_ptr);
+
+/*FUNCTIONS IN FILE main.c*/
+void	init_game(t_data *d);
+void	play_game(t_data *d);
+int			arguments_and_extension (int argc, char *str, int *error);
+int			main(int argc, char**argv);
+
+/* open_window.c */
+void	open_window(t_data *d);
 
 // player_movement.c
 void	arrow_keys(t_data *d, int keycode);
-void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
+void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
 void	player_step(t_data *d, int keycode);
 
+/* raycast_loop.c */
+void vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
+void determine_distance_to_wall(t_raycast *ray, t_game *game);
+void wall_hit(t_map *map, t_raycast *ray);
+void position_and_stepvalues(t_game *g, t_raycast *r);
+void init_loop(int x, t_raycast *r, t_game *g);
+void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d);
 
-// init_img.c
-void	setup_img(t_data *d, t_image *new_img, char *path);
-void init_img(t_data *d);
+/* raycast_texture.c */
+void decide_map_texture(t_raycast *r, t_element *e);
+void handle_texture_update(t_raycast *r, t_element *e);
 
-// img_utils.c
-int	img_get_pos(t_image *img, int x, int y);
-void	pixel_to_img(t_image *img, int x, int y, int *rgb);
-void	fill_color_img(t_image *image, int *rgb);
+/* raycast.c */
+void init_north_south(t_game *g, t_raycast *r);
+void init_east_west(t_game *g, t_raycast *r);
+void init_raycasting(t_raycast *r, t_map *map, t_game *g);
+double   avoid_zero_at_all_costs(double definitely_not_zero);
 
+/* render_column.c */
+void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx);
+void	render_column(t_data *d, int x);
+
+/* render_c_f.c */
+void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
+void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
 
 #endif

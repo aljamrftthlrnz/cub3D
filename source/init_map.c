@@ -2,55 +2,53 @@
 
 int    create_file_array(t_data *d, char *argv)
 {
-    int fd;
-    int i; 
-    char *line;
+	int fd;
+	int i; 
+	char *line;
 
-    i = 0;
-    fd = open(argv, O_RDONLY);
-    if(fd < 0)
-        return (1);
-    line = get_next_line(fd);
-    if(!line)
-    {
-        close (fd);
-        return(1);
-    }
-    d->file_arr = (char **)ft_calloc((d->y_file + 1), sizeof(char*)); 
-    if(!d->file_arr)
-    {
-        close (fd);
-        free (line);
-        return (1); 
-    }
-    while(line && i < d->y_file)
-    {
-        d->file_arr[i] = (char*)ft_calloc(ft_strlen(line)+1, sizeof(char));
-        if(!d->file_arr[i])
-        {
-            while(i > 0)
-                free(d->file_arr[--i]);
-            free(d->file_arr);
-            close (fd);
-            free (line);
-            return(1); 
-        }
-        ft_strlcpy(d->file_arr[i], line, ft_strlen(line)+1);
-        free(line);
-        line = get_next_line(fd);
-        i++; 
-    }
-    d->file_arr[i] = NULL;
-    close(fd); 
-    return (0); 
+	i = 0;
+	fd = open(argv, O_RDONLY);
+	if(fd < 0)
+		return (1);
+	line = get_next_line(fd);
+	if(!line)
+	{
+		close (fd);
+		return(1);
+	}
+	d->file_arr = (char **)ft_calloc((d->y_file + 1), sizeof(char*)); 
+	if(!d->file_arr)
+	{
+		close (fd);
+		free (line);
+		return(1);
+	}
+	while(line && i < d->y_file)
+	{
+		d->file_arr[i] = (char*)ft_calloc(ft_strlen(line)+1, sizeof(char));
+		if(!d->file_arr[i])
+		{
+			while(i > 0)
+				free(d->file_arr[--i]);
+			free(d->file_arr); 
+			return(1); 
+		}
+		ft_strlcpy(d->file_arr[i], line, ft_strlen(line)+1);
+		free(line);
+		line = get_next_line(fd);
+		i++; 
+	}
+	d->file_arr[i] = NULL;
+	close(fd); 
+	return (0); 
 }
 
 int get_dimensions_of_file(t_data *d, char *argv)
 {
-    int     fd; 
-    char    *line; 
-    int     max;
-    int     count; 
+	int     fd; 
+	char    *line; 
+	int     max;
+	int     count; 
 
     count = 0; 
     max = 0; 
@@ -83,27 +81,70 @@ int get_dimensions_of_file(t_data *d, char *argv)
     return (0); 
 }
 
-void    init_map(t_data *data, char *argv)
+// purpose is to replace the starting out character NESW with a 0 right? so only needs to be run once
+// i moved the function call outside of raycasting into main
+void replace_initial_player_pos(t_map *m)
 {
-    t_map *map; 
+	char    c;
+	int     i;
+	int     j;
 
-    map = data->file->map;
-    if(get_dimensions_of_file(data, argv))
-        err_free_message(data, FILE_EMPTY); 
-    if(create_file_array(data, argv))
-        err_free_message(data, FILE_EMPTY); 
-    if(extract_textures(data, data->file_arr))
-        err_free_message(data, IDENT_W);
-    if(!data->file->elem->no_path || !data->file->elem->so_path || !data->file->elem->we_path || !data->file->elem->ea_path)
-        err_free_message(data, PERS_M);
-    if(!data->file->elem->flo_rgb || !data->file->elem->ceil_rgb)
-        err_free_message(data, FL_CEIL_M);
-    if(process_map(data))
-       err_free_message(data, MISSING_MAP);
-    if(check_order_of_file(data) != 6)
-        err_free_message(data, ORDER_ID);
-    if(check_order_of_map(data))
-        err_free_message (data, ORDER);
-    map_related_checks(map); 
- 
+	i = 0; 
+	c = m->map[m->pos_y][m->pos_x];
+	while(m->map[i] != NULL)
+	{
+		j = 0;
+		while(m->map[i][j] != '\0')
+		{
+			if(m->map[i][j] == c)
+			{
+			   printf("OLD: %c\n", c);
+			   m->map[i][j] = '0';
+			   printf("NEW: %c\n", m->map[i][j]); 
+			   break ;
+
+			}
+			j++; 
+		}
+		i++;
+	}
+}
+
+int	get_map_length(char **map)
+{
+	int	y;
+
+	y = 0;
+	while (map && map[y])
+	{
+		y++;
+	}
+	return (y);
+}
+
+void    init_map(t_data *d, char *argv)
+{
+	t_map *map; 
+
+	map = d->map;
+	if(get_dimensions_of_file(d, argv))
+		err_free_message(d, FILE_EMPTY); 
+	if(create_file_array(d, argv))
+		err_free_message(d, FILE_EMPTY); 
+	if(extract_textures(d, d->file_arr))
+		err_free_message(d, IDENT_W);
+	if(!d->elem->no_path || !d->elem->so_path || !d->elem->we_path || !d->elem->ea_path)
+		err_free_message(d, PERS_M);
+	if(!d->elem->flo_rgb || !d->elem->ceil_rgb)
+		err_free_message(d, FL_CEIL_M);
+	if(process_map(d))
+	   err_free_message(d, MISSING_MAP);
+	if(check_order_of_file(d) != 6)
+		err_free_message(d, ORDER_ID);
+	if(check_order_of_map(d))
+		err_free_message (d, ORDER);
+	map_related_checks(d, map); 
+    replace_initial_player_pos(d->map); 
+	d->map->width = ft_strlen(d->map->map[0]); // is this the correct map file?
+	d->map->length = get_map_length(d->map->map);
 }

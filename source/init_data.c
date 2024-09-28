@@ -1,79 +1,62 @@
 #include "../includes/cub3d.h"
 
-void data(t_data *d) {
-    // Zero out the entire structure first
-    ft_bzero(d, sizeof(t_data));
-
-    // Explicitly set fields, if needed (optional after zeroing out)
-    d->error = 0;
-    d->file_arr = NULL;
-    d->mlx = NULL;
-    d->win = NULL;
-    d->x_file = 0;
-    d->y_file = 0;
+void init_element(t_element *e)
+{
+	e->texnum = -1;
+	e->width = texSize; 
+	e->height = texSize;
 }
 
-void element(t_element *e) {
-    // Zero out the entire structure first
-    ft_bzero(e, sizeof(t_element));
 
-    // Explicitly set fields, if needed
-    e->no_path = NULL;
-    e->so_path = NULL;
-    e->we_path = NULL; 
-    e->ea_path = NULL; 
-    e->ceil_rgb = NULL; 
-    e->flo_rgb = NULL;
+void init_raycast(t_raycast *ray)
+{
+	rotation(ray); // is this needed?
+	ray->activate = 1;
 }
 
-void map(t_map *map) {
-    // Zero out the entire structure first
-    ft_bzero(map, sizeof(t_map));
 
-    // Explicitly set fields, if needed
-    map->cpy_map = NULL;
-    map->map = NULL;
-    map->length = 0;
-    map->width = 0;
-    map->p_pos_x = 0;
-    map->p_pos_y = 0;  
+void init_data_struct(t_data *d)
+{
+	d->mlx = NULL;
+	d->win = NULL;
+	d->error = 0;
+	d->file_arr = NULL;
+	d->x_file = 0;
+	d->y_file = 0;
+	d->elem = NULL;
+	d->map = NULL;
+	d->ray = NULL;
+	d->game = NULL;
+	d->NESW = NULL;
+	d->screen = NULL;
 }
 
-void init_data(t_data *d) {
-    // Initialize the t_data structure
-    data(d);
+void rotation(t_raycast *r)
+{
+	double radians_per_second; 
 
-    // Allocate memory for the t_file structure
-    d->file = (t_file*)malloc(sizeof(t_file)); 
-    if (!d->file)
-        err_free_message(d, ALLOC_FAIL);
-
-    // Zero out the t_file structure
-    ft_bzero(d->file, sizeof(t_file));
-    d->file->data = d; 
-
-    // Allocate memory for the t_element structure
-    d->file->elem = (t_element *)malloc(sizeof(t_element)); 
-    if (!d->file->elem)
-        err_free_message(d, ALLOC_FAIL);
-
-    // Initialize the t_element structure
-    element(d->file->elem);
-    d->file->elem->file = d->file; 
-
-    // Allocate memory for the t_map structure
-    d->file->map = (t_map*)malloc(sizeof(t_map)); 
-    if (!d->file->map)
-        err_free_message(d, ALLOC_FAIL);
-
-    // Initialize the t_map structure
-    map(d->file->map);
-    d->file->map->file = d->file; 
-
-    // allocate t_game
-    d->game = (t_game *) malloc(sizeof(t_game));
-    if (d->game == NULL)
-        err_free_message(d, ALLOC_FAIL);
-
+	radians_per_second = (DEGREES * PI) / 180.0;
+	r->rotation_speed = radians_per_second / FPS; 
 }
+
+void init_data(t_data *d)
+{
+	init_data_struct(d);
+	d->elem = (t_element*)ft_calloc(sizeof(t_element), 1); 
+	if(!d->elem)
+		err_free_message(d, ALLOC_FAIL);
+	init_element(d->elem);
+	d->map = (t_map*)ft_calloc(sizeof(t_map), 1); 
+	if(!d->map)
+		err_free_message(d, ALLOC_FAIL);
+	d->ray = (t_raycast*)ft_calloc(sizeof(t_raycast), 1);
+	if(!d->ray)
+		err_free_message(d, ALLOC_FAIL);
+	init_raycast(d->ray);
+	d->game = (t_game*)ft_calloc(sizeof(t_game), 1);
+	if(!d->game)
+		err_free_message(d, ALLOC_FAIL);
+	return ; 
+}
+
 
