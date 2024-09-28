@@ -218,10 +218,65 @@ typedef struct s_file
 }	t_file; 
 
 
+/* check_map.c */
+char **create_map_copy(t_map *map);
+void    get_player_direction_position(int y, int x, t_map *m);
+int replace_spaces_and_check_player(t_map *map, char **s);
+int check_empty_lines_in_map(t_map *m);
+void map_related_checks(t_data *data, t_map *map);
+
+
+/* check_map_2.c */
+int validating_map_content(char **s);
+int check_up_down_left_right(char **map, int i, int j);
+int loop_over_potential_walls(char *s);
+int validate_outer_walls(char *cpy);
+int validating_map_walls(char **cpy);
+
+
+
+/////////////////////////
+/////////////////////////
+/////////////////////////
+/////////////////////////
+/////////////////////////
+/////////////////////////
+
+
 /*Functions von Luca*/
 void init_game(t_data *d);
 void play_game(t_data *d);
 void free_mlx(t_data *d);
+
+
+
+
+
+// open_window.c
+void	open_window(t_data *d);
+
+// create_game.c
+int		render_frame(t_data *d);
+void	create_game(t_data *d);
+
+// key_handler.c
+int		close_game(void *ptr);
+int		key_handler(int keycode, void *d);
+void	setup_key_buttons(t_data *d);
+
+// player_movement.c
+void	arrow_keys(t_data *d, int keycode);
+void	player_step(t_data *d, int keycode);
+
+
+// init_img.c
+void	setup_img(t_data *d, t_image *new_img, char *path);
+void init_img(t_data *d);
+
+// img_utils.c
+int	img_get_pos(t_image *img, int x, int y);
+void	pixel_to_img(t_image *img, int x, int y, int *rgb);
+void	fill_color_img(t_image *image, int *rgb);
 
 // check_map.c
 void	get_p_dir(t_map *map, char dir);
@@ -365,37 +420,6 @@ int validating_map_content(char **s);
 int map_len(char **arr);
 
 
-// check_map.c
-void	get_p_dir(t_map *map, char dir);
-
-
-
-
-// open_window.c
-void	open_window(t_data *d);
-
-// create_game.c
-int		render_frame(t_data *d);
-void	create_game(t_data *d);
-
-// key_handler.c
-int		close_game(void *ptr);
-int		key_handler(int keycode, void *d);
-void	setup_key_buttons(t_data *d);
-
-// player_movement.c
-void	arrow_keys(t_data *d, int keycode);
-void	player_step(t_data *d, int keycode);
-
-
-// init_img.c
-void	setup_img(t_data *d, t_image *new_img, char *path);
-void init_img(t_data *d);
-
-// img_utils.c
-int	img_get_pos(t_image *img, int x, int y);
-void	pixel_to_img(t_image *img, int x, int y, int *rgb);
-void	fill_color_img(t_image *image, int *rgb);
 
 
 #endif
