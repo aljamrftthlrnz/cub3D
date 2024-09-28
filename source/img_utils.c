@@ -58,3 +58,17 @@ void fill_color_img(t_image *image, int *rgb)
 		}
 	}
 }
+
+//destination image, source image, destination position, source position
+void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos)
+{
+	int	i;
+
+	i = 0;
+
+	while (i < 3)
+	{
+		d_img->img_adr[d_pos++] = s_img->img_adr[s_pos++];
+		i++;
+	}
+}

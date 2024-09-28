@@ -219,19 +219,39 @@ typedef struct s_file
 
 
 /* check_map.c */
-char **create_map_copy(t_map *map);
+char 	**create_map_copy(t_map *map);
 void    get_player_direction_position(int y, int x, t_map *m);
-int replace_spaces_and_check_player(t_map *map, char **s);
-int check_empty_lines_in_map(t_map *m);
-void map_related_checks(t_data *data, t_map *map);
+int		replace_spaces_and_check_player(t_map *map, char **s);
+int		check_empty_lines_in_map(t_map *m);
+void	map_related_checks(t_data *data, t_map *map);
 
 
 /* check_map_2.c */
-int validating_map_content(char **s);
-int check_up_down_left_right(char **map, int i, int j);
-int loop_over_potential_walls(char *s);
-int validate_outer_walls(char *cpy);
-int validating_map_walls(char **cpy);
+int		validating_map_content(char **s);
+int		check_up_down_left_right(char **map, int i, int j);
+int		loop_over_potential_walls(char *s);
+int		validate_outer_walls(char *cpy);
+int		validating_map_walls(char **cpy);
+
+/* create_game.c */
+int		time_to_render(void);
+int		render_frame(t_data *d);
+void	create_game(t_data *d);
+
+/* img_utils.c */
+int	img_get_pos(t_image *img, int x, int y);
+void	pixel_to_img(t_image *img, int x, int y, int *rgb);
+void	fill_color_img(t_image *image, int *rgb);
+void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos);
+
+
+/* render_column.c */
+void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx);
+void	render_column(t_data *d, int x);
+
+/* render_c_f.c */
+void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
+void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
 
 
 
@@ -255,9 +275,6 @@ void free_mlx(t_data *d);
 // open_window.c
 void	open_window(t_data *d);
 
-// create_game.c
-int		render_frame(t_data *d);
-void	create_game(t_data *d);
 
 // key_handler.c
 int		close_game(void *ptr);
@@ -273,10 +290,6 @@ void	player_step(t_data *d, int keycode);
 void	setup_img(t_data *d, t_image *new_img, char *path);
 void init_img(t_data *d);
 
-// img_utils.c
-int	img_get_pos(t_image *img, int x, int y);
-void	pixel_to_img(t_image *img, int x, int y, int *rgb);
-void	fill_color_img(t_image *image, int *rgb);
 
 // check_map.c
 void	get_p_dir(t_map *map, char dir);
