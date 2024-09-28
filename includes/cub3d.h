@@ -212,7 +212,7 @@ typedef struct s_data
 }	t_data;
 typedef struct s_file 
 {
-	struct s_data	*data; // Use Forward declaration, is only init further down
+	struct s_data	*d; // Use Forward declaration, is only init further down
 	t_element		*elem;
 	t_map			*map;
 }	t_file; 
@@ -222,7 +222,7 @@ char 	**create_map_copy(t_map *map);
 void    get_player_direction_position(int y, int x, t_map *m);
 int		replace_spaces_and_check_player(t_map *map, char **s);
 int		check_empty_lines_in_map(t_map *m);
-void	map_related_checks(t_data *data, t_map *map);
+void	map_related_checks(t_data *d, t_map *map);
 
 /* check_map_2.c */
 int		validating_map_content(char **s);
@@ -239,16 +239,16 @@ void	create_game(t_data *d);
 /* create_map.c */
 int		is_valid_map_char(char c);
 int		is_map_line(char *line);
-int		calc_map_size(t_data *data, int begin);
-char	**copy_map_parts_in_file(t_data *data, int begin);
-int		process_map(t_data *data);
+int		calc_map_size(t_data *d, int begin);
+char	**copy_map_parts_in_file(t_data *d, int begin);
+int		process_map(t_data *d);
 
 /*FUNCTIONS IN FILE error.c*/
 void	free_element(t_element *e);
 void	free_data(t_data *d);
 void	free_mlx(t_data *d);
 void	free_array(char **arr); 
-int 	err_free_message(t_data *data, int error_code);
+int 	err_free_message(t_data *d, int error_code);
 
 /* img_utils.c */
 int		img_get_pos(t_image *img, int x, int y);
@@ -279,24 +279,24 @@ int    create_file_array(t_data *d, char *argv);
 int		get_dimensions_of_file(t_data *d, char *argv);
 void	replace_initial_player_pos(t_map *m);
 int		get_map_length(char **map);
-void    init_map(t_data *data, char *argv);
+void    init_map(t_data *d, char *argv);
 
 /* input_first.c */
-int *parse_rgb_colors(char *str, t_data *data, char *ptr);
+int *parse_rgb_colors(char *str, t_data *d, char *ptr);
 char	*parse_texture(t_data *d, char *trim);
-void textures_comp(char*trim, t_data *data, int *err, int *map);
-int extract_textures(t_data *data, char **arr);
+void textures_comp(char*trim, t_data *d, int *err, int *map);
+int extract_textures(t_data *d, char **arr);
 
 /* input_second.c */
 int check_multiple_seperators(char *str);
-int check_order_of_map(t_data *data);
+int check_order_of_map(t_data *d);
 int order(char *trim, int *sum);
-int check_order_of_file(t_data *data);
+int check_order_of_file(t_data *d);
 
 /* key_handler.c */
 int		close_game(void *ptr);
 int		key_handler(int keycode, void *d);
-void	setup_key_buttons(t_data *d);
+void	setup_key_buttons(t_data *d_ptr);
 
 /*FUNCTIONS IN FILE main.c*/
 void	init_game(t_data *d);

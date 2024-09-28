@@ -97,17 +97,17 @@ int check_empty_lines_in_map(t_map *m)
 	return (0); 
 }
 
-void map_related_checks(t_data *data, t_map *map)
+void map_related_checks(t_data *d, t_map *map)
 {
 	if(check_empty_lines_in_map(map))
-		err_free_message(data, EMPTY_LINES);
+		err_free_message(d, EMPTY_LINES);
 	map->cpy_map = create_map_copy(map);
 	if(!map->cpy_map)
-		err_free_message(data, ALLOC_FAIL);
+		err_free_message(d, ALLOC_FAIL);
 	if(replace_spaces_and_check_player(map, map->cpy_map))
-		err_free_message(data, PLAYER_W);
+		err_free_message(d, PLAYER_W);
 	if(validating_map_walls(map->cpy_map))
-		err_free_message(data, BORDER_M);
+		err_free_message(d, BORDER_M);
 	if(validating_map_content(map->cpy_map))
-		err_free_message(data, SPACE_PROT);
+		err_free_message(d, SPACE_PROT);
 }

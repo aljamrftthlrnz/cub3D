@@ -91,7 +91,7 @@ void	free_array(char **arr)
 	arr = NULL;
 }
 
-int err_free_message(t_data *data, int error_code)
+int err_free_message(t_data *d, int error_code)
 {
 	printf("Error\n");
 	if(error_code == ARG_FAIL)
@@ -134,6 +134,6 @@ int err_free_message(t_data *data, int error_code)
 		printf("%s", MLXWI_M); 
 	else if (error_code == MLXIMG)
 		printf("%s", MLXIMG_M); 
-	free_data(data); 
+	free_data(d); 
 	exit (error_code);  
 }

@@ -122,29 +122,29 @@ int	get_map_length(char **map)
 	return (y);
 }
 
-void    init_map(t_data *data, char *argv)
+void    init_map(t_data *d, char *argv)
 {
 	t_map *map; 
 
-	map = data->map;
-	if(get_dimensions_of_file(data, argv))
-		err_free_message(data, FILE_EMPTY); 
-	if(create_file_array(data, argv))
-		err_free_message(data, FILE_EMPTY); 
-	if(extract_textures(data, data->file_arr))
-		err_free_message(data, IDENT_W);
-	if(!data->elem->no_path || !data->elem->so_path || !data->elem->we_path || !data->elem->ea_path)
-		err_free_message(data, PERS_M);
-	if(!data->elem->flo_rgb || !data->elem->ceil_rgb)
-		err_free_message(data, FL_CEIL_M);
-	if(process_map(data))
-	   err_free_message(data, MISSING_MAP);
-	if(check_order_of_file(data) != 6)
-		err_free_message(data, ORDER_ID);
-	if(check_order_of_map(data))
-		err_free_message (data, ORDER);
-	map_related_checks(data, map); 
-    replace_initial_player_pos(data->map); 
-	data->map->width = ft_strlen(data->map->map[0]); // is this the correct map file?
-	data->map->length = get_map_length(data->map->map);
+	map = d->map;
+	if(get_dimensions_of_file(d, argv))
+		err_free_message(d, FILE_EMPTY); 
+	if(create_file_array(d, argv))
+		err_free_message(d, FILE_EMPTY); 
+	if(extract_textures(d, d->file_arr))
+		err_free_message(d, IDENT_W);
+	if(!d->elem->no_path || !d->elem->so_path || !d->elem->we_path || !d->elem->ea_path)
+		err_free_message(d, PERS_M);
+	if(!d->elem->flo_rgb || !d->elem->ceil_rgb)
+		err_free_message(d, FL_CEIL_M);
+	if(process_map(d))
+	   err_free_message(d, MISSING_MAP);
+	if(check_order_of_file(d) != 6)
+		err_free_message(d, ORDER_ID);
+	if(check_order_of_map(d))
+		err_free_message (d, ORDER);
+	map_related_checks(d, map); 
+    replace_initial_player_pos(d->map); 
+	d->map->width = ft_strlen(d->map->map[0]); // is this the correct map file?
+	d->map->length = get_map_length(d->map->map);
 }

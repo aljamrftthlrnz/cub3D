@@ -22,16 +22,16 @@ int check_multiple_seperators(char *str)
 	return (sep);
 }
 
-int check_order_of_map(t_data *data)
+int check_order_of_map(t_data *d)
 {
 	int length;
 	int j; 
 
-	length = file_length(data->file_arr); 
+	length = file_length(d->file_arr); 
 	j = length - 1; 
-	while(!is_space(data->file_arr[j]))
+	while(!is_space(d->file_arr[j]))
 		j--; 
-	if(is_map_line(data->file_arr[j]))
+	if(is_map_line(d->file_arr[j]))
 		return(1); 
 	return (0); 
 }
@@ -55,14 +55,14 @@ int order(char *trim, int *sum)
 	return (0);
 }
 
-int check_order_of_file(t_data *data)
+int check_order_of_file(t_data *d)
 {
 	char **arr;
 	char *s;
 	int i;
 	int sum;
 
-	arr = data->file_arr;
+	arr = d->file_arr;
 	i = 0;
 	sum = 0; 
 	while(arr[i])

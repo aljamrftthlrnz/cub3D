@@ -27,33 +27,33 @@ int is_map_line(char *line)
 	return(0);
 }
 
-int calc_map_size(t_data *data, int begin)
+int calc_map_size(t_data *d, int begin)
 {
 	int size;
 	int i;
 
-	i = file_length(data->file_arr) - 1;
-	while(data->file_arr[i] && !is_space(data->file_arr[i]))
+	i = file_length(d->file_arr) - 1;
+	while(d->file_arr[i] && !is_space(d->file_arr[i]))
 		i--;
 	size = i - begin; 
 	return (size);
 }
 
-char **copy_map_parts_in_file(t_data *data, int begin)
+char **copy_map_parts_in_file(t_data *d, int begin)
 {
 	char **map;
 	int j;
 	int map_size;
 
 	j = 0;
-	map_size = calc_map_size(data, begin) + 1;
+	map_size = calc_map_size(d, begin) + 1;
 	//printf("The map size ___ %d\n", map_size); 
 	map = (char**)ft_calloc(map_size + 1, sizeof(char*)); 
 	if (!map)
 		return (NULL);
 	while (j < map_size) 
 	{
-		map[j] = (char*)ft_calloc(ft_strlen(data->file_arr[begin]) + 1, sizeof(char)); 
+		map[j] = (char*)ft_calloc(ft_strlen(d->file_arr[begin]) + 1, sizeof(char)); 
 		if (!map[j])
 		{
 			while (j > 0)
@@ -61,7 +61,7 @@ char **copy_map_parts_in_file(t_data *data, int begin)
 			free(map);
 			return (NULL); 
 		}
-		ft_strlcpy(map[j], data->file_arr[begin], ft_strlen(data->file_arr[begin]) + 1); 
+		ft_strlcpy(map[j], d->file_arr[begin], ft_strlen(d->file_arr[begin]) + 1); 
 		j++;
 		begin++;
 	}
@@ -69,7 +69,7 @@ char **copy_map_parts_in_file(t_data *data, int begin)
 	return(map); 
 }
 
-int process_map(t_data *data)
+int process_map(t_data *d)
 {
 	int i;
 	int begin;
@@ -78,7 +78,7 @@ int process_map(t_data *data)
 
 	i = 0;
 	begin = 0;
-	arr = data->file_arr;
+	arr = d->file_arr;
 	while(arr[i] != NULL)
 	{
 		res = is_map_line(arr[i]);
@@ -90,10 +90,10 @@ int process_map(t_data *data)
 		return(1); 
 	begin = i;
 	//printf("Begin ____ %d\n",   i); 
-	data->map->map = copy_map_parts_in_file(data, begin);
-	// for (int i = 0; data->map->map[i]; i++)
-	//     printf("Line [%d]___ %s\n", i, data->map->map[i]); 
-	if(data->map->map == NULL)
+	d->map->map = copy_map_parts_in_file(d, begin);
+	// for (int i = 0; d->map->map[i]; i++)
+	//     printf("Line [%d]___ %s\n", i, d->map->map[i]); 
+	if(d->map->map == NULL)
 		return (1); 
 	return (0); 
 }
