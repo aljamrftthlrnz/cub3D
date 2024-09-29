@@ -24,7 +24,7 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 		wall = (upper_y_pos * (-1)) * quo;
 		upper_y_pos = 0;
 	}
-	while (wall < h)
+	while (wall < h && wall < img->height)
 	{
 		/* getting position of source and destination image. */
 		source_pos = img_get_pos(img, startx, (int) wall);
