@@ -7,12 +7,18 @@ void decide_map_texture(t_raycast *r, t_element *e)
 		if(r->rayDirX > 0)
 			e->texnum = EAST; // East texture
 		else 
+		{
 			e->texnum = WEST; // West texture
+			e->wallx = 1 - e->wallx;
+		}
 	}
 	else
 	{
 		if(r->rayDirY > 0)
+		{
 			e->texnum = SOUTH; // South texture
+			e->wallx = 1 - e->wallx;
+		}
 		else 
 			e->texnum = NORTH; // North texture
 	}
