@@ -66,7 +66,7 @@ void	render_column(t_data *d, int x)
 
 	/* this is the x coordinate of the texture */
 	/* expected input: zero means on the left most, 32 in the middle, 63 is the right most */
-	int	texture_segment = d->elem->wallx; //* 64
+	double	texture_segment = d->elem->wallx; //* 64
 
 
 	int	loop;
@@ -88,7 +88,7 @@ void	render_column(t_data *d, int x)
 		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
 		if (d->ray->hit == 1)
 		{
-			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, texture_segment);
+			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, (int) (texture_segment * 100 * 0.64));
 		}
 		
 		loop++;
