@@ -86,12 +86,14 @@ void	render_column(t_data *d, int x)
 	}
 	while (loop < column_width)
 	{
-		color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
+		if (d->elem->line_height < SCREEN_H || d->ray->hit == 0)
+			color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
 		if (d->ray->hit == 1)
 		{
 			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, (int) (texture_segment * 100 * 0.64));
 		}
-		color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
+		if (d->elem->line_height < SCREEN_H || d->ray->hit == 0)
+			color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
 		
 		loop++;
 	}
