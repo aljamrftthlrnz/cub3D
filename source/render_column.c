@@ -7,6 +7,7 @@
 // takes x and y as coordinates where raycasting meets the wall
 	// and where it should be displayed
 // startx signifies the position of x inside the img_adr that should first be accessed
+// paints the texture from the upper edge to the lower edge
 void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx)
 {
 	double quo;
@@ -21,7 +22,8 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 	upper_y_pos = y - h; //+ 1; 
 	if (upper_y_pos < 0)
 	{
-		wall = (upper_y_pos * (-1)) * quo;
+		// wall = (upper_y_pos * (-1)) * quo;
+		wall = upper_y_pos * (-1) / 2 / h * 64;
 		upper_y_pos = 0;
 	}
 	while (wall < h && wall < img->height)
