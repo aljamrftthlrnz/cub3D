@@ -20,7 +20,7 @@ int	img_get_pos(t_image *img, int x, int y)
 // careful of segfault when coordinates are bigger than size of image
 void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 {
-	int pixel_molecule = img->bits_per_pixel / 8;
+/* 	int pixel_molecule = img->bits_per_pixel / 8;
 	int position;
 
 	if (x >= img->width || y >= img->height)
@@ -33,7 +33,17 @@ void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 	position = position + (x * pixel_molecule);
 	// printf("position2: %d\n", position);
 	// if ((int) ft_strlen(img->img_adr) < position)
-	// 	return;
+	// 	return; */
+
+	int	position;
+
+	position = img_get_pos(img, x, y);
+	if (position < 0)
+	{
+		return ;
+	}
+
+
 	img->img_adr[position++] = rgb[0];
 	img->img_adr[position++] = rgb[1];
 	img->img_adr[position] = rgb[2];
