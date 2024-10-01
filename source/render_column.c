@@ -22,7 +22,6 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 	upper_y_pos = y - h; //+ 1; 
 	if (upper_y_pos < 0)
 	{
-		// wall = (upper_y_pos * (-1)) * quo;
 		wall = upper_y_pos * (-1) / 2 / h * 64;
 		upper_y_pos = 0;
 	}
@@ -34,8 +33,6 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 		/* if queried position is outside of range, then -1 is returned and loop will break */
 		if (source_pos < 0 || dest_pos < 0)
 		{
-			// wall += quo; //this lags immensely
-			// continue ;
 			printf("skips at x==%f y==%f //startx==%d wall==%f...s==%d d==%d\n", x, y, startx, wall, source_pos, dest_pos);
 			break ;
 		}
@@ -72,8 +69,6 @@ void	render_column(t_data *d, int x)
 
 
 	int	loop;
-
-	// if (d->ray->mapX % 1 == 0)
 
 
 	loop = 0;
