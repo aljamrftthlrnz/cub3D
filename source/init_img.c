@@ -15,6 +15,7 @@ void	setup_img(t_data *d, t_image *new_img, char *path)
 	}
 	if (new_img->img_ptr == NULL)
 	{
+		free_mlx(d);
 		err_free_message(d, MLXIMG);
 	}
 	new_img->img_adr = mlx_get_data_addr(new_img->img_ptr, &new_img->bits_per_pixel, &new_img->size_line, &new_img->endian);
