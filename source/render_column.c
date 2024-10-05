@@ -25,7 +25,7 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 		wall = upper_y_pos * (-1) / 2 / h * 64;
 		upper_y_pos = 0;
 	}
-	while (wall < h && wall < img->height)
+	while (upper_y_pos <= y && wall <= img->height)
 	{
 		/* getting position of source and destination image. */
 		source_pos = img_get_pos(img, startx, (int) wall);
@@ -36,6 +36,7 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 			printf("skips at x==%f y==%f //startx==%d wall==%f...s==%d d==%d\n", x, y, startx, wall, source_pos, dest_pos);
 			break ;
 		}
+		// printf("rgb: %d %d %d\n", img->img_adr[source_pos], img->img_adr[source_pos + 1], img->img_adr[source_pos + 2]);
 		copy_pos_to_img(d->screen, img, dest_pos, source_pos);
 		wall += quo;
 		// upper_y_pos++;
@@ -65,7 +66,7 @@ void	render_column(t_data *d, int x)
 
 	/* this is the x coordinate of the texture */
 	/* expected input: zero means on the left most, 32 in the middle, 63 is the right most */
-	double	texture_segment = d->elem->wallx; //* 64
+	double	texture_segment = d->elem->wallx * 100 * 0.63; //* 64
 
 
 	int	loop;
@@ -83,12 +84,12 @@ void	render_column(t_data *d, int x)
 	{
 		if (d->elem->line_height < SCREEN_H || d->ray->hit == 0)
 			color_above(d, wall_height, ray_hit_wall_x + loop, ray_hit_wall_y);
-		if (d->ray->hit == 1)
-		{
-			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, (int) (texture_segment * 100 * 0.64));
-		}
 		if (d->elem->line_height < SCREEN_H || d->ray->hit == 0)
 			color_below(d, ray_hit_wall_x + loop, ray_hit_wall_y);
+		if (d->ray->hit == 1)
+		{
+			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, ray_hit_wall_x + loop, ray_hit_wall_y, (int) (texture_segment));
+		}
 		
 		loop++;
 	}
