@@ -116,6 +116,7 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 			vertical_line_height(e, r, g);
 			handle_texture_update(r, e);
 		}
+		// if (x == 300)
 		render_column(d, x);
 		r->hit = 0;
 
