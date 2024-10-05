@@ -20,6 +20,30 @@ void	setup_img(t_data *d, t_image *new_img, char *path)
 	new_img->img_adr = mlx_get_data_addr(new_img->img_ptr, &new_img->bits_per_pixel, &new_img->size_line, &new_img->endian);
 }
 
+void	check_img_size(t_data *d)
+{
+	if (d->NESW[0].height != 64 || d->NESW[0].width != 64)
+	{
+		free_mlx(d);
+		err_free_message(d, 103);
+	}
+	if (d->NESW[1].height != 64 || d->NESW[0].width != 64)
+	{
+		free_mlx(d);
+		err_free_message(d, 103);
+	}
+	if (d->NESW[2].height != 64 || d->NESW[0].width != 64)
+	{
+		free_mlx(d);
+		err_free_message(d, 103);
+	}
+	if (d->NESW[3].height != 64 || d->NESW[0].width != 64)
+	{
+		free_mlx(d);
+		err_free_message(d, 103);
+	}
+}
+
 void init_img(t_data *d)
 {
 
@@ -34,4 +58,5 @@ void init_img(t_data *d)
 	setup_img(d, &d->NESW[2], d->elem->so_path);
 	setup_img(d, &d->NESW[3], d->elem->we_path);
 	setup_img(d, d->screen, NULL);
+	check_img_size(d);
 }

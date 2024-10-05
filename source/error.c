@@ -134,6 +134,8 @@ int err_free_message(t_data *d, int error_code)
 		printf("%s", MLXWI_M); 
 	else if (error_code == MLXIMG)
 		printf("%s", MLXIMG_M); 
+	else if (error_code == MLXSIZ)
+		printf("%s", MLXSIZ_M); 
 	free_data(d); 
 	exit (error_code);  
 }
