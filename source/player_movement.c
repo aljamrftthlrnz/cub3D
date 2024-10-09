@@ -30,7 +30,7 @@ void	arrow_keys(t_data *d, int keycode)
 	{
 		d->game->p_pos_dir = d->game->p_pos_dir - 360;
 	}
-	printf("direction: %d\n", d->game->p_pos_dir); //debugging help
+	//printf("direction: %d\n", d->game->p_pos_dir); //debugging help
 }
 
 void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
@@ -38,6 +38,7 @@ void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 	double	tmp;
 
 	printf("angle: %d\n", angle); //debugging help
+	//printf("px: %f | py: %f\n", *p_left, *p_right); //debugging help
 	*p_left = (double) angle / 9 / 10;
 	*p_right = 1 - *p_left;
 	if (keycode == KEY_S)
@@ -57,7 +58,7 @@ void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 		*p_left = *p_right;
 		*p_right = tmp * (-1);
 	}
-	printf("px: %f | py: %f\n", *p_left, *p_right); //debugging help
+	//printf("px: %f | py: %f\n", *p_left, *p_right); //debugging help
 }
 
 void	player_step(t_data *d, int keycode)
@@ -65,8 +66,17 @@ void	player_step(t_data *d, int keycode)
 	double	p_left;
 	double	p_right;
 
+	//printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
 	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
-	if (d->game->p_pos_dir < 90)
+	
+	
+	
+	// if(d->ray->perpWallDist < 0.1)
+	// {
+	// 	printf("Collision detected \n"); 
+	// 	return ; 
+	// }
+	if (d->game->p_pos_dir < 90 )
 	{
 		d->game->pos_x += p_left * KEY_STP_SIZ;
 		d->game->pos_y -= p_right * KEY_STP_SIZ;
@@ -87,4 +97,6 @@ void	player_step(t_data *d, int keycode)
 		d->game->pos_y -= p_left * KEY_STP_SIZ;
 	}
 	printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
+	printf("pos_x: %d | pos_y: %d\n", (int)d->game->pos_x, (int)d->game->pos_y); //debugging help
+
 }

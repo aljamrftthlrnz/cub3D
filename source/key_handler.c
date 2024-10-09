@@ -14,12 +14,12 @@ int	close_game(void *ptr)
 	exit(0);
 }
 
-// handles all key presses
 int	key_handler(int keycode, void *d_ptr)
 {
 	t_data *d;
 
 	d = d_ptr;
+
 	if (keycode == ESC)
 	{
 		close_game(d);

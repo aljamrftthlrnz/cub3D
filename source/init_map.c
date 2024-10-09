@@ -139,8 +139,6 @@ void    init_map(t_data *d, char *argv)
 		err_free_message(d, FL_CEIL_M);
 	if(process_map(d))
 	   err_free_message(d, MISSING_MAP);
-	if(check_order_of_file(d) != 6)
-		err_free_message(d, ORDER_ID);
 	if(check_order_of_map(d))
 		err_free_message (d, ORDER);
 	map_related_checks(d, map); 

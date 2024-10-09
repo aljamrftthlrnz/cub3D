@@ -150,6 +150,7 @@ typedef struct s_raycast
 	int			side;
 	int			hit;
 	
+	int			wall_collide; 
 	int			activate;
 
 } t_raycast;

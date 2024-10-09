@@ -36,8 +36,6 @@ void handle_texture_update(t_raycast *r, t_element *e)
 		e->texx = e->width - e->texx - 1;
 	if(r->side == 1 && r->rayDirY < 0)
 		e->texx = e->width - e->texx -1;
-
-	
 	e->step = 1.0 * e->height / e->line_height;
 	e->texpos = (e->drawStart - SCREEN_H / 2 + e->line_height / 2) * e->step; 
 	y = e->drawStart;

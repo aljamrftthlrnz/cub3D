@@ -12,8 +12,8 @@ void init_raycast(t_raycast *ray)
 {
 	rotation(ray); // is this needed?
 	ray->activate = 1;
+	ray->wall_collide = 0; 
 }
-
 
 void init_data_struct(t_data *d)
 {

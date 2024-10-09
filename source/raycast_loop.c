@@ -2,6 +2,19 @@
 
 void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
+	// if (ray->perpWallDist < 0.1000)
+	// {
+	// 	printf("COLISSION %f__________________________\n", ray->perpWallDist); 
+	// 	ray->wall_collide = 1; 
+
+	// 	return ; 
+	// }
+	// else if (ray->wall_collide == 1 && ray->perpWallDist > 0.1000)
+	// {
+	// 	ray->wall_collide = 0; 
+	// 	printf("Move again\n"); 
+	// }
+	//printf("Distance zur Wand ____ %f\n", ray->perpWallDist);
 	e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
 	e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
 	if(e->drawStart < 0)
@@ -18,11 +31,17 @@ void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 
 void determine_distance_to_wall(t_raycast *ray, t_game *game)
 {
-	if(ray->side == 0)
-		ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
-	else 
-		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY); 
-	(void) game;
+	// if(ray->side == 0)
+	// 	ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
+	// else 
+	// 	ray->perpWallDist = (ray->sideDistY - ray->deltaDistY); 
+	// (void) game;
+
+	if (ray->side == 0) {
+    	ray->perpWallDist = (ray->mapX - game->pos_x + (1 - ray->stepX) / 2) / ray->rayDirX;
+	} else {
+    	ray->perpWallDist = (ray->mapY - game->pos_y + (1 - ray->stepY) / 2) / ray->rayDirY;
+	}
 }
 
 void wall_hit(t_map *map, t_raycast *ray)
@@ -30,7 +49,8 @@ void wall_hit(t_map *map, t_raycast *ray)
 	int loop;
 
 	loop = 0;
-	while (!ray->hit && loop < 50)
+	//&& loop < 50)
+	while (!ray->hit) 
 	{
 		if(ray->sideDistX < ray->sideDistY)
 		{
@@ -112,7 +132,7 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 		wall_hit(m, r);
 		if (r->hit == 1)
 		{
-			determine_distance_to_wall(r, g);
+			determine_distance_to_wall(r, g); 
 			vertical_line_height(e, r, g);
 			handle_texture_update(r, e);
 		}
