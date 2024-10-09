@@ -1,0 +1,89 @@
+#include "../includes/cub3d.h"
+
+void	flood_alloc(t_data *d, t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	map->flood_map = (char **) ft_calloc(sizeof(char *), map->length + 1);
+	if (map->flood_map == NULL)
+		err_free_message(d, ALLOC_FAIL);
+	while (i < map->length)
+	{
+		map->flood_map[i] = (char*) ft_calloc(sizeof(char), map->width + 1);
+		if (map->flood_map[i] == NULL)
+			err_free_message(d, ALLOC_FAIL);
+		while (j < map->width - 1)
+		{
+			map->flood_map[i][j] = '.';
+			j++;
+		}
+		j=0;
+		i++;
+	}
+	
+}
+
+int	print_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		ft_putstr_fd(matrix[i], 1);
+		ft_putchar_fd('\n', 1);
+		i++;
+	}
+	return (0);
+}
+
+int	char_condition(char c, char f)
+{
+	if (c == 0 || c == ' ' || c == '\n')
+		return (1);
+	if (f == '.')
+		return (0);
+	return (1);
+}
+
+int	floodfill(t_map *map, int x, int y)
+{
+	map->flood_map[y][x] = 'x';
+	// print_matrix(map->flood_map);
+	// usleep(150000);
+	//right, down, left, up
+	if (x + 1 < (int) ft_strlen(map->map[y]) && char_condition(map->map[y][x + 1], map->flood_map[y][x + 1]) == 0)
+		floodfill(map, x + 1, y);
+	if (y + 1 < map->length && x < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x], map->flood_map[y + 1][x]) == 0)
+		floodfill(map, x, y + 1);
+	if (x - 1 >= 0 && char_condition(map->map[y][x - 1], map->flood_map[y][x - 1]) == 0 )
+		floodfill(map, x - 1, y);
+	if (y - 1 >= 0 && x < (int) ft_strlen(map->map[y - 1]) && char_condition(map->map[y - 1][x], map->flood_map[y - 1][x]) == 0)
+		floodfill(map, x, y - 1);
+	if (y - 1 >= 0 && x + 1 < (int) ft_strlen(map->map[y - 1]) &&  char_condition(map->map[y - 1][x + 1], map->flood_map[y - 1][x + 1]) == 0)
+		floodfill(map, x + 1, y - 1);
+	if (y - 1 >= 0 && x - 1 >= 0 && x - 1 < (int) ft_strlen(map->map[y - 1]) && char_condition(map->map[y - 1][x - 1], map->flood_map[y - 1][x - 1]) == 0)
+		floodfill(map, x - 1, y - 1);
+	if (y + 1 < map->length && x + 1 < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x + 1], map->flood_map[y + 1][x + 1]) == 0)
+		floodfill(map, x + 1, y + 1);
+	if (y + 1 < map->length && x - 1 >= 0 && x - 1 < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x - 1], map->flood_map[y + 1][x - 1]) == 0 )
+		floodfill(map, x - 1, y + 1);
+	return (0);
+}
+
+
+// floodfill the available map including walls (delimited by space)
+// compare the floodfillmap to the normal map
+void	anti_island_checker(t_data *d, t_map *map)
+{
+	flood_alloc(d, map);
+	print_matrix(map->map);
+	print_matrix(map->cpy_map);
+	floodfill(map, map->pos_x, map->pos_y);
+	print_matrix(map->flood_map);
+	// compare_maps(d, map->cpy_map, map->flood_map);
+	return ;
+}

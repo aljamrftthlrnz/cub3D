@@ -147,4 +147,5 @@ void    init_map(t_data *d, char *argv)
     replace_initial_player_pos(d->map); 
 	d->map->width = ft_strlen(d->map->map[0]); // is this the correct map file?
 	d->map->length = get_map_length(d->map->map);
+	anti_island_checker(d, d->map);
 }
