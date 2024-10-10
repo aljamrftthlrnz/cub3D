@@ -1,6 +1,5 @@
 #include "../includes/cub3d.h"
 
-
 int validating_map_content(char **s)
 {
 	int i;
@@ -92,15 +91,13 @@ int validating_map_walls(char **cpy)
 		{
 			if(loop_over_potential_walls(cpy[i]))
 			{
-				printf("line _________ %s\n", cpy[i]); 	
 				return (1); 
 			}
 		}
 		else
 		{
 			if(validate_outer_walls(cpy[i]))
-			{
-				printf("line (2) _________ %s\n", cpy[i]); 	
+			{	
 				return (1);
 			}
 		}

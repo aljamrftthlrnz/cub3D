@@ -36,7 +36,7 @@ void	player_step(t_data *d, int keycode)
 
     if (keycode == KEY_W)
     {
-		if(m->cpy_map[(int)(g->pos_y + g->dir_y * r->moveSpeed)][(int)(g->pos_x + g->dir_x * r->moveSpeed)] != '1')
+		if(m->cpy_map[(int)(g->pos_y + g->dir_y * (r->moveSpeed + 0.1))][(int)(g->pos_x + g->dir_x * (r->moveSpeed + 0.1))] != '1')
 		{
 			d->game->pos_x += d->game->dir_x * r->moveSpeed;
         	d->game->pos_y += d->game->dir_y * r->moveSpeed;
@@ -44,7 +44,7 @@ void	player_step(t_data *d, int keycode)
     }
     if (keycode == KEY_S)
     {
-		if(m->cpy_map[(int)(g->pos_y - g->dir_y * r->moveSpeed)][(int)(g->pos_x - g->dir_x * r->moveSpeed)] != '1')
+		if(m->cpy_map[(int)(g->pos_y - g->dir_y * (r->moveSpeed + 0.1))][(int)(g->pos_x - g->dir_x * (r->moveSpeed + 0.1))] != '1')
         {
 			d->game->pos_x -= d->game->dir_x * r->moveSpeed;
         	d->game->pos_y -= d->game->dir_y * r->moveSpeed;
@@ -52,20 +52,18 @@ void	player_step(t_data *d, int keycode)
     }
     if (keycode == KEY_A)
     {
-		if(m->cpy_map[(int)(g->pos_y - r->plane_y * r->moveSpeed)][(int)(g->pos_x - r->plane_x * r->moveSpeed)] != '1')
+		if(m->cpy_map[(int)(g->pos_y - r->plane_y * (r->moveSpeed + 0.1))][(int)(g->pos_x - r->plane_x * (r->moveSpeed + 0.1))] != '1')
         {
 			d->game->pos_x -= d->ray->plane_x * r->moveSpeed;
         	d->game->pos_y -= d->ray->plane_y * r->moveSpeed;
 		}
-
     }
     if (keycode == KEY_D)
     {
-		if(m->cpy_map[(int)(g->pos_y + r->plane_y * r->moveSpeed)][(int)(g->pos_x + r->plane_x * r->moveSpeed)] != '1')
+		if(m->cpy_map[(int)(g->pos_y + r->plane_y * (r->moveSpeed + 0.1))][(int)(g->pos_x + r->plane_x * (r->moveSpeed + 0.1))] != '1')
 		{
         	d->game->pos_x += d->ray->plane_x * r->moveSpeed;	
 			d->game->pos_y += d->ray->plane_y * r->moveSpeed;
-
 		}
     }
 }
