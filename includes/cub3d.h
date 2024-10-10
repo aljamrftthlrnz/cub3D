@@ -129,7 +129,8 @@ typedef struct s_image
 
 typedef struct s_raycast
 {
-	double		rotation_speed; 
+	double		rot_speed;
+	double		moveSpeed; 
 	double		plane_x;
 	double		plane_y;		
 	double		camera_x;
@@ -236,7 +237,7 @@ int		validate_outer_walls(char *cpy);
 int		validating_map_walls(char **cpy);
 
 /* create_game.c */
-int		time_to_render(void);
+int		time_to_render(t_data *d);
 int		render_frame(t_data *d);
 void	create_game(t_data *d);
 
