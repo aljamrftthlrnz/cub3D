@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-int	create_file_array_setup(t_data *d, int *fd, char **line, char *argv)
+int	setup_file(t_data *d, int *fd, char **line, char *argv)
 {
 	*fd = open(argv, O_RDONLY);
 	if (*fd < 0)
@@ -11,12 +11,15 @@ int	create_file_array_setup(t_data *d, int *fd, char **line, char *argv)
 		close (*fd);
 		return (1);
 	}
-	d->file_arr = (char **) ft_calloc((d->y_file + 1), sizeof(char *));
-	if (!d->file_arr)
+	if (d != NULL)
 	{
-		close (*fd);
-		free (*line);
-		return (1);
+		d->file_arr = (char **) ft_calloc((d->y_file + 1), sizeof(char *));
+		if (!d->file_arr)
+		{
+			close (*fd);
+			free (*line);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -27,7 +30,7 @@ int	create_file_array(t_data *d, char *argv)
 	int		i;
 	char	*line;
 
-	if (create_file_array_setup(d, &fd, &line, argv) == 1)
+	if (setup_file(d, &fd, &line, argv) == 1)
 		return (1);
 	i = 0;
 	while (line && i < d->y_file)
@@ -59,15 +62,8 @@ int	get_dimensions_of_file(t_data *d, char *argv)
 
 	count = 0;
 	max = 0;
-	fd = open(argv, O_RDONLY);
-	if (fd < 0)
+	if (setup_file(NULL, &fd, &line, argv) == 1)
 		return (1);
-	line = get_next_line(fd);
-	if (!line)
-	{
-		close (fd);
-		return (1);
-	}
 	max = ft_strlen(line);
 	while (line != NULL)
 	{
@@ -78,10 +74,7 @@ int	get_dimensions_of_file(t_data *d, char *argv)
 			max = ft_strlen(line);
 	}
 	if (max < 3 || count < 1)
-	{
-		close (fd);
-		return (1);
-	}
+		return (close (fd), 1);
 	d->y_file = count;
 	d->x_file = max;
 	close(fd);
