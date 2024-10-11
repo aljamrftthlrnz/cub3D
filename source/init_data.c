@@ -12,7 +12,7 @@ void init_raycast(t_raycast *ray)
 {
 	ray->moveSpeed = 0.0;
 	ray->rot_speed = 0.0; 
-	
+	ray->frameTime = 0.0; 
 	//rotation(ray); // is this needed?
 	ray->activate = 1;
 	//ray->wall_collide = 0; 

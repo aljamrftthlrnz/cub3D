@@ -24,6 +24,7 @@ void decide_map_texture(t_raycast *r, t_element *e)
 	}
 }
 
+// Obsolet only keep decide_map_texture
 void handle_texture_update(t_raycast *r, t_element *e)
 {
 	int y;
@@ -41,6 +42,7 @@ void handle_texture_update(t_raycast *r, t_element *e)
 	y = e->drawStart;
 	while(y < e->drawEnd)
 	{
+
 		e->texy = (int)e->texpos & (e->height - 1); 
 		e->texpos += e->step;
 		// Uint32 color = texture[texNum][texHeight * texY + texX];

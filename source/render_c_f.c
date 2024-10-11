@@ -22,6 +22,7 @@ void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_h
 	int	paint_color;
 
 	paint_color = ray_hit_wall_y - wall_height;
+	//paint_color = d->elem->drawEnd;
 	if (paint_color < 0)
 		return ;
 	if (paint_color > SCREEN_H) //used to get stuck because paint_color ended up being millions big

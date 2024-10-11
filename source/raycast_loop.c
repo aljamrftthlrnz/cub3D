@@ -3,13 +3,15 @@
 void vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
 	//printf("Distance zur Wand ____ %f\n", ray->perpWallDist);
-	e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
+	//e->line_height = (int)(SCREEN_H / avoid_zero_at_all_costs(ray->perpWallDist));
+	e->line_height = (int)(SCREEN_H / ray->perpWallDist);
 	e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
 	if(e->drawStart < 0)
 		e->drawStart = 0;
 	e->drawEnd = e->line_height / 2 + SCREEN_H / 2;
 	if(e->drawEnd >= SCREEN_H)
 		e->drawEnd = SCREEN_H - 1;
+
 	if(ray->side == 0)
 		e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
 	else 
@@ -62,6 +64,7 @@ void wall_hit(t_map *map, t_raycast *ray)
 		{
 			ray->hit = 1; 
 		}
+
 		//loop++;
 	}
 }
@@ -107,13 +110,13 @@ void init_loop(int x, t_raycast *r, t_game *g)
 		r->deltaDistY = 1e30; 
 	else 
 		r->deltaDistY = fabs(1/r->rayDirY);
+	
 
 }
 
 void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 {
 	int x;
-	(void)d;
 	x = 0;
 	while(x < SCREEN_W)
 	{
@@ -125,11 +128,10 @@ void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
 			determine_distance_to_wall(r, g); 
 			vertical_line_height(e, r, g);
 			handle_texture_update(r, e);
+
 		}
-		// if (x == 300)
 		render_column(d, x);
 		r->hit = 0;
-
 		x += LINE_W;
 	}
 }

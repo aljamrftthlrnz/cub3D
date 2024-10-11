@@ -17,10 +17,10 @@
 
 # include "libft/libft.h"
 
-# define SCREEN_W 600
-# define SCREEN_H 500
+# define SCREEN_W 800
+# define SCREEN_H 800
 
-# define LINE_W 10
+# define LINE_W 1
 // # define SCREEN_W 100
 // # define SCREEN_H 80
 
@@ -150,6 +150,7 @@ typedef struct s_raycast
     int			mapY;
 	int			side;
 	int			hit;
+	double 		frameTime;
 	
 	int			wall_collide; 
 	int			activate;
@@ -215,12 +216,12 @@ typedef struct s_data
 	t_image		*NESW;
 	t_image 	*screen;
 }	t_data;
-typedef struct s_file 
-{
-	struct s_data	*d; // Use Forward declaration, is only init further down
-	t_element		*elem;
-	t_map			*map;
-}	t_file; 
+// typedef struct s_file 
+// {
+// 	struct s_data	*d; // Use Forward declaration, is only init further down
+// 	t_element		*elem;
+// 	t_map			*map;
+// }	t_file; 
 
 /* check_map.c */
 char 	**create_map_copy(t_map *map);

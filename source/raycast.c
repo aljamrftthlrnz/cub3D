@@ -50,7 +50,7 @@ double   avoid_zero_at_all_costs(double definitely_not_zero)
 	if (definitely_not_zero == 0)
 	{
 		printf("avoided zero\n");
-		return (0.1000000000000);
+		return (0.00000000001);
 	}
 	return (definitely_not_zero);
 }

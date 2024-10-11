@@ -60,4 +60,6 @@ void init_img(t_data *d)
 	setup_img(d, &d->NESW[3], d->elem->we_path);
 	setup_img(d, d->screen, NULL);
 	check_img_size(d);
+	
+	
 }
