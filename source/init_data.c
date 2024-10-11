@@ -10,10 +10,13 @@ void init_element(t_element *e)
 
 void init_raycast(t_raycast *ray)
 {
-	rotation(ray); // is this needed?
+	ray->moveSpeed = 0.0;
+	ray->rot_speed = 0.0; 
+	ray->frameTime = 0.0; 
+	//rotation(ray); // is this needed?
 	ray->activate = 1;
+	//ray->wall_collide = 0; 
 }
-
 
 void init_data_struct(t_data *d)
 {
@@ -31,13 +34,13 @@ void init_data_struct(t_data *d)
 	d->screen = NULL;
 }
 
-void rotation(t_raycast *r)
-{
-	double radians_per_second; 
+// void rotation(t_raycast *r)
+// {
+// 	double radians_per_second; 
 
-	radians_per_second = (DEGREES * PI) / 180.0;
-	r->rotation_speed = radians_per_second / FPS; 
-}
+// 	radians_per_second = (DEGREES * PI) / 180.0;
+// 	r->rotation_speed = radians_per_second / FPS; 
+// }
 
 void init_data(t_data *d)
 {

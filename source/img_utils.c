@@ -26,8 +26,6 @@ void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 	{
 		return ;
 	}
-
-
 	img->img_adr[position++] = rgb[0];
 	img->img_adr[position++] = rgb[1];
 	img->img_adr[position] = rgb[2];

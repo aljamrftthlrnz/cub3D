@@ -3,11 +3,13 @@
 void	init_game(t_data *d)
 {
 	d->game->p_pos_dir = d->map->p_pos_dir;
-	d->game->pos_x = d->map->pos_x;
-	d->game->pos_y = d->map->pos_y;
+	d->game->pos_x = d->map->pos_x + 0.5;
+	d->game->pos_y = d->map->pos_y + 0.5;
+	printf("Player Pos %f und %f\n", d->game->pos_x, d->game->pos_y ); 
 	d->mlx = mlx_init();
 	if (d->mlx == NULL)
 	{
+
 		err_free_message(d, MLXIN);
 		return ;
 	}

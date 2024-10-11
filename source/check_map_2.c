@@ -1,6 +1,5 @@
 #include "../includes/cub3d.h"
 
-
 int validating_map_content(char **s)
 {
 	int i;
@@ -74,7 +73,7 @@ int validate_outer_walls(char *cpy)
 		return(1); 
 	while(cpy[i] && cpy[i] == 'X')
 		i++;
-	if(cpy[i] && cpy[i] == '1' && cpy[ft_strlen(cpy)-1] == '1')
+	if(cpy[i] && cpy[i] == '1' && (cpy[ft_strlen(cpy)-1] == '1' || cpy[ft_strlen(cpy)-1] == 'X'))
 		return (0);
 	return (1);
 }
@@ -91,12 +90,16 @@ int validating_map_walls(char **cpy)
 		if(i == 0 || i == (size - 1))
 		{
 			if(loop_over_potential_walls(cpy[i]))
+			{
 				return (1); 
+			}
 		}
 		else
 		{
 			if(validate_outer_walls(cpy[i]))
+			{	
 				return (1);
+			}
 		}
 	}
 	return (0);
