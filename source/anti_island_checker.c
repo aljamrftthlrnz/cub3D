@@ -53,9 +53,6 @@ int	char_condition(char c, char f)
 int	floodfill(t_map *map, int x, int y)
 {
 	map->flood_map[y][x] = 'x';
-	// print_matrix(map->flood_map);
-	// usleep(150000);
-	//right, down, left, up
 	if (x + 1 < (int) ft_strlen(map->map[y]) && char_condition(map->map[y][x + 1], map->flood_map[y][x + 1]) == 0)
 		floodfill(map, x + 1, y);
 	if (y + 1 < map->length && x < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x], map->flood_map[y + 1][x]) == 0)
