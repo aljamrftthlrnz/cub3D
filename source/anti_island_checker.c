@@ -26,7 +26,7 @@ void	flood_alloc(t_data *d, t_map *map)
 	
 }
 
-int	print_matrix(char **matrix)
+int	print_matrix(char **matrix, int nl)
 {
 	int	i;
 
@@ -34,7 +34,8 @@ int	print_matrix(char **matrix)
 	while (matrix[i])
 	{
 		ft_putstr_fd(matrix[i], 1);
-		ft_putchar_fd('\n', 1);
+		if (nl == 1)
+			ft_putchar_fd('\n', 1);
 		i++;
 	}
 	return (0);
@@ -75,15 +76,41 @@ int	floodfill(t_map *map, int x, int y)
 }
 
 
+void	compare_maps(t_data *d, char **map, char **floodmap)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (map[i] && floodmap[i])
+	{
+		while(floodmap[i][j])
+		{
+			if (!map[i][j] || map[i][j] == '\n')
+				break ;
+			if (map[i][j] != ' ' && map[i][j] != '\n' && floodmap[i][j] == 'x')
+			{
+				j++;
+			}
+			else if (map[i][j] == ' ' && floodmap[i][j] == '.')
+				j++;
+			else
+				err_free_message(d, ISLE);
+		}
+		j = 0;
+		i++;
+	}
+}
+
 // floodfill the available map including walls (delimited by space)
 // compare the floodfillmap to the normal map
 void	anti_island_checker(t_data *d, t_map *map)
 {
 	flood_alloc(d, map);
-	print_matrix(map->map);
-	print_matrix(map->cpy_map);
+	print_matrix(map->map, 0);
 	floodfill(map, map->pos_x, map->pos_y);
-	print_matrix(map->flood_map);
-	// compare_maps(d, map->cpy_map, map->flood_map);
+	print_matrix(map->flood_map, 1);
+	compare_maps(d, map->map, map->flood_map);
 	return ;
 }

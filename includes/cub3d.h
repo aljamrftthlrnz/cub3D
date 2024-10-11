@@ -20,7 +20,7 @@
 # define SCREEN_W 600
 # define SCREEN_H 500
 
-# define LINE_W 10
+# define LINE_W 1
 // # define SCREEN_W 100
 // # define SCREEN_H 80
 
@@ -107,6 +107,10 @@
 # define MLXIMG_M "mlx image creation failed\n"
 # define MLXSIZ 103
 # define MLXSIZ_M "given textures are not of size 64x64\n"
+
+# define ISLE 150
+# define ISLE_M "MAP invalid: islands detected...\n"
+
 
 
 struct	s_file; 
@@ -223,7 +227,7 @@ typedef struct s_file
 
 /* anti_island_checker.c */
 void	flood_alloc(t_data *d, t_map *map);
-int	print_matrix(char **matrix); // not needed in final version
+int	print_matrix(char **matrix, int nl); // not needed in final version
 int	char_condition(char c, char f);
 int	floodfill(t_map *map, int x, int y);
 void	anti_island_checker(t_data *d, t_map *map);
