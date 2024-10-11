@@ -49,11 +49,9 @@ int	replace_spaces_and_check_player(t_map *map, char **s)
 	int	i;
 	int	j;
 	int	p;
-	int	err;
 
 	i = 0;
 	p = 0;
-	err = 0;
 	while (i < (file_length(s)))
 	{
 		j = 0;
@@ -61,18 +59,15 @@ int	replace_spaces_and_check_player(t_map *map, char **s)
 		{
 			if (s[i][j] && s[i][j] == ' ')
 				s[i][j] = 'X';
-			else if (s[i][j] && is_character(s[i][j]))
-			{
-				p++;
+			else if (s[i][j] && is_character(s[i][j]) && p++ >= 0)
 				get_player_direction_position (i, j, map);
-			}
 			else if (s[i][j] && !is_valid_map_char(s[i][j]))
-				err++;
+				return (1);
 			j++;
 		}
 		i++;
 	}
-	if (p != 1 || err != 0)
+	if (p != 1)
 		return (1);
 	return (0);
 }
