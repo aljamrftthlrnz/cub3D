@@ -47,13 +47,9 @@ void	wall_hit(t_map *map, t_raycast *ray)
 		}
 		if (ray->mapX < 0 || ray->mapX >= map->width || ray->mapY < 0 \
 			|| ray->mapY >= map->length)
-		{
 			return ;
-		}
 		if (map->map[ray->mapY][ray->mapX] == '1')
-		{
 			ray->hit = 1;
-		}
 		loop++;
 	}
 }
