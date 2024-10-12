@@ -12,7 +12,7 @@ void	flood_alloc(t_data *d, t_map *map)
 		err_free_message(d, ALLOC_FAIL);
 	while (i < map->length)
 	{
-		map->flood_map[i] = (char*) ft_calloc(sizeof(char), map->width + 1);
+		map->flood_map[i] = (char *) ft_calloc(sizeof(char), map->width + 1);
 		if (map->flood_map[i] == NULL)
 			err_free_message(d, ALLOC_FAIL);
 		while (j < map->width - 1)
@@ -20,10 +20,9 @@ void	flood_alloc(t_data *d, t_map *map)
 			map->flood_map[i][j] = '.';
 			j++;
 		}
-		j=0;
+		j = 0;
 		i++;
 	}
-	
 }
 
 int	print_matrix(char **matrix, int nl)
@@ -50,28 +49,40 @@ int	char_condition(char c, char f)
 	return (1);
 }
 
-int	floodfill(t_map *map, int x, int y)
+// return 1 for NOT OK
+// return 0 for OK
+int	floodfill_checker(t_map *map, int x, int y)
 {
-	map->flood_map[y][x] = 'x';
-	if (x + 1 < (int) ft_strlen(map->map[y]) && char_condition(map->map[y][x + 1], map->flood_map[y][x + 1]) == 0)
-		floodfill(map, x + 1, y);
-	if (y + 1 < map->length && x < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x], map->flood_map[y + 1][x]) == 0)
-		floodfill(map, x, y + 1);
-	if (x - 1 >= 0 && char_condition(map->map[y][x - 1], map->flood_map[y][x - 1]) == 0 )
-		floodfill(map, x - 1, y);
-	if (y - 1 >= 0 && x < (int) ft_strlen(map->map[y - 1]) && char_condition(map->map[y - 1][x], map->flood_map[y - 1][x]) == 0)
-		floodfill(map, x, y - 1);
-	if (y - 1 >= 0 && x + 1 < (int) ft_strlen(map->map[y - 1]) &&  char_condition(map->map[y - 1][x + 1], map->flood_map[y - 1][x + 1]) == 0)
-		floodfill(map, x + 1, y - 1);
-	if (y - 1 >= 0 && x - 1 >= 0 && x - 1 < (int) ft_strlen(map->map[y - 1]) && char_condition(map->map[y - 1][x - 1], map->flood_map[y - 1][x - 1]) == 0)
-		floodfill(map, x - 1, y - 1);
-	if (y + 1 < map->length && x + 1 < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x + 1], map->flood_map[y + 1][x + 1]) == 0)
-		floodfill(map, x + 1, y + 1);
-	if (y + 1 < map->length && x - 1 >= 0 && x - 1 < (int) ft_strlen(map->map[y + 1]) && char_condition(map->map[y + 1][x - 1], map->flood_map[y + 1][x - 1]) == 0 )
-		floodfill(map, x - 1, y + 1);
+	if (x < 0 || y < 0 || y >= map->length)
+		return (1);
+	if (x >= (int) ft_strlen(map->map[y]))
+		return (1);
+	if (char_condition(map->map[y][x], map->flood_map[y][x]) != 0)
+		return (1);
 	return (0);
 }
 
+int	floodfill(t_map *map, int x, int y)
+{
+	map->flood_map[y][x] = 'x';
+	if (floodfill_checker(map, x + 1, y) == 0)
+		floodfill(map, x + 1, y);
+	if (floodfill_checker(map, x, y + 1) == 0)
+		floodfill(map, x, y + 1);
+	if (floodfill_checker(map, x - 1, y) == 0)
+		floodfill(map, x - 1, y);
+	if (floodfill_checker(map, x, y - 1) == 0)
+		floodfill(map, x, y - 1);
+	if (floodfill_checker(map, x + 1, y - 1) == 0)
+		floodfill(map, x + 1, y - 1);
+	if (floodfill_checker(map, x - 1, y - 1) == 0)
+		floodfill(map, x - 1, y - 1);
+	if (floodfill_checker(map, x + 1, y + 1) == 0)
+		floodfill(map, x + 1, y + 1);
+	if (floodfill_checker(map, x - 1, y + 1) == 0)
+		floodfill(map, x - 1, y + 1);
+	return (0);
+}
 
 void	compare_maps(t_data *d, char **map, char **floodmap)
 {
@@ -82,7 +93,7 @@ void	compare_maps(t_data *d, char **map, char **floodmap)
 	j = 0;
 	while (map[i] && floodmap[i])
 	{
-		while(floodmap[i][j])
+		while (floodmap[i][j])
 		{
 			if (!map[i][j] || map[i][j] == '\n')
 				break ;
