@@ -19,7 +19,7 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 
 	quo = img->height/h;
 	wall = 0;
-	upper_y_pos = y - h;
+	upper_y_pos = y - h; //+ 1; 
 	if (upper_y_pos < 0)
 	{
 		wall = upper_y_pos * (-1) / 2 / h * 64;
@@ -39,7 +39,6 @@ void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int star
 		copy_pos_to_img(d->screen, img, dest_pos, source_pos);
 		wall += quo;
 	}
-
 }
 
 // this function will take values from raycasting struct and render entire column
@@ -65,11 +64,12 @@ void	render_column(t_data *d, int x)
 		if (d->elem->line_height < SCREEN_H || d->ray->hit == 0)
 			color_above(d, wall_height, x + loop, ray_hit_wall_y);
 		if (d->ray->hit == 1)
-			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, x + loop, \
-				ray_hit_wall_y, (int) d->elem->wallx * 100 * 0.63);
+			img_dis_col(d, &d->NESW[d->elem->texnum], wall_height, x + loop, ray_hit_wall_y, \
+				(int) ((double) d->elem->wallx * 100 * 0.63));
 		if (d->elem->line_height < SCREEN_H || d->ray->hit == 0)
 			color_below(d, x + loop, ray_hit_wall_y);
 		loop++;
+		
 	}
 	return ;
 }
