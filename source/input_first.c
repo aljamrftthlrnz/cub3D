@@ -150,34 +150,26 @@ int	extract_textures(t_data *d, char **arr)
 	i = 0;
 	err = 0;
 	map = 0;
-	trim = NULL;
-	if (!arr)
-		return (1);
-	while (arr[i])
+	while (arr && arr[i])
 	{
 		if (!arr[i])
 			break ;
-		if (arr[i] && !is_space(arr[i]))
-		{
-			i++;
+		if (arr[i] && !is_space(arr[i]) && i++ >= 0)
 			continue ;
-		}
 		else
 		{
 			trim = ft_strtrim(arr[i], " ");
 			if (trim == NULL || trim[0] == '\0')
-			{
 				return (free(trim), 1);
-			}
 			textures_comp(trim, d, &err, &map);
 			free (trim);
 			trim = NULL;
 			i++;
 		}
 	}
-	if (err)
+	if (err != 0)
 		err_free_message(d, FILE_EMPTY);
-	if (!map)
+	if (map == 0)
 		err_free_message(d, MISSING_MAP);
 	return (0);
 }
