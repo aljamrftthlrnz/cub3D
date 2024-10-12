@@ -315,6 +315,7 @@ void	open_window(t_data *d);
 
 // player_movement.c
 void	arrow_keys(t_data *d, int keycode);
+void    normalize_vector(double *x, double *y);
 void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
 void	player_step(t_data *d, int keycode);
 
