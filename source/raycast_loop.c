@@ -100,24 +100,24 @@ void	init_loop(int x, t_raycast *r, t_game *g)
 		r->deltaDistY = fabs(1 / r->rayDirY);
 }
 
-void	ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d)
+void	ray_loop(t_data *d)
 {
 	int	x;
 
 	x = 0;
 	while (x < SCREEN_W)
 	{
-		init_loop(x, r, g);
-		position_and_stepvalues(g, r);
-		wall_hit(m, r);
-		if (r->hit == 1)
+		init_loop(x, d->ray, d->game);
+		position_and_stepvalues(d->game, d->ray);
+		wall_hit(d->map, d->ray);
+		if (d->ray->hit == 1)
 		{
-			determine_distance_to_wall(r, g);
-			vertical_line_height(e, r, g);
-			handle_texture_update(r, e);
+			determine_distance_to_wall(d->ray, d->game);
+			vertical_line_height(d->elem, d->ray, d->game);
+			handle_texture_update(d->ray, d->elem);
 		}
 		render_column(d, x);
-		r->hit = 0;
+		d->ray->hit = 0;
 		x += LINE_W;
 	}
 }
