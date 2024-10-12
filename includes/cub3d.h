@@ -337,7 +337,7 @@ void init_raycasting(t_raycast *r, t_map *map, t_game *g);
 double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 /* render_column.c */
-void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx);
+void	img_dis_col(t_data *d, double h, double x, double y);
 void	render_column(t_data *d, int x);
 
 /* render_c_f.c */
