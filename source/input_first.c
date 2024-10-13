@@ -5,29 +5,20 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 	char	**rgb_values;
 	int		*rgb;
 	int		i;
-	int		num;
 
 	i = -1;
 	if (check_multiple_seperators(str))
 	{
 		free(ptr);
-		ptr = NULL;
 		err_free_message(d, FL_CEIL_M);
 	}
 	rgb_values = ft_split(str, ',');
-	if (!rgb_values)
+	if (!rgb_values || file_length(rgb_values) > 3)
 	{
 		free (ptr);
-		ptr = NULL;
-		err_free_message(d, ALLOC_FAIL);
-	}
-	num = file_length(rgb_values);
-	if (num > 3)
-	{
+		if (!rgb_values)
+			err_free_message(d, ALLOC_FAIL);
 		free_array(rgb_values);
-		free(ptr);
-		rgb_values = NULL;
-		ptr = NULL;
 		err_free_message(d, FL_CEIL_M);
 	}
 	rgb = (int *) malloc(sizeof(int) * 3); 
