@@ -78,46 +78,35 @@ char	*parse_texture(t_data *d, char *trim)
 	return (path);
 }
 
-void	textures_comp(char *trim, t_data *d, int *map)
+// returns 0 for success
+int	is_direction(t_data *d, char **path, char *dir, char *trim)
 {
-	if (!is_map_line(trim))
-		(*map)++;
-	else if (!ft_strncmp(trim, "NO ", 3))
+	if (!ft_strncmp(trim, dir, 3))
 	{
-		if (d->elem->no_path != NULL)
+		if (*path != NULL)
 		{
 			free (trim); 
 			err_free_message(d, PERS_D); 
 		}
-		d->elem->no_path = parse_texture(d, trim);
+		*path = parse_texture(d, trim);
+		return (0);
 	}
-	else if (!ft_strncmp(trim, "SO ", 3))
-	{
-		if (d->elem->so_path != NULL)
-		{
-			free (trim); 
-			err_free_message(d, PERS_D);
-		}
-		d->elem->so_path = parse_texture(d, trim);
-	}
-	else if (!ft_strncmp(trim, "WE ", 3))
-	{
-		if (d->elem->we_path != NULL)
-		{
-			free (trim); 
-			err_free_message(d, PERS_D);
-		}
-		d->elem->we_path = parse_texture(d, trim);
-	}
-	else if (!ft_strncmp(trim, "EA ", 3))
-	{
-		if (d->elem->ea_path != NULL)
-		{
-			free (trim); 
-			err_free_message(d, PERS_D);
-		}
-		d->elem->ea_path = parse_texture(d, trim);
-	}
+	return (1);
+}
+
+
+void	textures_comp(char *trim, t_data *d, int *map)
+{
+	if (!is_map_line(trim))
+		(*map)++;
+	else if (is_direction(d, &d->elem->no_path, "NO ", trim) == 0)
+		return ;
+	else if (is_direction(d, &d->elem->so_path, "SO ", trim) == 0)
+		return ;
+	else if (is_direction(d, &d->elem->we_path, "WE ", trim) == 0)
+		return ;
+	else if (is_direction(d, &d->elem->ea_path, "EA ", trim) == 0)
+		return ;
 	else if (!ft_strncmp(trim, "F ", 2))
 	{
 		if (d->elem->flo_rgb != NULL)
