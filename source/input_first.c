@@ -4,47 +4,38 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 {
 	char	**rgb_values;
 	int		*rgb;
-	int		i;
 
-	i = -1;
 	if (check_multiple_seperators(str))
 	{
 		free(ptr);
 		err_free_message(d, FL_CEIL_M);
 	}
 	rgb_values = ft_split(str, ',');
-	if (!rgb_values || file_length(rgb_values) > 3)
+	rgb = (int *) malloc(sizeof(int) * 3);
+	if (!rgb_values || !rgb || file_length(rgb_values) > 3)
 	{
 		free (ptr);
-		if (!rgb_values)
+		if (!rgb_values || !rgb)
+		{
+			free(rgb);
+			free_array(rgb_values);
 			err_free_message(d, ALLOC_FAIL);
+		}
+		free(rgb);
 		free_array(rgb_values);
 		err_free_message(d, FL_CEIL_M);
 	}
-	rgb = (int *) malloc(sizeof(int) * 3); 
-	if (rgb == NULL)
-	{
-		free_array(rgb_values);
-		rgb_values = NULL;
-		free(ptr);
-		ptr = NULL;
-		err_free_message(d, ALLOC_FAIL);
-	}
-	while (++i < 3)
-	{
-		rgb[i] = ft_atoi(rgb_values[i]);
-		if (rgb[i] < 0 || rgb[i] > 255)
-		{
-			free(rgb);
-			rgb = NULL;
-			free_array(rgb_values);
-			rgb_values = NULL;
-			free(ptr);
-			ptr = NULL;
-			err_free_message(d, RGB_W); 
-		}
-	}
+	rgb[0] = ft_atoi(rgb_values[0]);
+	rgb[1] = ft_atoi(rgb_values[1]);
+	rgb[2] = ft_atoi(rgb_values[2]);
 	free_array(rgb_values);
+	if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255 || rgb[2] < 0 \
+		|| rgb[2] > 255)
+	{
+		free(rgb);
+		free(ptr);
+		err_free_message(d, RGB_W); 
+	}
 	return (rgb); 
 }
 
