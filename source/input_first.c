@@ -78,7 +78,7 @@ char	*parse_texture(t_data *d, char *trim)
 	return (path);
 }
 
-void	textures_comp(char*trim, t_data *d, int *err, int *map)
+void	textures_comp(char *trim, t_data *d, int *map)
 {
 	if (!is_map_line(trim))
 		(*map)++;
@@ -136,19 +136,20 @@ void	textures_comp(char*trim, t_data *d, int *err, int *map)
 		}
 		d->elem->ceil_rgb = parse_rgb_colors(trim + 2, d, trim);
 	}
-	else 
-		(*err)++;
+	else
+	{
+		free (trim);
+		err_free_message(d, FILE_EMPTY);
+	}
 }
 
 int	extract_textures(t_data *d, char **arr)
 {
 	int		i;
-	int		err;
 	int		map;
 	char	*trim;
 
 	i = 0;
-	err = 0;
 	map = 0;
 	while (arr && arr[i])
 	{
@@ -161,14 +162,11 @@ int	extract_textures(t_data *d, char **arr)
 			trim = ft_strtrim(arr[i], " ");
 			if (trim == NULL || trim[0] == '\0')
 				return (free(trim), 1);
-			textures_comp(trim, d, &err, &map);
+			textures_comp(trim, d, &map);
 			free (trim);
-			trim = NULL;
 			i++;
 		}
 	}
-	if (err != 0)
-		err_free_message(d, FILE_EMPTY);
 	if (map == 0)
 		err_free_message(d, MISSING_MAP);
 	return (0);

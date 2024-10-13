@@ -290,7 +290,7 @@ void    init_map(t_data *d, char *argv);
 /* input_first.c */
 int *parse_rgb_colors(char *str, t_data *d, char *ptr);
 char	*parse_texture(t_data *d, char *trim);
-void textures_comp(char*trim, t_data *d, int *err, int *map);
+void textures_comp(char*trim, t_data *d, int *map);
 int extract_textures(t_data *d, char **arr);
 
 /* input_second.c */
