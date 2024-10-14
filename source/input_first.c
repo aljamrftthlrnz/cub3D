@@ -1,18 +1,18 @@
 #include "../includes/cub3d.h"
 
-int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
+char	**setup_rgb_values(t_data *d, char *str, char *ptr)
 {
-	char	**rgb_values;
-	int		*rgb;
-
 	if (check_multiple_seperators(str))
 	{
 		free(ptr);
 		err_free_message(d, FL_CEIL_M);
 	}
-	rgb_values = ft_split(str, ',');
-	rgb = (int *) malloc(sizeof(int) * 3);
-	if (!rgb_values || !rgb || file_length(rgb_values) > 3)
+	return (ft_split(str, ','));
+}
+
+void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr)
+{
+	if (!rgb_values || !rgb || file_length(rgb_values) != 3)
 	{
 		free (ptr);
 		if (!rgb_values || !rgb)
@@ -25,6 +25,16 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 		free_array(rgb_values);
 		err_free_message(d, FL_CEIL_M);
 	}
+}
+
+int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
+{
+	char	**rgb_values;
+	int		*rgb;
+
+	rgb_values = setup_rgb_values(d, str, ptr);
+	rgb = (int *) malloc(sizeof(int) * 3);
+	rgb_null_check(d, rgb_values, rgb, ptr);
 	rgb[0] = ft_atoi(rgb_values[0]);
 	rgb[1] = ft_atoi(rgb_values[1]);
 	rgb[2] = ft_atoi(rgb_values[2]);
@@ -34,9 +44,9 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 	{
 		free(rgb);
 		free(ptr);
-		err_free_message(d, RGB_W); 
+		err_free_message(d, RGB_W);
 	}
-	return (rgb); 
+	return (rgb);
 }
 
 char	*parse_texture(t_data *d, char *trim)
