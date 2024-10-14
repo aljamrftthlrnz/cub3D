@@ -3,10 +3,9 @@
 // closes game on X button or ESC key
 int	close_game(void *ptr)
 {
-	t_data *d;
+	t_data	*d;
 
 	d = (t_data *)ptr;
-	// ft_putstr_fd("game turned off\n", 2)
 	write(2, "game turned off\n", 17);
 	mlx_loop_end(d->mlx);
 	free_mlx(d);
@@ -16,15 +15,15 @@ int	close_game(void *ptr)
 
 int	key_handler(int keycode, void *d_ptr)
 {
-	t_data *d;
+	t_data	*d;
 
 	d = d_ptr;
-
 	if (keycode == ESC)
 	{
 		close_game(d);
 	}
-	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A || keycode == KEY_D)
+	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_A \
+		|| keycode == KEY_D)
 	{
 		player_step(d, keycode);
 		d->ray->activate = 1;
