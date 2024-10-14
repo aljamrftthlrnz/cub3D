@@ -1,5 +1,8 @@
 #include "../includes/cub3d.h"
 
+// uses *d as a flag: if actual data struct was given as parameter 
+	// array will be allocated
+	// if instead NULL is given, no extra allocations
 int	setup_file(t_data *d, int *fd, char **line, char *argv)
 {
 	*fd = open(argv, O_RDONLY);
