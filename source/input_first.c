@@ -92,7 +92,6 @@ int	is_identifier(t_data *d, void **path, char *id, char *trim)
 	return (1);
 }
 
-
 void	textures_comp(char *trim, t_data *d, int *map)
 {
 	if (!is_map_line(trim))
