@@ -342,7 +342,7 @@ void determine_distance_to_wall(t_raycast *ray, t_game *game);
 void wall_hit(t_map *map, t_raycast *ray);
 void position_and_stepvalues(t_game *g, t_raycast *r);
 void init_loop(int x, t_raycast *r, t_game *g);
-void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d);
+void ray_loop(t_data *d);
 
 /* raycast_texture.c */
 void decide_map_texture(t_raycast *r, t_element *e);
@@ -355,7 +355,7 @@ void init_raycasting(t_raycast *r, t_map *map, t_game *g);
 double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 /* render_column.c */
-void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx);
+void	img_dis_col(t_data *d, double h, double x, double y);
 void	render_column(t_data *d, int x);
 
 /* render_c_f.c */
