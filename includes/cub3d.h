@@ -294,8 +294,6 @@ int extract_textures(t_data *d, char **arr);
 /* input_second.c */
 int check_multiple_seperators(char *str);
 int check_order_of_map(t_data *d);
-int order(char *trim, int *sum);
-int check_order_of_file(t_data *d);
 
 /* key_handler.c */
 int		close_game(void *ptr);
