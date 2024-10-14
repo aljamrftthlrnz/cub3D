@@ -1,44 +1,43 @@
 #include "../includes/cub3d.h"
 
-
-
-void free_element(t_element *e)
+void	free_element(t_element *e)
 {
 	if (e->we_path != NULL)
-		free(e->we_path); 
+		free(e->we_path);
 	if (e->no_path != NULL)
-		free(e->no_path); 
-	if(e->so_path != NULL)
+		free(e->no_path);
+	if (e->so_path != NULL)
 		free(e->so_path);
-	if(e->ea_path != NULL)
+	if (e->ea_path != NULL)
 		free(e->ea_path);
-	if(e->flo_rgb != NULL)
+	if (e->flo_rgb != NULL)
 		free(e->flo_rgb);
-	if(e->ceil_rgb != NULL)
+	if (e->ceil_rgb != NULL)
 		free(e->ceil_rgb);
 }
 
 void	free_data(t_data *d)
 {
-	if(d != NULL)
+	if (d != NULL)
 	{
-		if(d->map != NULL)
+		if (d->map != NULL)
 		{
 			free_array(d->map->cpy_map); 
 			free_array(d->map->map); 
 			free_array(d->map->flood_map); 
 			free(d->map); 
+
 		}
 		if (d->elem != NULL)
 		{
 			free_element(d->elem);
-			free(d->elem); 
+			free(d->elem);
 		}
-		if(d->ray != NULL)
+		if (d->ray != NULL)
 			free(d->ray);
-		if(d->game != NULL)
+		if (d->game != NULL)
 			free(d->game);
-		free_array(d->file_arr); 
+		free_array(d->file_arr);
 	}
 	d = NULL;
 }
@@ -46,9 +45,7 @@ void	free_data(t_data *d)
 void	free_mlx(t_data *d)
 {
 	if (d->win)
-	{
 		mlx_destroy_window(d->mlx, d->win);
-	}
 	if (d->NESW)
 	{
 		if (d->NESW[0].img_ptr)
@@ -67,7 +64,6 @@ void	free_mlx(t_data *d)
 			mlx_destroy_image(d->mlx, d->screen->img_ptr);
 		free (d->screen);
 	}
-
 	if (d->mlx)
 	{
 		mlx_destroy_display(d->mlx);
@@ -84,7 +80,7 @@ void	free_array(char **arr)
 	{
 		while (arr[i])
 		{
-			free(arr[i]); 
+			free(arr[i]);
 			i++;
 		}
 		free(arr);
@@ -92,53 +88,63 @@ void	free_array(char **arr)
 	arr = NULL;
 }
 
-int err_free_message(t_data *d, int error_code)
+void	print_error_2(int error_code)
 {
-	printf("Error\n");
-	if(error_code == ARG_FAIL)
-		printf("%s", ARG);
-	else if (error_code == EXT_ERROR)
-		printf("%s", EXT); 
-	else if (error_code == ALLOC_FAIL)
-		printf("%s", ALLOC_F);
-	else if (error_code == IDENT_W)
-		printf("%s", IDENT);
-	else if (error_code == PERS_D)
-		printf("%s", PERS);
-	else if (error_code == PERS_M)
-		printf("%s", PERS_MI);
-	else if (error_code == FL_CEIL_M)
-		printf("%s", FL_CE_MISS);
-	else if (error_code == FL_CEIL_D)
-		printf("%s", FLOOR_CEILING);
-	else if (error_code == RGB_W)
-		printf("%s", RGB_WRO);
-	else if (error_code == ORDER)
-		printf("%s", ORDER_W);
+	if (error_code == ORDER)
+		ft_putstr_fd(ORDER_W, 2);
 	else if (error_code == MISSING_MAP)
-		printf("%s", MISS_MAP);
+		ft_putstr_fd(MISS_MAP, 2);
 	else if (error_code == FILE_EMPTY)
-		printf("%s", FILE_EMPT);
+		ft_putstr_fd(FILE_EMPT, 2);
 	else if (error_code == ORDER_ID)
-		printf("%s", ORDER_I);
+		ft_putstr_fd(ORDER_I, 2);
 	else if (error_code == EMPTY_LINES)
-		printf("%s", EMPTY_L);
+		ft_putstr_fd(EMPTY_L, 2);
 	else if (error_code == BORDER_M)
-		printf("%s", BORDER);
+		ft_putstr_fd(BORDER, 2);
 	else if (error_code == PLAYER_W)
-		printf("%s", PLAYER);
-	else if(error_code == SPACE_PROT)
-		printf("%s", SPACE); 
+		ft_putstr_fd(PLAYER, 2);
+	else if (error_code == SPACE_PROT)
+		ft_putstr_fd(SPACE, 2);
 	else if (error_code == MLXIN)
-		printf("%s", MLXIN_M); 
+		ft_putstr_fd(MLXIN_M, 2);
 	else if (error_code == MLXWI)
-		printf("%s", MLXWI_M); 
+		ft_putstr_fd(MLXWI_M, 2);
 	else if (error_code == MLXIMG)
-		printf("%s", MLXIMG_M); 
+		ft_putstr_fd(MLXIMG_M, 2);
 	else if (error_code == MLXSIZ)
-		printf("%s", MLXSIZ_M); 
-	else if (error_code == ISLE)
-		printf("%s", ISLE_M); 
-	free_data(d); 
-	exit (error_code);  
+		ft_putstr_fd(MLXSIZ_M, 2);
+}
+
+void	print_error(int error_code)
+{
+	ft_putstr_fd("Error\n", 2);
+	if (error_code == ARG_FAIL)
+		ft_putstr_fd(ARG, 2);
+	else if (error_code == EXT_ERROR)
+		ft_putstr_fd(EXT, 2);
+	else if (error_code == ALLOC_FAIL)
+		ft_putstr_fd(ALLOC_F, 2);
+	else if (error_code == IDENT_W)
+		ft_putstr_fd(IDENT, 2);
+	else if (error_code == PERS_D)
+		ft_putstr_fd(PERS, 2);
+	else if (error_code == PERS_M)
+		ft_putstr_fd(PERS_MI, 2);
+	else if (error_code == FL_CEIL_M)
+		ft_putstr_fd(FL_CE_MISS, 2);
+	else if (error_code == FL_CEIL_D)
+		ft_putstr_fd(FLOOR_CEILING, 2);
+	else if (error_code == RGB_W)
+		ft_putstr_fd(RGB_WRO, 2);
+	else
+		print_error_2(error_code);
+}
+
+int	err_free_message(t_data *d, int error_code)
+{
+	if (error_code != 0)
+		print_error(error_code);
+	free_data(d);
+	exit (error_code);
 }

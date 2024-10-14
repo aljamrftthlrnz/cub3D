@@ -266,7 +266,9 @@ int		process_map(t_data *d);
 void	free_element(t_element *e);
 void	free_data(t_data *d);
 void	free_mlx(t_data *d);
-void	free_array(char **arr); 
+void	free_array(char **arr);
+void	print_error_2(int error_code);
+void	print_error(int error_code);
 int 	err_free_message(t_data *d, int error_code);
 
 /* img_utils.c */
@@ -294,6 +296,7 @@ int file_length(char **arr);
 int map_len(char **arr);
 
 /* init_map.c */
+int		setup_file(t_data *d, int *fd, char **line, char *argv);
 int    create_file_array(t_data *d, char *argv);
 int		get_dimensions_of_file(t_data *d, char *argv);
 void	replace_initial_player_pos(t_map *m);
