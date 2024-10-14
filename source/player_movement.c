@@ -27,7 +27,6 @@ void	arrow_keys(t_data *d, int keycode)
 		d->game->p_pos_dir = d->game->p_pos_dir - 360;
 }
 
-
 void	normalize_vector(double *x, double *y)
 {
 	double  magnitude;
@@ -69,46 +68,114 @@ void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 	normalize_vector(p_left, p_right);
 }
 
-void	player_step(t_data *d, int keycode)
+void	check_step_1(t_data *d, double p_right, double p_left)
 {
-	double	p_left;
-	double	p_right;
-	t_map *m = d->map;
-
-	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
-	if (d->game->p_pos_dir < 90)
+	if (d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90)
 	{
-		if(m->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			if(m->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
+			if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
 			{
-
 				d->game->pos_x += p_left * KEY_STP_SIZ;
 				d->game->pos_y -= p_right * KEY_STP_SIZ;
 				d->ray->activate = 1;
 			}
 		}
 	}
-	else if (d->game->p_pos_dir < 180)
-	{
-		if(m->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
-		{
-			if(m->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
-			{
 
+}
+
+void	check_step_2(t_data *d, double p_right, double p_left)
+{
+	if (d->game->p_pos_dir >= 90 && d->game->p_pos_dir < 180)
+	{
+		if(d->map->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		{
+			if(d->map->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
+			{
 				d->game->pos_x += p_right * KEY_STP_SIZ;
 				d->game->pos_y += p_left * KEY_STP_SIZ;
 				d->ray->activate = 1;
 			}
 		}
 	}
-	else if (d->game->p_pos_dir < 270)
+}
+
+void	check_step_3(t_data *d, double p_right, double p_left)
+{
+	if (d->game->p_pos_dir >= 180 && d->game->p_pos_dir < 270)
+	{
+		if(d->map->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		{
+			if(d->map->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
+			{
+				d->game->pos_x -= p_left * KEY_STP_SIZ;
+				d->game->pos_y += p_right * KEY_STP_SIZ;
+				d->ray->activate = 1;
+			}
+		}
+	}
+
+}
+
+void	check_step_4(t_data *d, double p_right, double p_left)
+{
+	if (d->game->p_pos_dir >= 270 && d->game->p_pos_dir < 360)
+	{
+		if(d->map->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		{
+			if(d->map->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
+			{
+				d->game->pos_x -= p_right * KEY_STP_SIZ;
+				d->game->pos_y -= p_left * KEY_STP_SIZ;
+				d->ray->activate = 1;
+			}
+		}
+	}
+
+}
+
+void	player_step(t_data *d, int keycode)
+{
+	double	p_left;
+	double	p_right;
+
+	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
+	check_step_1(d, p_right, p_left);
+	check_step_2(d, p_right, p_left);
+	check_step_3(d, p_right, p_left);
+	check_step_4(d, p_right, p_left);
+
+/* 	if (d->game->p_pos_dir < 90)
+	{
+		if(m->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		{
+			if(m->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
+			{
+				d->game->pos_x += p_left * KEY_STP_SIZ;
+				d->game->pos_y -= p_right * KEY_STP_SIZ;
+				d->ray->activate = 1;
+			}
+		}
+	} */
+/* 	else if (d->game->p_pos_dir < 180)
+	{
+		if(m->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		{
+			if(m->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
+			{
+				d->game->pos_x += p_right * KEY_STP_SIZ;
+				d->game->pos_y += p_left * KEY_STP_SIZ;
+				d->ray->activate = 1;
+			}
+		}
+	} */
+/* 	else if (d->game->p_pos_dir < 270)
 	{
 		if(m->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
 		{
 			if(m->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
 			{
-
 				d->game->pos_x -= p_left * KEY_STP_SIZ;
 				d->game->pos_y += p_right * KEY_STP_SIZ;
 				d->ray->activate = 1;
@@ -121,11 +188,10 @@ void	player_step(t_data *d, int keycode)
 		{
 			if(m->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
 			{
-
 				d->game->pos_x -= p_right * KEY_STP_SIZ;
 				d->game->pos_y -= p_left * KEY_STP_SIZ;
 				d->ray->activate = 1;
 			}
-		}	
-	}
+		}
+	} */
 }
