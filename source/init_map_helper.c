@@ -13,14 +13,14 @@ int	is_space(char *line)
 		}
 		i++;
 	}
-	return (0); 
+	return (0);
 }
 
 int	is_character(char c)
 {
 	if (c == 'N' || c == 'W' || c == 'S' || c == 'E')
-		return (1); 
-	return (0); 
+		return (1);
+	return (0);
 }
 
 int	is_wall_space(char c)
@@ -32,12 +32,12 @@ int	is_wall_space(char c)
 
 int	file_length(char **arr)
 {
-	int	i; 
+	int	i;
 
-	i = 0; 
+	i = 0;
 	while (arr[i] != NULL)
-		i++; 
-	return (i); 
+		i++;
+	return (i);
 }
 
 int	map_len(char **arr)
