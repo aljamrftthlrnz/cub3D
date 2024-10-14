@@ -2,15 +2,15 @@
 
 int	img_get_pos(t_image *img, int x, int y)
 {
-	int pixel_molecule = img->bits_per_pixel / 8;
-	int position;
+	int	pixel_molecule;
+	int	position;
 
+	pixel_molecule = img->bits_per_pixel / 8;
 	if (x > img->width || y > img->height)
 	{
-		// printf("pixel_to_img: entered coordinates are outside of image x=%d y=%d\n", x, y);
 		return (-1);
 	}
-	position = y * img->size_line;// * pixel_molecule;
+	position = y * img->size_line;
 	position = position + (x * pixel_molecule);
 	return (position);
 }
@@ -31,9 +31,8 @@ void	pixel_to_img(t_image *img, int x, int y, int *rgb)
 	img->img_adr[position] = rgb[2];
 }
 
-
 // takes pointer to image struct, height 
-void fill_color_img(t_image *image, int *rgb)
+void	fill_color_img(t_image *image, int *rgb)
 {
 	int	x;
 	int	y;
@@ -57,7 +56,6 @@ void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos)
 	int	i;
 
 	i = 0;
-
 	while (i < 3)
 	{
 		d_img->img_adr[d_pos++] = s_img->img_adr[s_pos++];

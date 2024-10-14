@@ -1,71 +1,62 @@
 #include "../includes/cub3d.h"
 
-int *parse_rgb_colors(char *str, t_data *d, char *ptr)
+char	**setup_rgb_values(t_data *d, char *str, char *ptr)
 {
-	char **rgb_values;
-	int *rgb; 
-	int i;
-	int num; 
-
-	i= -1;
-	if(check_multiple_seperators(str))
+	if (check_multiple_seperators(str))
 	{
 		free(ptr);
-		ptr = NULL;
 		err_free_message(d, FL_CEIL_M);
 	}
-	rgb_values = ft_split(str, ',');
-	if(!rgb_values)
+	return (ft_split(str, ','));
+}
+
+void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr)
+{
+	if (!rgb_values || !rgb || file_length(rgb_values) != 3)
 	{
 		free (ptr);
-		ptr = NULL;
-		err_free_message(d, ALLOC_FAIL);
-	}
-	num = file_length(rgb_values);
-	if(num > 3)
-	{
-		free_array(rgb_values);
-		free(ptr);
-		rgb_values = NULL;
-		ptr = NULL;
-		err_free_message(d, FL_CEIL_M);
-	}
-	rgb = (int*)malloc(sizeof(int)*3); 
-	if (rgb == NULL)
-	{
-		free_array(rgb_values);
-		rgb_values = NULL;
-		free(ptr);
-		ptr = NULL;
-		err_free_message(d, ALLOC_FAIL);
-	}
-	while(++i < 3)
-	{
-		rgb[i] = ft_atoi(rgb_values[i]);
-		if(rgb[i] < 0 || rgb[i] > 255)
+		if (!rgb_values || !rgb)
 		{
 			free(rgb);
-			rgb = NULL;
 			free_array(rgb_values);
-			rgb_values = NULL;
-			free(ptr);
-			ptr = NULL;
-			err_free_message(d, RGB_W); 
+			err_free_message(d, ALLOC_FAIL);
 		}
+		free(rgb);
+		free_array(rgb_values);
+		err_free_message(d, FL_CEIL_M);
 	}
+}
+
+int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
+{
+	char	**rgb_values;
+	int		*rgb;
+
+	rgb_values = setup_rgb_values(d, str, ptr);
+	rgb = (int *) malloc(sizeof(int) * 3);
+	rgb_null_check(d, rgb_values, rgb, ptr);
+	rgb[0] = ft_atoi(rgb_values[0]);
+	rgb[1] = ft_atoi(rgb_values[1]);
+	rgb[2] = ft_atoi(rgb_values[2]);
 	free_array(rgb_values);
-	// free(ptr);
-	return (rgb); 
+	if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255 || rgb[2] < 0 \
+		|| rgb[2] > 255)
+	{
+		free(rgb);
+		free(ptr);
+		err_free_message(d, RGB_W);
+	}
+	return (rgb);
 }
 
 char	*parse_texture(t_data *d, char *trim)
 {
-	char *path;
-	int	i;
+	char	*path;
+	int		i;
 
 	i = 0;
 	path = ft_strdup(trim + 3);
-	if (path ==  NULL)
+	if (path == NULL)
 	{
 		free (trim);
 		err_free_message(d, ALLOC_FAIL);
@@ -79,122 +70,77 @@ char	*parse_texture(t_data *d, char *trim)
 	return (path);
 }
 
-void textures_comp(char*trim, t_data *d, int *err, int *map)
+// returns 0 for success
+int	is_identifier(t_data *d, void **path, char *id, char *trim)
 {
-	if(!is_map_line(trim))
-		(*map)++;
-	else if(!ft_strncmp(trim, "NO ", 3))
+	if (!ft_strncmp(trim, id, ft_strlen(id)))
 	{
-		if(d->elem->no_path != NULL)
+		if (*path != NULL)
 		{
-			free (trim); 
-			err_free_message(d, PERS_D); 
+			free (trim);
+			if (ft_strlen(id) > 2)
+				err_free_message(d, PERS_D);
+			else
+				err_free_message(d, FL_CEIL_D);
 		}
-		d->elem->no_path = parse_texture(d, trim);
+		if (ft_strlen(id) > 2)
+			*path = parse_texture(d, trim);
+		else
+			*path = parse_rgb_colors(trim + 2, d, trim);
+		return (0);
 	}
-	else if(!ft_strncmp(trim, "SO ", 3))
-	{
-		if(d->elem->so_path != NULL)
-		{
-			free (trim); 
-			err_free_message(d, PERS_D);
-		}
-		d->elem->so_path = parse_texture(d, trim);
-	}
-	else if(!ft_strncmp(trim, "WE ", 3))
-	{
-		if(d->elem->we_path != NULL)
-		{
-			free (trim); 
-			err_free_message(d, PERS_D);
-		}
-		d->elem->we_path = parse_texture(d, trim);
-	}
-	else if(!ft_strncmp(trim, "EA ", 3))
-	{
-		if(d->elem->ea_path != NULL)
-		{
-			free (trim); 
-			err_free_message(d, PERS_D);
-		}
-		d->elem->ea_path = parse_texture(d, trim);
-	}
-	else if(!ft_strncmp(trim, "F ", 2))
-	{
-		if(d->elem->flo_rgb != NULL)
-		{
-			free (trim); 
-			err_free_message(d, FL_CEIL_D);
-		}
-		d->elem->flo_rgb = parse_rgb_colors(trim + 2, d, trim); 
-	}
-	else if(!ft_strncmp(trim, "C ", 2))
-	{
-		if(d->elem->ceil_rgb != NULL)
-		{
-			free (trim); 
-			err_free_message(d, FL_CEIL_D);
-		}
-		d->elem->ceil_rgb = parse_rgb_colors(trim + 2, d, trim);
-	}
-	else 
-		(*err)++;
+	return (1);
 }
 
-int extract_textures(t_data *d, char **arr)
-{
-   int i;
-   int err;
-   int map;
-   char *trim;
 
-   i = 0;
-   err = 0;
-   map = 0;
-   trim = NULL;
-   if(!arr)
-		return (1);
-	while(arr[i])
+void	textures_comp(char *trim, t_data *d, int *map)
+{
+	if (!is_map_line(trim))
+		(*map)++;
+	else if (is_identifier(d, (void **) &d->elem->no_path, "NO ", trim) == 0)
+		return ;
+	else if (is_identifier(d, (void **) &d->elem->so_path, "SO ", trim) == 0)
+		return ;
+	else if (is_identifier(d, (void **) &d->elem->we_path, "WE ", trim) == 0)
+		return ;
+	else if (is_identifier(d, (void **) &d->elem->ea_path, "EA ", trim) == 0)
+		return ;
+	else if (is_identifier(d, (void **) &d->elem->flo_rgb, "F ", trim) == 0)
+		return ;
+	else if (is_identifier(d, (void **) &d->elem->ceil_rgb, "C ", trim) == 0)
+		return ;
+	else
 	{
-		if(!arr[i])
-			break ;
-		if(arr[i] && !is_space(arr[i]))
-		{
-			//printf("is space\n");
-			i++; 
-			continue ;   
-		}
-		else 
-		{
-			//printf("is not space \n");
-			trim = ft_strtrim(arr[i], " ");
-			if(trim == NULL || trim[0] == '\0')
-			{
-				//printf("NOW-----------\n");    
-				return (free(trim), 1);
-			}
-			//printf("Trimmed -%s-\n", trim); 
-			textures_comp(trim, d, &err, &map);
-			free (trim);  
-			trim = NULL;  
-			i++;
-		}        
+		free (trim);
+		err_free_message(d, FILE_EMPTY);
 	}
-	if(err)
-	   err_free_message(d, FILE_EMPTY); 
-	if(!map)
+}
+
+int	extract_textures(t_data *d, char **arr)
+{
+	int		i;
+	int		map;
+	char	*trim;
+
+	i = 0;
+	map = 0;
+	while (arr && arr[i])
+	{
+		if (!arr[i])
+			break ;
+		if (arr[i] && !is_space(arr[i]) && i++ >= 0)
+			continue ;
+		else
+		{
+			trim = ft_strtrim(arr[i], " ");
+			if (trim == NULL || trim[0] == '\0')
+				return (free(trim), 1);
+			textures_comp(trim, d, &map);
+			free (trim);
+			i++;
+		}
+	}
+	if (map == 0)
 		err_free_message(d, MISSING_MAP);
 	return (0);
 }
-
-/*
-	//printf("map lines ___ %d\n", map);
-	//printf("error counter ___ %d\n", err); 
-
-	printf("Texture SO\n%s\n", d->elem->so_path);
-	printf("Texture WE\n%s\n", d->elem->we_path);
-	printf("Texture EA\n%s\n", d->elem->ea_path);
-	printf("Texture NO\n%s\n", d->elem->no_path);
-	printf("COLOR CEILING\n%d|%d|%d\n", d->elem->flo_rgb[0], d->elem->flo_rgb[1], d->elem->flo_rgb[2]);
-	printf("COLOR FLOOR\n%d|%d|%d\n", d->elem->ceil_rgb[0], d->elem->ceil_rgb[1], d->elem->ceil_rgb[2])
-*/
