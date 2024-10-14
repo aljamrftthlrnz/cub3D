@@ -122,7 +122,24 @@ int	get_map_length(char **map)
 	return (y);
 }
 
-void	init_map(t_data *d, char *argv)
+int	get_map_width(char **map)
+{
+	int	y;
+	int	max_x;
+
+	y = 0;
+	max_x = 0;
+	while (map && map[y])
+	{
+		if (max_x < (int) ft_strlen(map[y]))
+			max_x = ft_strlen(map[y]);
+		y++;
+	}
+	return (max_x);
+}
+
+
+void    init_map(t_data *d, char *argv)
 {
 	t_map	*map;
 
@@ -138,12 +155,13 @@ void	init_map(t_data *d, char *argv)
 		err_free_message(d, PERS_M);
 	if (!d->elem->flo_rgb || !d->elem->ceil_rgb)
 		err_free_message(d, FL_CEIL_M);
-	if (process_map(d))
-		err_free_message(d, MISSING_MAP);
-	if (check_order_of_map(d))
-		err_free_message(d, ORDER);
-	map_related_checks(d, map);
-	replace_initial_player_pos(d->map);
-	d->map->width = ft_strlen(d->map->map[0]);
+	if(process_map(d))
+	   err_free_message(d, MISSING_MAP);
+	if(check_order_of_map(d))
+		err_free_message (d, ORDER);
+	map_related_checks(d, map); 
+    replace_initial_player_pos(d->map); 
+	d->map->width = get_map_width(d->map->map);
 	d->map->length = get_map_length(d->map->map);
+	anti_island_checker(d, d->map);
 }

@@ -10,7 +10,9 @@ FILES = main.c init_data.c init_map.c init_map_helper.c \
 		open_window.c create_game.c \
 		render_column.c render_c_f.c \
 		key_handler.c player_movement.c \
-		init_img.c img_utils.c
+		init_img.c img_utils.c \
+		anti_island_checker.c
+	
 SRC = $(addprefix source/, $(FILES))
 OBJ = $(SRC:%.c=%.o)
 
