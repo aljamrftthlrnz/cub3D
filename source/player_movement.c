@@ -101,6 +101,24 @@ void	arrow_keys(t_data *d, int keycode)
 	printf("direction: %d\n", d->game->p_pos_dir); //debugging help
 }
 
+
+void	normalize_vector(double *x, double *y)
+{
+	double  magnitude;
+
+	magnitude = sqrt(*x * *x + *y * *y);
+	printf("magnitude is %f\n", magnitude);
+	if (magnitude == 0)
+		printf("keep thinking...magnitude is zero\n");
+	else if (magnitude != 1)
+	{
+		*x = *x * (1/magnitude);
+		*y = *y * (1/magnitude);
+		magnitude = sqrt(*x * *x + *y * *y);
+		printf("new magnitude is %f x: %f, y: %f\n", magnitude, *x, *y);
+	}
+}
+
 void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 {
 	double	tmp;
@@ -125,6 +143,7 @@ void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 		*p_left = *p_right;
 		*p_right = tmp * (-1);
 	}
+	normalize_vector(p_left, p_right);
 	printf("px: %f | py: %f\n", *p_left, *p_right); //debugging help
 }
 
