@@ -139,35 +139,58 @@ void	player_step(t_data *d, int keycode)
 	{
 		if(m->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			d->game->pos_x += p_left * KEY_STP_SIZ;
-			d->game->pos_y -= p_right * KEY_STP_SIZ;
+			if(m->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
+			{
+
+				d->game->pos_x += p_left * KEY_STP_SIZ;
+				d->game->pos_y -= p_right * KEY_STP_SIZ;
+				d->ray->activate = 1;
+				printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
+			}
 		}
 	}
 	else if (d->game->p_pos_dir < 180)
 	{
 		if(m->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			d->game->pos_x += p_right * KEY_STP_SIZ;
-			d->game->pos_y += p_left * KEY_STP_SIZ;
+			if(m->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
+			{
+
+				d->game->pos_x += p_right * KEY_STP_SIZ;
+				d->game->pos_y += p_left * KEY_STP_SIZ;
+				printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
+				d->ray->activate = 1;
+			}
 		}
 	}
 	else if (d->game->p_pos_dir < 270)
 	{
 		if(m->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			d->game->pos_x -= p_left * KEY_STP_SIZ;
-			d->game->pos_y += p_right * KEY_STP_SIZ;
+			if(m->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
+			{
+
+				d->game->pos_x -= p_left * KEY_STP_SIZ;
+				d->game->pos_y += p_right * KEY_STP_SIZ;
+				printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
+				d->ray->activate = 1;
+			}
 		}
 	}
 	else if (d->game->p_pos_dir < 360)
 	{
-		if(m->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if(m->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			d->game->pos_x -= p_right * KEY_STP_SIZ;
-			d->game->pos_y -= p_left * KEY_STP_SIZ;
+			if(m->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
+			{
+
+				d->game->pos_x -= p_right * KEY_STP_SIZ;
+				d->game->pos_y -= p_left * KEY_STP_SIZ;
+				printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
+				d->ray->activate = 1;
+			}
 		}	
 	}
-	printf("pos_x: %f | pos_y: %f\n", d->game->pos_x, d->game->pos_y); //debugging help
 }
 
 
