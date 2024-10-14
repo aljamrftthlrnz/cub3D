@@ -5,7 +5,7 @@
 void	setup_img(t_data *d, t_image *new_img, char *path)
 {
 	if (path)
-		new_img->img_ptr = mlx_xpm_file_to_image(d->mlx, path,\
+		new_img->img_ptr = mlx_xpm_file_to_image(d->mlx, path, \
 			&new_img->width, &new_img->height);
 	else
 	{
