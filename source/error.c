@@ -26,6 +26,7 @@ void	free_data(t_data *d)
 		{
 			free_array(d->map->cpy_map); 
 			free_array(d->map->map); 
+			free_array(d->map->flood_map); 
 			free(d->map); 
 		}
 		if (d->elem != NULL)
@@ -136,6 +137,8 @@ int err_free_message(t_data *d, int error_code)
 		printf("%s", MLXIMG_M); 
 	else if (error_code == MLXSIZ)
 		printf("%s", MLXSIZ_M); 
+	else if (error_code == ISLE)
+		printf("%s", ISLE_M); 
 	free_data(d); 
 	exit (error_code);  
 }
