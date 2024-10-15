@@ -68,8 +68,56 @@ void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 	normalize_vector(p_left, p_right);
 }
 
+void	do_the_step(t_data *d, double a, double b)
+{
+	d->game->pos_x += a;
+	d->game->pos_y += b;
+	d->ray->activate = 1;
+}
+
 void	check_step_1(t_data *d, double p_right, double p_left)
 {
+	double	x_tmp;
+	double	y_tmp;
+	double	wc;
+
+// third version
+/* checks coordinate +1 individually if there is wall ahead, if wall ahead, wallcollision calculation activates */
+/* 	if (d->game->p_pos_dir < 0 || d->game->p_pos_dir >= 90)
+		return ;
+	if (d->map->map[(int) d->game->pos_y - 1][(int) d->game->pos_x] == '0' || d->map->map[(int) d->game->pos_y][(int) d->game->pos_x + 1] == '0')
+	{
+		do_the_step(d, p_left * KEY_STP_SIZ, p_right * KEY_STP_SIZ * (-1));
+		return ;
+	} */
+	
+	
+//second version
+/* gradually checks from wc (wallcollision distance) is there is any wall detected */
+	if (d->game->p_pos_dir < 0 || d->game->p_pos_dir >= 90)
+		return ;
+	wc = 0.4;
+	x_tmp = d->game->pos_x + p_left * (KEY_STP_SIZ + wc);
+	y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ + wc);
+	while (wc >= 0 && d->map->map[(int) y_tmp][(int) x_tmp])
+	{
+		if (d->map->map[(int) y_tmp][(int) x_tmp] == '0')
+		{
+			wc -= 0.005;
+			x_tmp = d->game->pos_x + p_left * (KEY_STP_SIZ + wc);
+			y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ + wc);
+		}
+		else
+			return ;
+	}
+	if (wc < 0)
+	{
+		d->game->pos_x += p_left * KEY_STP_SIZ;
+		d->game->pos_y -= p_right * KEY_STP_SIZ;
+		d->ray->activate = 1;
+	}
+	
+/*  //first version
 	if (d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90)
 	{
 		if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
@@ -81,7 +129,7 @@ void	check_step_1(t_data *d, double p_right, double p_left)
 				d->ray->activate = 1;
 			}
 		}
-	}
+	} */
 
 }
 
