@@ -83,7 +83,6 @@ int blank_space_check(char **map)
 			{
 				if(map[i][(ft_strlen(prev) - 1) + j] == '0')
 				{
-					printf("line [%d][%s] has open zeros\n", i, map[i]);
 					return (1);
 				}
 				j++;
