@@ -253,6 +253,9 @@ int		check_up_down_left_right(char **map, int i, int j);
 int		loop_over_potential_walls(char *s);
 int		validate_outer_walls(char *cpy);
 int		validating_map_walls(char **cpy);
+int 	check_for_free_zeros(char **map);
+int 	line_up(char *map, char *prev);
+int 	line_down(char *map, char *prev); 
 
 /* create_game.c */
 int		time_to_render(t_data *d);

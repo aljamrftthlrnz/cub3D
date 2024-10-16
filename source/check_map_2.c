@@ -66,10 +66,39 @@ int	loop_over_potential_walls(char *s)
 	return (0);
 }
 
-int blank_space_check(char **map)
+int line_down(char *map, char *prev)
+{
+	int j;
+
+	j = 1;
+	while (map[(ft_strlen(prev) - 1) + j])
+	{
+		if(map[(ft_strlen(prev) - 1) + j] == '0')
+			return (1);
+		j++;
+	}
+	return (0); 
+}
+
+int line_up(char *map, char *prev)
+{
+	int j;
+
+	j = 1;
+	while (prev[(ft_strlen(map) - 1) + j])
+	{
+		if(prev[(ft_strlen(map) - 1) + j] == '0')
+		{
+			return (1);
+		}
+		j++;
+	}
+	return (0); 
+}
+
+int check_for_free_zeros(char **map)
 {
 	int	i;
-	int j;
 	char *prev;
 
 	i = 0;
@@ -77,24 +106,20 @@ int blank_space_check(char **map)
 	while (map[i])
 	{
 		if(prev != NULL && ft_strlen(prev) < ft_strlen(map[i]))
-		{	
-			j = 1;
-			while (map[i][(ft_strlen(prev) - 1) + j])
-			{
-				if(map[i][(ft_strlen(prev) - 1) + j] == '0')
-				{
-					return (1);
-				}
-				j++;
-			} 
+		{
+			if(line_down(map[i], prev))
+				return (1); 
+		}
+		else if (prev != NULL && ft_strlen(prev) > ft_strlen(map[i]))
+		{
+			if(line_up(map[i], prev))
+				return (1); 
 		}
 		prev = map[i]; 
 		i++;
 	}
-	return(0); 
+	return(0);
 }
-
-
 
 int	validate_outer_walls(char *cpy)
 {
@@ -123,7 +148,6 @@ int	validating_map_walls(char **cpy)
 		{
 			if (loop_over_potential_walls(cpy[i]))
 			{
-				printf("HERE 1\n"); 
 				return (1);
 			}
 		}
@@ -131,7 +155,6 @@ int	validating_map_walls(char **cpy)
 		{
 			if (validate_outer_walls(cpy[i]))
 			{
-				printf("HERE 2\n"); 
 				return (1);
 			}
 		}
