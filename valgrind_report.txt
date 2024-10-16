@@ -1,0 +1,305 @@
+Testing invalid map: 4_ceiling_colors.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: 4_floor_colors.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: boxed_player.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: char_in_color_c.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: char_in_color_f.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: color_ceiling_gr_intmax.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: color_floor_gr_intmax.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: color_missing_ceiling.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: color_missing_floor.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: double_comma_ceiling.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: double_comma_floor.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: double_filetype.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: double_id_textures.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: empty.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: extra_comma_ceiling.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: extra_comma_floor.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: extra_wall.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: F_C_one_line.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: filetype_missing
+[Valgrind OK]
+--------------------------------
+Testing invalid map: hole_in_floor.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: Hole_in_protruding_wall.cub
+==2719644== Memcheck, a memory error detector
+==2719644== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2719644== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==2719644== Command: ./cub3D ./maps/invalid/Hole_in_protruding_wall.cub
+==2719644== 
+==2719644== Invalid read of size 1
+==2719644==    at 0x403BDD: check_up_down_left_right (check_map_2.c:36)
+==2719644==    by 0x403AB0: validating_map_content (check_map_2.c:19)
+==2719644==    by 0x403939: map_related_checks (check_map.c:105)
+==2719644==    by 0x401E35: init_map (init_map.c:162)
+==2719644==    by 0x4014CF: main (main.c:53)
+==2719644==  Address 0x4daf243 is 19 bytes after a block of size 64 in arena "client"
+==2719644== 
+   11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+   10010010010010010010010010000000000000000000000000000000000000000000000000000000000000001
+   10000000100000000000000100011101111111111111111111011111111111111111111111111111111111101
+1111000000000000001000000000001 101                 101                                  101
+1000000100100100100100100100111 101                 101                                  101
+1001010010010010010010010010001  1                  101                                  101
+10000100000000111110100100110011111111111111111111111011111111111111111111111111111111111101
+1111111111111111111111111000111            1111100000000000000000000000000000000000000000001
+                      1000101111111111111111111101111111111111111111111111111111111011111111
+                      1111100000000000000000000001
+                          111111111111111111111111
+                          111111
+                          100011
+                          111111
+...xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+...xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+...xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxx.................xxx..................................xxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxx.................xxx..................................xxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx..x..................xxx..................................xxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx............xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+......................xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+......................xxxxxxxxxxxxxxxxxxxxxxxxxxxx..........................................
+..........................xxxxxxxxxxxxxxxxxxxxxxxx..........................................
+..........................xxxxxx............................................................
+..........................xxxxxx............................................................
+..........................xxxxxx............................................................
+Error
+mlx image creation failed
+OLD: S
+NEW: 0
+==2719644== 
+==2719644== HEAP SUMMARY:
+==2719644==     in use at exit: 0 bytes in 0 blocks
+==2719644==   total heap usage: 3,046 allocs, 3,046 frees, 215,643 bytes allocated
+==2719644== 
+==2719644== All heap blocks were freed -- no leaks are possible
+==2719644== 
+==2719644== For lists of detected and suppressed errors, rerun with: -s
+==2719644== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+Valgrind found issues!
+--------------------------------
+Testing invalid map: hole_in_wall_east.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: hole_in_wall_north.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: hole_in_wall_south.cub
+==2719690== Memcheck, a memory error detector
+==2719690== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2719690== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==2719690== Command: ./cub3D ./maps/invalid/hole_in_wall_south.cub
+==2719690== 
+==2719690== Invalid read of size 1
+==2719690==    at 0x403BDD: check_up_down_left_right (check_map_2.c:36)
+==2719690==    by 0x403AB0: validating_map_content (check_map_2.c:19)
+==2719690==    by 0x403939: map_related_checks (check_map.c:105)
+==2719690==    by 0x401E35: init_map (init_map.c:162)
+==2719690==    by 0x4014CF: main (main.c:53)
+==2719690==  Address 0x4d83e55 is 3 bytes after a block of size 18 alloc'd
+==2719690==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2719690==    by 0x403437: create_map_copy (check_map.c:14)
+==2719690==    by 0x4038B8: map_related_checks (check_map.c:98)
+==2719690==    by 0x401E35: init_map (init_map.c:162)
+==2719690==    by 0x4014CF: main (main.c:53)
+==2719690== 
+1111111111111111111111111
+1000000000110000000000001
+1011000001110000000000001
+1001000000000000000000001
+1011000001110000000000001
+10000000001100000111011111
+10001011011111000100000001
+11110101111111000100101001
+11000000110101000100000001
+10000000000000000111100001
+10000000000000000000001001
+11000001110101011111101111
+11110111 1110101
+11111111 1111111
+
+xxxxxxxxxxxxxxxxxxxxxxxxx.
+xxxxxxxxxxxxxxxxxxxxxxxxx.
+xxxxxxxxxxxxxxxxxxxxxxxxx.
+xxxxxxxxxxxxxxxxxxxxxxxxx.
+xxxxxxxxxxxxxxxxxxxxxxxxx.
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxx.xxxxxxx..........
+xxxxxxxx.xxxxxxx..........
+game turned off
+OLD: E
+NEW: 0
+==2719690== 
+==2719690== HEAP SUMMARY:
+==2719690==     in use at exit: 0 bytes in 0 blocks
+==2719690==   total heap usage: 137,697 allocs, 137,697 frees, 4,219,476 bytes allocated
+==2719690== 
+==2719690== All heap blocks were freed -- no leaks are possible
+==2719690== 
+==2719690== For lists of detected and suppressed errors, rerun with: -s
+==2719690== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+Valgrind found issues!
+--------------------------------
+Testing invalid map: hole_in_wall_west.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: map_blank_line.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: map_first.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: map_in_the_middle.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: map_missing.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: map_only.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: map_too_small.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: missing_floor_identifyer.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: neg_color.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: neg_floor_color.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: new_line_after_map.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: no_color.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: no_comma.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: no_player.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: no_textures.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: no_wall_around.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: no_zero.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: one_texture_missing.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: player_in_wall.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: player_outside.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: rand_char_after_texture.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: small_id_ceiling.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: small_id_floor.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: small_id_texture.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: tabs.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: texture_dupl.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: texture_invalid.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: two_E_players.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: two_f.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: wall_2_instead_of_1.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: wrong_NO_identifier.cub
+[Valgrind OK]
+--------------------------------
+Testing invalid map: wrong_suffix.txt
+[Valgrind OK]
+--------------------------------
+Testing valid map: complex.cub
+[Valgrind OK]
+--------------------------------
+Testing valid map: example.cub
+[Valgrind OK]
+--------------------------------
+Testing valid map: hole_in_the_middle.cub
+[Valgrind OK]
+--------------------------------
+Testing valid map: huge_map.cub
+[Valgrind OK]
+--------------------------------
+Testing valid map: original_level1_floor1_map.cub
+[Valgrind OK]
+--------------------------------
+Testing valid map: small_map.cub
+[Valgrind OK]
+--------------------------------
+Testing valid map: two_rooms.cub
+[Valgrind OK]
+--------------------------------
+[1;31mSummary of maps with Valgrind issues:[0m
+- Hole_in_protruding_wall.cub
+- hole_in_wall_south.cub

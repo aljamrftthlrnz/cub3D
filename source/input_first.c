@@ -47,7 +47,7 @@ int is_digit_str(char *str)
 
 int is_valid_rgb(char *value)
 {
-	if(!is_digit_str(value))
+	if(!is_digit_str(value)|| !is_space(value))
 		return (0); 
 	return(1); 
 }
