@@ -98,6 +98,8 @@
 # define PLAYER_M "MAP invalid: player is not able to move around the map\n"
 # define SPACE_PROT 27
 # define SPACE "MAP invalid: spaces are not secured properly\n"
+# define CHAR_VAL 28
+# define CHAR_V "FILE invalid: Found invalid char in values\n"
 
 # define MLXIN 100
 # define MLXIN_M "mlx initialization failed\n"

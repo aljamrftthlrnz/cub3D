@@ -114,6 +114,8 @@ void	print_error_2(int error_code)
 		ft_putstr_fd(MLXIMG_M, 2);
 	else if (error_code == MLXSIZ)
 		ft_putstr_fd(MLXSIZ_M, 2);
+	else if (error_code == RGB_MI)
+		ft_putstr_fd(RGB_M, 2);
 }
 
 void	print_error(int error_code)

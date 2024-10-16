@@ -27,12 +27,43 @@ void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr)
 	}
 }
 
+int is_digit_str(char *str)
+{
+    int i;
+
+	i = 0;
+    if (!str || str[i] == '\0')
+        return (0);
+    while (str[i])
+    {
+        if (str[i] == '\n' && str[i + 1] == '\0')
+            break;
+        if (ft_isalpha(str[i]))
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+int is_valid_rgb(char *value)
+{
+	if(!is_digit_str(value))
+		return (0); 
+	return(1); 
+}
+
 int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 {
 	char	**rgb_values;
 	int		*rgb;
 
 	rgb_values = setup_rgb_values(d, str, ptr);
+	if(!is_valid_rgb(rgb_values[0]) || !is_valid_rgb(rgb_values[1]) || !is_valid_rgb(rgb_values[2]))
+	{
+		free_array(rgb_values); 
+		free(ptr); 
+		err_free_message(d, RGB_MI);
+	}	
 	rgb = (int *) malloc(sizeof(int) * 3);
 	rgb_null_check(d, rgb_values, rgb, ptr);
 	rgb[0] = ft_atoi(rgb_values[0]);
@@ -91,7 +122,6 @@ int	is_identifier(t_data *d, void **path, char *id, char *trim)
 	}
 	return (1);
 }
-
 
 void	textures_comp(char *trim, t_data *d, int *map)
 {
