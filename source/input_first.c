@@ -8,12 +8,13 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 	rgb_values = setup_rgb_values(d, str, ptr);
 	rgb = (int *) malloc(sizeof(int) * 3);
 	rgb_null_check(d, rgb_values, rgb, ptr);
-	if (!is_valid_rgb(rgb_values[0]) || !is_valid_rgb(rgb_values[1]) || !is_valid_rgb(rgb_values[2]))
+	if (!is_valid_rgb(rgb_values[0]) || !is_valid_rgb(rgb_values[1]) \
+		|| !is_valid_rgb(rgb_values[2]))
 	{
-		free (rgb);
-		free (ptr);
 		free_array(rgb_values);
-		err_free_message (d, RGB_MI); 
+		free (rgb);
+		free(ptr);
+		err_free_message(d, RGB_MI);
 	}
 	rgb[0] = ft_atoi(rgb_values[0]);
 	rgb[1] = ft_atoi(rgb_values[1]);
