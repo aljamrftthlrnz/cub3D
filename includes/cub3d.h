@@ -230,8 +230,6 @@ typedef struct s_data
 // 	t_map			*map;
 // }	t_file; 
 
-int		blank_space_check(char **map); 
-
 /* anti_island_checker.c */
 void	flood_alloc(t_data *d, t_map *map);
 int	print_matrix(char **matrix, int nl); // not needed in final version
