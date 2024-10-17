@@ -26,9 +26,14 @@ int	is_digit_str(char *str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '\n' && str[i + 1] == '\0')
+		if (str[i] == ' ' || str[i] == '\t')
+		{
+			i++;
+			continue ;
+		}
+		else if (str[i] == '\n' && str[i + 1] == '\0')
 			break ;
-		if (ft_isalpha(str[i]) || !ft_isdigit(str[i]))
+		else if (ft_isalpha(str[i]) || !ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}
