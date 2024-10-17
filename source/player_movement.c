@@ -77,10 +77,10 @@ void	do_the_step(t_data *d, double a, double b)
 
 void	check_step_1(t_data *d, double p_right, double p_left)
 {
-/* 	double	x_tmp;
+	double	x_tmp;
 	double	y_tmp;
-	double	wc;
- */
+	float	wc;
+
 // third version
 /* checks coordinate +1 individually if there is wall ahead, if wall ahead, wallcollision calculation activates */
 	if (d->game->p_pos_dir < 0 || d->game->p_pos_dir >= 90)
@@ -93,6 +93,37 @@ void	check_step_1(t_data *d, double p_right, double p_left)
 	
 	if (d->map->map[(int) (d->game->pos_y - p_right)][(int) d->game->pos_x] != '0' || d->map->map[(int) d->game->pos_y][(int) (d->game->pos_x + p_left)] != '0' || d->map->map[(int) (d->game->pos_y - p_right)][(int) (d->game->pos_x + p_left)] != '0')
 	{
+		wc = KEY_STP_SIZ;
+		x_tmp = d->game->pos_x + p_left * (KEY_STP_SIZ);
+		y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ);
+		while (wc > 0 && d->map->map[(int) y_tmp][(int) x_tmp])
+		{
+			if (d->map->map[(int) y_tmp][(int) x_tmp] != '0')
+				return ;
+			if (d->map->map[(int) (y_tmp + 0.2)][(int) x_tmp] != '0')
+				return ;
+			if (d->map->map[(int) y_tmp][(int) (x_tmp + 0.2)] != '0')
+				return ;
+			if (d->map->map[(int) (y_tmp + 0.2)][(int) (x_tmp + 0.2)] != '0')
+				return ;
+			if (d->map->map[(int) (y_tmp - 0.2)][(int) x_tmp] != '0')
+				return ;
+			if (d->map->map[(int) y_tmp][(int) (x_tmp - 0.2)] != '0')
+				return ;
+			if (d->map->map[(int) (y_tmp - 0.2)][(int) (x_tmp - 0.2)] != '0')
+				return ;
+			if (d->map->map[(int) (y_tmp + 0.2)][(int) (x_tmp - 0.2)] != '0')
+				return ;
+			if (d->map->map[(int) (y_tmp - 0.2)][(int) (x_tmp + 0.2)] != '0')
+				return ;
+			wc -= KEY_STP_SIZ / 4;
+			x_tmp = d->game->pos_x + p_left * (wc);
+			y_tmp = d->game->pos_y - p_right * (wc);
+		}
+		if (wc <= 0)
+		{
+			do_the_step(d, p_left * KEY_STP_SIZ, p_right * KEY_STP_SIZ * (-1));
+		}
 		return ;
 	}
 	else
