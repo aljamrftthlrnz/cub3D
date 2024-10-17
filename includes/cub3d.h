@@ -366,4 +366,9 @@ void	render_column(t_data *d, int x);
 void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
 void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
 
+/* input_three.c */
+char	**setup_rgb_values(t_data *d, char *str, char *ptr);
+int	is_valid_rgb(char *value);
+int	is_digit_str(char *str);
+void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
 #endif
