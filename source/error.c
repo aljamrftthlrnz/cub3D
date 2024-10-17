@@ -22,11 +22,10 @@ void	free_data(t_data *d)
 	{
 		if (d->map != NULL)
 		{
-			free_array(d->map->cpy_map); 
-			free_array(d->map->map); 
-			free_array(d->map->flood_map); 
-			free(d->map); 
-
+			free_array(d->map->cpy_map);
+			free_array(d->map->map);
+			free_array(d->map->flood_map);
+			free(d->map);
 		}
 		if (d->elem != NULL)
 		{
