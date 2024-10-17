@@ -1,71 +1,21 @@
 #include "../includes/cub3d.h"
 
-char	**setup_rgb_values(t_data *d, char *str, char *ptr)
-{
-	if (check_multiple_seperators(str))
-	{
-		free(ptr);
-		err_free_message(d, FL_CEIL_M);
-	}
-	return (ft_split(str, ','));
-}
-
-void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr)
-{
-	if (!rgb_values || !rgb || file_length(rgb_values) != 3)
-	{
-		free (ptr);
-		if (!rgb_values || !rgb)
-		{
-			free(rgb);
-			free_array(rgb_values);
-			err_free_message(d, ALLOC_FAIL);
-		}
-		free(rgb);
-		free_array(rgb_values);
-		err_free_message(d, FL_CEIL_M);
-	}
-}
-
-int is_digit_str(char *str)
-{
-    int i;
-
-	i = 0;
-    if (!str || str[i] == '\0')
-        return (0);
-    while (str[i])
-    {
-        if (str[i] == '\n' && str[i + 1] == '\0')
-            break;
-        if (ft_isalpha(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
-}
-
-int is_valid_rgb(char *value)
-{
-	if(!is_digit_str(value)|| !is_space(value))
-		return (0); 
-	return(1); 
-}
-
 int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 {
 	char	**rgb_values;
 	int		*rgb;
 
 	rgb_values = setup_rgb_values(d, str, ptr);
-	if(!is_valid_rgb(rgb_values[0]) || !is_valid_rgb(rgb_values[1]) || !is_valid_rgb(rgb_values[2]))
-	{
-		free_array(rgb_values); 
-		free(ptr); 
-		err_free_message(d, RGB_MI);
-	}	
 	rgb = (int *) malloc(sizeof(int) * 3);
 	rgb_null_check(d, rgb_values, rgb, ptr);
+	if (!is_valid_rgb(rgb_values[0]) || !is_valid_rgb(rgb_values[1]) \
+		|| !is_valid_rgb(rgb_values[2]))
+	{
+		free_array(rgb_values);
+		free (rgb);
+		free(ptr);
+		err_free_message(d, RGB_MI);
+	}
 	rgb[0] = ft_atoi(rgb_values[0]);
 	rgb[1] = ft_atoi(rgb_values[1]);
 	rgb[2] = ft_atoi(rgb_values[2]);

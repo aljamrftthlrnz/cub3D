@@ -2,5 +2,6 @@
     "files.associations": {
         "array": "c",
         "numbers": "c"
-    }
+    },
+    "editor.renderWhitespace": "all"
 }
