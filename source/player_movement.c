@@ -75,10 +75,33 @@ void	do_the_step(t_data *d, double a, double b)
 	d->ray->activate = 1;
 }
 
+int	wallcollision_checker(char **map, float x, float y)
+{
+	if (map[(int) y][(int) x] != '0')
+		return (1);
+	if (map[(int) (y + 0.2)][(int) x] != '0')
+		return (1);
+	if (map[(int) y][(int) (x + 0.2)] != '0')
+		return (1);
+	if (map[(int) (y + 0.2)][(int) (x + 0.2)] != '0')
+		return (1);
+	if (map[(int) (y - 0.2)][(int) x] != '0')
+		return (1);
+	if (map[(int) y][(int) (x - 0.2)] != '0')
+		return (1);
+	if (map[(int) (y - 0.2)][(int) (x - 0.2)] != '0')
+		return (1);
+	if (map[(int) (y + 0.2)][(int) (x - 0.2)] != '0')
+		return (1);
+	if (map[(int) (y - 0.2)][(int) (x + 0.2)] != '0')
+		return (1);
+	return (0);
+}
+
 void	check_step_1(t_data *d, double p_right, double p_left)
 {
-	double	x_tmp;
-	double	y_tmp;
+	float	x_tmp;
+	float	y_tmp;
 	float	wc;
 
 // third version
@@ -98,23 +121,7 @@ void	check_step_1(t_data *d, double p_right, double p_left)
 		y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ);
 		while (wc > 0 && d->map->map[(int) y_tmp][(int) x_tmp])
 		{
-			if (d->map->map[(int) y_tmp][(int) x_tmp] != '0')
-				return ;
-			if (d->map->map[(int) (y_tmp + 0.2)][(int) x_tmp] != '0')
-				return ;
-			if (d->map->map[(int) y_tmp][(int) (x_tmp + 0.2)] != '0')
-				return ;
-			if (d->map->map[(int) (y_tmp + 0.2)][(int) (x_tmp + 0.2)] != '0')
-				return ;
-			if (d->map->map[(int) (y_tmp - 0.2)][(int) x_tmp] != '0')
-				return ;
-			if (d->map->map[(int) y_tmp][(int) (x_tmp - 0.2)] != '0')
-				return ;
-			if (d->map->map[(int) (y_tmp - 0.2)][(int) (x_tmp - 0.2)] != '0')
-				return ;
-			if (d->map->map[(int) (y_tmp + 0.2)][(int) (x_tmp - 0.2)] != '0')
-				return ;
-			if (d->map->map[(int) (y_tmp - 0.2)][(int) (x_tmp + 0.2)] != '0')
+			if (wallcollision_checker(d->map->map, x_tmp, y_tmp) == 1)
 				return ;
 			wc -= KEY_STP_SIZ / 4;
 			x_tmp = d->game->pos_x + p_left * (wc);
