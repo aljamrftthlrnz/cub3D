@@ -27,9 +27,9 @@ void	arrow_keys(t_data *d, int keycode)
 		d->game->p_pos_dir = d->game->p_pos_dir - 360;
 }
 
-void	normalize_vector(double *x, double *y)
+void	normalize_vector(float *x, float *y)
 {
-	double  magnitude;
+	float  magnitude;
 
 	magnitude = sqrt(*x * *x + *y * *y);
 	if (magnitude == 0)
@@ -42,11 +42,11 @@ void	normalize_vector(double *x, double *y)
 	}
 }
 
-void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
+void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
 {
-	double	tmp;
+	float	tmp;
 
-	*p_left = (double) angle / 9 / 10;
+	*p_left = (float) angle / 9 / 10;
 	*p_right = 1 - *p_left;
 	if (keycode == KEY_S)
 	{
@@ -68,172 +68,132 @@ void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
 	normalize_vector(p_left, p_right);
 }
 
-void	do_the_step(t_data *d, double a, double b)
+// px and py are player position
+// cx and cy are center/corner position
+float	point_calc(float px, float py, float cx, float cy)
 {
-	d->game->pos_x += a;
-	d->game->pos_y += b;
-	d->ray->activate = 1;
+	float abs_x;
+	float abs_y;
+
+	abs_x = (px - cx) * (px - cx);
+	if (abs_x < 0)
+		abs_x = abs_x * (-1);
+	abs_y = (py - cy) * (py - cy);
+	if (abs_y < 0)
+		abs_y = abs_y * (-1);
+	printf("distance: %f\n", sqrtf(abs_x + abs_y));
+	return (sqrtf(abs_x + abs_y));
 }
 
-int	wallcollision_checker(char **map, float x, float y)
+// if result of point calc is smaller than r (radius)
+	// then player is inside corner radius -> no move possible return 1
+int	corner_in_circle(t_data *d, float y, float x)
 {
-	if (map[(int) y][(int) x] != '0')
-		return (1);
-	if (map[(int) (y + 0.2)][(int) x] != '0')
-		return (1);
-	if (map[(int) y][(int) (x + 0.2)] != '0')
-		return (1);
-	if (map[(int) (y + 0.2)][(int) (x + 0.2)] != '0')
-		return (1);
-	if (map[(int) (y - 0.2)][(int) x] != '0')
-		return (1);
-	if (map[(int) y][(int) (x - 0.2)] != '0')
-		return (1);
-	if (map[(int) (y - 0.2)][(int) (x - 0.2)] != '0')
-		return (1);
-	if (map[(int) (y + 0.2)][(int) (x - 0.2)] != '0')
-		return (1);
-	if (map[(int) (y - 0.2)][(int) (x + 0.2)] != '0')
-		return (1);
+	float	og_x;
+	float	og_y;
+
+	og_x = x;
+	og_y = y;
+	if (fmodf(y, 1) > 0.5)
+		y = ceilf(y);
+	else
+		y = floorf(y) - 0.001;
+	if (fmodf(x, 1) > 0.5)
+		x = ceilf(x);
+	else
+		x = floorf(x) - 0.001;
+	
+	if ((d->map->map[(int) og_y][(int) x] == '1' && d->map->map[(int) y][(int) og_x] == '1') || d->map->map[(int) og_y][(int) og_x] == '1')
+	{
+		if (point_calc(og_x, og_y, x, y) < 0.1)
+			return (1);
+	}
 	return (0);
 }
 
-void	check_step_1(t_data *d, double p_right, double p_left)
+void	check_step_1(t_data *d, float p_right, float p_left)
 {
-	float	x_tmp;
-	float	y_tmp;
-	float	wc;
-
-// third version
-/* checks coordinate +1 individually if there is wall ahead, if wall ahead, wallcollision calculation activates */
-	if (d->game->p_pos_dir < 0 || d->game->p_pos_dir >= 90)
+	if (!(d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90))
 		return ;
-/* 	if (d->map->map[(int) d->game->pos_y - 0.5][(int) d->game->pos_x] == '0' || d->map->map[(int) d->game->pos_y][(int) d->game->pos_x + 0.5] == '0')
+	if (d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] == '0')
 	{
-		do_the_step(d, p_left * KEY_STP_SIZ, p_right * KEY_STP_SIZ * (-1));
-		return ;
-	} */
-	
-	if (d->map->map[(int) (d->game->pos_y - p_right)][(int) d->game->pos_x] != '0' || d->map->map[(int) d->game->pos_y][(int) (d->game->pos_x + p_left)] != '0' || d->map->map[(int) (d->game->pos_y - p_right)][(int) (d->game->pos_x + p_left)] != '0')
-	{
-		wc = KEY_STP_SIZ;
-		x_tmp = d->game->pos_x + p_left * (KEY_STP_SIZ);
-		y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ);
-		while (wc > 0 && d->map->map[(int) y_tmp][(int) x_tmp])
+		if (corner_in_circle(d, d->game->pos_y - p_right * (KEY_STP_SIZ),  d->game->pos_x + p_left * (KEY_STP_SIZ)) == 1)
 		{
-			if (wallcollision_checker(d->map->map, x_tmp, y_tmp) == 1)
-				return ;
-			wc -= KEY_STP_SIZ / 4;
-			x_tmp = d->game->pos_x + p_left * (wc);
-			y_tmp = d->game->pos_y - p_right * (wc);
-		}
-		if (wc <= 0)
-		{
-			do_the_step(d, p_left * KEY_STP_SIZ, p_right * KEY_STP_SIZ * (-1));
-		}
-		return ;
-	}
-	else
-		do_the_step(d, p_left * KEY_STP_SIZ, p_right * KEY_STP_SIZ * (-1));
-
-
-//second version
-/* gradually checks from wc (wallcollision distance) is there is any wall detected */
-/* 	if (d->game->p_pos_dir < 0 || d->game->p_pos_dir >= 90)
-		return ;
-	wc = 0.4;
-	x_tmp = d->game->pos_x + p_left * (KEY_STP_SIZ + wc);
-	y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ + wc);
-	while (wc >= 0 && d->map->map[(int) y_tmp][(int) x_tmp])
-	{
-		if (d->map->map[(int) y_tmp][(int) x_tmp] == '0')
-		{
-			wc -= 0.005;
-			x_tmp = d->game->pos_x + p_left * (KEY_STP_SIZ + wc);
-			y_tmp = d->game->pos_y - p_right * (KEY_STP_SIZ + wc);
-		}
-		else
 			return ;
-	}
-	if (wc < 0)
-	{
-		d->game->pos_x += p_left * KEY_STP_SIZ;
-		d->game->pos_y -= p_right * KEY_STP_SIZ;
-		d->ray->activate = 1;
-	}
-	 */
-/*  //first version
-	if (d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90)
-	{
-		if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
-		{
-			if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x += p_left * KEY_STP_SIZ;
-				d->game->pos_y -= p_right * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
 		}
-	} */
-
-}
-
-void	check_step_2(t_data *d, double p_right, double p_left)
-{
-	if (d->game->p_pos_dir >= 90 && d->game->p_pos_dir < 180)
-	{
-		if(d->map->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		if(d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x += p_right * KEY_STP_SIZ;
-				d->game->pos_y += p_left * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			d->game->pos_x += p_left * KEY_STP_SIZ;
+			d->game->pos_y -= p_right * KEY_STP_SIZ;
+			d->ray->activate = 1;
 		}
 	}
 }
 
-void	check_step_3(t_data *d, double p_right, double p_left)
+void	check_step_2(t_data *d, float p_right, float p_left)
 {
-	if (d->game->p_pos_dir >= 180 && d->game->p_pos_dir < 270)
+	if (!(d->game->p_pos_dir >= 90 && d->game->p_pos_dir < 180))
+		return ;
+	if (d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] == '0')
 	{
-		if(d->map->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if (corner_in_circle(d, d->game->pos_y + p_left * (KEY_STP_SIZ),  d->game->pos_x + p_right * (KEY_STP_SIZ)) == 1)
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x -= p_left * KEY_STP_SIZ;
-				d->game->pos_y += p_right * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			return ;
+		}
+		if(d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
+		{
+			d->game->pos_x += p_right * KEY_STP_SIZ;
+			d->game->pos_y += p_left * KEY_STP_SIZ;
+			d->ray->activate = 1;
 		}
 	}
-
 }
 
-void	check_step_4(t_data *d, double p_right, double p_left)
+void	check_step_3(t_data *d, float p_right, float p_left)
 {
-	if (d->game->p_pos_dir >= 270 && d->game->p_pos_dir < 360)
+	if (!(d->game->p_pos_dir >= 180 && d->game->p_pos_dir < 270))
+		return ;
+	if (d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] == '0')
 	{
-		if(d->map->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		if (corner_in_circle(d, d->game->pos_y  + p_right * (KEY_STP_SIZ),  d->game->pos_x  - p_left * (KEY_STP_SIZ)) == 1)
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x -= p_right * KEY_STP_SIZ;
-				d->game->pos_y -= p_left * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			return ;
+		}
+		if(d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
+		{
+			d->game->pos_x -= p_left * KEY_STP_SIZ;
+			d->game->pos_y += p_right * KEY_STP_SIZ;
+			d->ray->activate = 1;
 		}
 	}
+}
 
+void	check_step_4(t_data *d, float p_right, float p_left)
+{
+	if (!(d->game->p_pos_dir >= 270 && d->game->p_pos_dir < 360))
+		return ;
+	if (d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] == '0')
+	{
+		if (corner_in_circle(d, d->game->pos_y  - p_left * (KEY_STP_SIZ),  d->game->pos_x  - p_right * (KEY_STP_SIZ)) == 1)
+		{
+			return ;
+		}
+		if(d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
+		{
+			d->game->pos_x -= p_right * KEY_STP_SIZ;
+			d->game->pos_y -= p_left * KEY_STP_SIZ;
+			d->ray->activate = 1;
+		}
+	}
 }
 
 void	player_step(t_data *d, int keycode)
 {
-	double	p_left;
-	double	p_right;
+	float	p_left;
+	float	p_right;
 
 	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
+
 	check_step_1(d, p_right, p_left);
 	check_step_2(d, p_right, p_left);
 	check_step_3(d, p_right, p_left);
