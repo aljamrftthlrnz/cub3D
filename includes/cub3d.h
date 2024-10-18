@@ -337,6 +337,10 @@ void	open_window(t_data *d);
 void	arrow_keys(t_data *d, int keycode);
 void    normalize_vector(double *x, double *y);
 void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
+void	check_step_1(t_data *d, double p_right, double p_left);
+void	check_step_2(t_data *d, double p_right, double p_left);
+void	check_step_3(t_data *d, double p_right, double p_left);
+void	check_step_4(t_data *d, double p_right, double p_left);
 void	player_step(t_data *d, int keycode);
 
 /* raycast_loop.c */
@@ -364,5 +368,11 @@ void	render_column(t_data *d, int x);
 /* render_c_f.c */
 void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
 void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
+
+/* input_three.c */
+int is_valid_rgb(char *value);
+int is_digit_str(char *str);
+void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
+char	**setup_rgb_values(t_data *d, char *str, char *ptr);
 
 #endif

@@ -3,15 +3,15 @@
 void	init_element(t_element *e)
 {
 	e->texnum = -1;
-	e->width = texSize; 
+	e->width = texSize;
 	e->height = texSize;
 }
 
 void	init_raycast(t_raycast *ray)
 {
 	ray->moveSpeed = 0.0;
-	ray->rot_speed = 0.0; 
-	ray->frameTime = 0.0; 
+	ray->rot_speed = 0.0;
+	ray->frameTime = 0.0;
 	ray->activate = 1;
 }
 
@@ -34,7 +34,7 @@ void	init_data_struct(t_data *d)
 void	init_data(t_data *d)
 {
 	init_data_struct(d);
-	d->elem = (t_element *) ft_calloc(sizeof(t_element), 1); 
+	d->elem = (t_element *) ft_calloc(sizeof(t_element), 1);
 	if (!d->elem)
 		err_free_message(d, ALLOC_FAIL);
 	init_element(d->elem);

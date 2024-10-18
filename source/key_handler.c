@@ -26,7 +26,6 @@ int	key_handler(int keycode, void *d_ptr)
 		|| keycode == KEY_D)
 	{
 		player_step(d, keycode);
-		// d->ray->activate = 1;
 		return (0);
 	}
 	if (keycode == KEY_LEFT || keycode == KEY_RIGHT)
