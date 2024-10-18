@@ -36,13 +36,12 @@ void	init_east_west(t_game *g, t_raycast *r)
 	}
 }
 
-void	init_raycasting(t_raycast *r, t_map *map, t_game *g)
+void	init_raycasting(t_raycast *r, t_game *g)
 {
 	if (g->p_pos_dir == DIR_N || g->p_pos_dir == DIR_S)
 		init_north_south(g, r);
 	else if (g->p_pos_dir == DIR_E || g->p_pos_dir == DIR_W)
 		init_east_west(g, r);
-	(void) map;
 }
 
 double	avoid_zero_at_all_costs(double definitely_not_zero)
