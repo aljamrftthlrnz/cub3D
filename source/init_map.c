@@ -41,6 +41,8 @@ int	create_file_array(t_data *d, char *argv)
 		d->file_arr[i] = (char *) ft_calloc(ft_strlen(line) + 1, sizeof(char));
 		if (!d->file_arr[i])
 		{
+			// Potentially not necessary because free_data already handling it
+			//free (line); 
 			while (i > 0)
 				free(d->file_arr[--i]);
 			free(d->file_arr);
@@ -55,6 +57,7 @@ int	create_file_array(t_data *d, char *argv)
 	close(fd);
 	return (0);
 }
+
 
 int	get_dimensions_of_file(t_data *d, char *argv)
 {

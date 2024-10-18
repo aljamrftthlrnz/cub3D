@@ -48,5 +48,7 @@ int	main(int argc, char **argv)
 	init_data(&d);
 	init_map(&d, argv[1]);
 	play_game(&d);
+	// possibly add for funcheck issue
+	//free_data(&d); 
 	return (error_code);
 }

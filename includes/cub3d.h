@@ -58,7 +58,8 @@
 # define KEY_STP_SIZ 0.1
 # define KEY_ROT_ANGL 4
 
-
+# define GNL 6
+# define GNL_FAIL "Get_next_line failed to process file\n"
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
 # define ARG_FAIL 8 // Too little arguments
