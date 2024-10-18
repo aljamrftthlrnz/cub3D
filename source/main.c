@@ -13,14 +13,11 @@ void	init_game(t_data *d)
 	}
 }
 
-//debugging help:
-	// printf("Player Pos %f und %f\n", d->game->pos_x, d->game->pos_y);
-
 void	play_game(t_data *d)
 {
 	init_game(d);
 	init_img(d);
-	init_raycasting(d->ray, d->map, d->game);
+	init_raycasting(d->ray, d->game);
 	open_window(d);
 	create_game(d);
 }

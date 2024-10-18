@@ -72,9 +72,9 @@ void	check_step_1(t_data *d, double p_right, double p_left)
 {
 	if (d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90)
 	{
-		if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if(d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
+			if(d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
 			{
 				d->game->pos_x += p_left * KEY_STP_SIZ;
 				d->game->pos_y -= p_right * KEY_STP_SIZ;
@@ -89,9 +89,9 @@ void	check_step_2(t_data *d, double p_right, double p_left)
 {
 	if (d->game->p_pos_dir >= 90 && d->game->p_pos_dir < 180)
 	{
-		if(d->map->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		if(d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
+			if(d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
 			{
 				d->game->pos_x += p_right * KEY_STP_SIZ;
 				d->game->pos_y += p_left * KEY_STP_SIZ;
@@ -105,9 +105,9 @@ void	check_step_3(t_data *d, double p_right, double p_left)
 {
 	if (d->game->p_pos_dir >= 180 && d->game->p_pos_dir < 270)
 	{
-		if(d->map->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if(d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
+			if(d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
 			{
 				d->game->pos_x -= p_left * KEY_STP_SIZ;
 				d->game->pos_y += p_right * KEY_STP_SIZ;
@@ -122,9 +122,9 @@ void	check_step_4(t_data *d, double p_right, double p_left)
 {
 	if (d->game->p_pos_dir >= 270 && d->game->p_pos_dir < 360)
 	{
-		if(d->map->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		if(d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] != '1')
 		{
-			if(d->map->cpy_map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
+			if(d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
 			{
 				d->game->pos_x -= p_right * KEY_STP_SIZ;
 				d->game->pos_y -= p_left * KEY_STP_SIZ;

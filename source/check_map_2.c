@@ -147,16 +147,12 @@ int	validating_map_walls(char **cpy)
 		if (i == 0 || i == (size - 1))
 		{
 			if (loop_over_potential_walls(cpy[i]))
-			{
 				return (1);
-			}
 		}
 		else
 		{
 			if (validate_outer_walls(cpy[i]))
-			{
 				return (1);
-			}
 		}
 	}
 	return (0);

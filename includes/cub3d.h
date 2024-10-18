@@ -358,7 +358,7 @@ void handle_texture_update(t_raycast *r, t_element *e);
 /* raycast.c */
 void init_north_south(t_game *g, t_raycast *r);
 void init_east_west(t_game *g, t_raycast *r);
-void init_raycasting(t_raycast *r, t_map *map, t_game *g);
+void	init_raycasting(t_raycast *r, t_game *g);
 double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 /* render_column.c */

@@ -83,7 +83,7 @@ int	check_empty_lines_in_map(t_map *m)
 	{
 		if (!is_space(map[i]))
 		{
-			printf("Wrong line %s\n", map[i]);
+			//printf("Wrong line %s\n", map[i]);
 			return (1);
 		}
 		i++;

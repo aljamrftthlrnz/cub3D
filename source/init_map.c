@@ -99,9 +99,7 @@ void	replace_initial_player_pos(t_map *m)
 		{
 			if (m->map[i][j] == c)
 			{
-				printf("OLD: %c\n", c);
 				m->map[i][j] = '0';
-				printf("NEW: %c\n", m->map[i][j]);
 				break ;
 			}
 			j++;
