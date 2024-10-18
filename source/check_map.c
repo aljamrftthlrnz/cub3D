@@ -102,8 +102,8 @@ void	map_related_checks(t_data *d, t_map *map)
 		err_free_message(d, PLAYER_W);
 	if (validating_map_walls(map->cpy_map))
 		err_free_message(d, BORDER_M);
-	if (validating_map_content(map->cpy_map))
+	if(check_for_free_zeros(map->cpy_map))
 		err_free_message(d, SPACE_PROT);
-	if(blank_space_check(map->cpy_map))
+	if (validating_map_content(map->cpy_map))
 		err_free_message(d, SPACE_PROT);
 }
