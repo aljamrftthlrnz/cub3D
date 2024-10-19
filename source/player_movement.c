@@ -72,17 +72,13 @@ void	angle_calc(int angle, int keycode, float *p_left, float *p_right)
 // cx and cy are center/corner position
 float	point_calc(float px, float py, float cx, float cy)
 {
-	float abs_x;
-	float abs_y;
+	float sq_x;
+	float sq_y;
 
-	abs_x = (px - cx) * (px - cx);
-	if (abs_x < 0)
-		abs_x = abs_x * (-1);
-	abs_y = (py - cy) * (py - cy);
-	if (abs_y < 0)
-		abs_y = abs_y * (-1);
-	printf("distance: %f\n", sqrtf(abs_x + abs_y));
-	return (sqrtf(abs_x + abs_y));
+	sq_x = (px - cx) * (px - cx);
+	sq_y = (py - cy) * (py - cy);
+	printf("distance: %f\n", sqrtf(sq_x + sq_y));
+	return (sqrtf(sq_x + sq_y));
 }
 
 // if result of point calc is smaller than r (radius)
