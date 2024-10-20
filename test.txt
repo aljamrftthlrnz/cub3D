@@ -1,0 +1,11 @@
+			// Potentially not necessary because free_data already handling it
+			//free (line); 
+			while (i > 0)
+				free(d->file_arr[--i]);
+			free(d->file_arr);
+			while (line)
+			{
+				free(line); 
+				line = get_next_line(fd); 
+			}
+			return (1);
