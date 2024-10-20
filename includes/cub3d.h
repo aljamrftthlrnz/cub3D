@@ -336,12 +336,14 @@ void	open_window(t_data *d);
 
 // player_movement.c
 void	arrow_keys(t_data *d, int keycode);
-void    normalize_vector(double *x, double *y);
-void	angle_calc(int angle, int keycode, double *p_left, double *p_right);
-void	check_step_1(t_data *d, double p_right, double p_left);
-void	check_step_2(t_data *d, double p_right, double p_left);
-void	check_step_3(t_data *d, double p_right, double p_left);
-void	check_step_4(t_data *d, double p_right, double p_left);
+void	normalize_vector(float *x, float *y);
+void	angle_calc(int angle, int keycode, float *p_left, float *p_right);
+float	point_calc(float px, float py, float cx, float cy);
+int		corner_in_circle(t_data *d, float y, float x);
+void	check_step_1(t_data *d, float p_right, float p_left);
+void	check_step_2(t_data *d, float p_right, float p_left);
+void	check_step_3(t_data *d, float p_right, float p_left);
+void	check_step_4(t_data *d, float p_right, float p_left);
 void	player_step(t_data *d, int keycode);
 
 /* raycast_loop.c */
