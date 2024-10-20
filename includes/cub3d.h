@@ -110,6 +110,8 @@
 # define MLXIMG_M "mlx image creation failed\n"
 # define MLXSIZ 103
 # define MLXSIZ_M "given textures are not of size 64x64\n"
+# define TXT_WRONG 104
+# define TXT_WRO "FILE invalid: Given textures don't adhere to standard\n"
 
 # define ISLE 150
 # define ISLE_M "MAP invalid: islands detected...\n"
@@ -268,14 +270,15 @@ int		calc_map_size(t_data *d, int begin);
 char	**copy_map_parts_in_file(t_data *d, int begin);
 int		process_map(t_data *d);
 
-/*FUNCTIONS IN FILE error.c*/
+/* error.c */
 void	free_element(t_element *e);
 void	free_data(t_data *d);
 void	free_mlx(t_data *d);
 void	free_array(char **arr);
-void	print_error_2(int error_code);
 void	print_error(int error_code);
-int 	err_free_message(t_data *d, int error_code);
+void	print_error_2(int error_code);
+void	print_error_3(int error_code);
+int		err_free_message(t_data *d, int error_code);
 
 /* img_utils.c */
 int		img_get_pos(t_image *img, int x, int y);

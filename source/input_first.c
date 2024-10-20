@@ -30,10 +30,32 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 	return (rgb);
 }
 
+int valid_path(char *path)
+{
+	char *tmp;
+	unsigned int i;
+
+	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
+	if(!tmp)
+		return (0);
+	i = 4; 
+	if(i < ft_strlen(tmp) - 1)
+	{
+		while (tmp[i] != '\0')
+		{
+			if(tmp[i] != ' ')
+				return (0);
+			i++; 
+		}
+	}
+	return (1);
+}
+
 char	*parse_texture(t_data *d, char *trim)
 {
 	char	*path;
 	int		i;
+	
 
 	i = 0;
 	path = ft_strdup(trim + 3);
@@ -41,12 +63,18 @@ char	*parse_texture(t_data *d, char *trim)
 	{
 		free (trim);
 		err_free_message(d, ALLOC_FAIL);
-	}
+	} 
 	while (path && path[i])
 	{
 		if (path[i] == '\n')
 			path[i] = 0;
 		i++;
+	}
+	if (!valid_path(path))
+	{
+		free (trim); 
+		free(path);
+		err_free_message(d, TXT_WRONG);
 	}
 	return (path);
 }

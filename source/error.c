@@ -87,6 +87,16 @@ void	free_array(char **arr)
 	arr = NULL;
 }
 
+void print_error_3(int error_code)
+{
+	if (error_code == MLXSIZ)
+		ft_putstr_fd(MLXSIZ_M, 2);
+	else if (error_code == RGB_MI)
+		ft_putstr_fd(RGB_M, 2);
+	else if (error_code == TXT_WRONG)
+		ft_putstr_fd(TXT_WRO, 2);
+}
+
 void	print_error_2(int error_code)
 {
 	if (error_code == ORDER)
@@ -111,10 +121,8 @@ void	print_error_2(int error_code)
 		ft_putstr_fd(MLXWI_M, 2);
 	else if (error_code == MLXIMG)
 		ft_putstr_fd(MLXIMG_M, 2);
-	else if (error_code == MLXSIZ)
-		ft_putstr_fd(MLXSIZ_M, 2);
-	else if (error_code == RGB_MI)
-		ft_putstr_fd(RGB_M, 2);
+	else
+		print_error_3(error_code);
 }
 
 void	print_error(int error_code)
