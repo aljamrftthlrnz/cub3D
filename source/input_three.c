@@ -70,7 +70,7 @@ int	is_valid_rgb(char *value)
 
 char	**setup_rgb_values(t_data *d, char *str, char *ptr)
 {
-	if (check_multiple_seperators(str))
+	if (str[0] == ',' || check_multiple_seperators(str))
 	{
 		free(ptr);
 		err_free_message(d, FL_CEIL_M);
