@@ -77,7 +77,6 @@ float	point_calc(float px, float py, float cx, float cy)
 
 	sq_x = (px - cx) * (px - cx);
 	sq_y = (py - cy) * (py - cy);
-	printf("distance: %f\n", sqrtf(sq_x + sq_y));
 	return (sqrtf(sq_x + sq_y));
 }
 
