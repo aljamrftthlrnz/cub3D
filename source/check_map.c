@@ -83,7 +83,6 @@ int	check_empty_lines_in_map(t_map *m)
 	{
 		if (!is_space(map[i]))
 		{
-			printf("Wrong line %s\n", map[i]);
 			return (1);
 		}
 		i++;
@@ -102,6 +101,8 @@ void	map_related_checks(t_data *d, t_map *map)
 		err_free_message(d, PLAYER_W);
 	if (validating_map_walls(map->cpy_map))
 		err_free_message(d, BORDER_M);
+	if(check_for_free_zeros(map->cpy_map))
+		err_free_message(d, SPACE_PROT);
 	if (validating_map_content(map->cpy_map))
 		err_free_message(d, SPACE_PROT);
 }

@@ -58,7 +58,8 @@
 # define KEY_STP_SIZ 0.1
 # define KEY_ROT_ANGL 4
 
-
+# define GNL 6
+# define GNL_FAIL "Get_next_line failed to process file\n"
 # define FILE_EMPTY 7
 # define FILE_EMPT "File is empty or non-processable identifier found\n"
 # define ARG_FAIL 8 // Too little arguments
@@ -98,6 +99,8 @@
 # define PLAYER_M "MAP invalid: player is not able to move around the map\n"
 # define SPACE_PROT 27
 # define SPACE "MAP invalid: spaces are not secured properly\n"
+# define CHAR_VAL 28
+# define CHAR_V "FILE invalid: Found invalid char in values\n"
 
 # define MLXIN 100
 # define MLXIN_M "mlx initialization failed\n"
@@ -249,6 +252,9 @@ int		check_up_down_left_right(char **map, int i, int j);
 int		loop_over_potential_walls(char *s);
 int		validate_outer_walls(char *cpy);
 int		validating_map_walls(char **cpy);
+int 	check_for_free_zeros(char **map);
+int 	line_up(char *map, char *prev);
+int 	line_down(char *map, char *prev); 
 
 /* create_game.c */
 int		time_to_render(t_data *d);
@@ -313,8 +319,6 @@ int extract_textures(t_data *d, char **arr);
 /* input_second.c */
 int check_multiple_seperators(char *str);
 int check_order_of_map(t_data *d);
-int order(char *trim, int *sum);
-int check_order_of_file(t_data *d);
 
 /* key_handler.c */
 int		close_game(void *ptr);
@@ -348,7 +352,7 @@ void determine_distance_to_wall(t_raycast *ray, t_game *game);
 void wall_hit(t_map *map, t_raycast *ray);
 void position_and_stepvalues(t_game *g, t_raycast *r);
 void init_loop(int x, t_raycast *r, t_game *g);
-void ray_loop(t_game *g, t_raycast *r, t_map *m, t_element *e, t_data *d);
+void ray_loop(t_data *d);
 
 /* raycast_texture.c */
 void decide_map_texture(t_raycast *r, t_element *e);
@@ -357,15 +361,21 @@ void handle_texture_update(t_raycast *r, t_element *e);
 /* raycast.c */
 void init_north_south(t_game *g, t_raycast *r);
 void init_east_west(t_game *g, t_raycast *r);
-void init_raycasting(t_raycast *r, t_map *map, t_game *g);
+void	init_raycasting(t_raycast *r, t_game *g);
 double   avoid_zero_at_all_costs(double definitely_not_zero);
 
 /* render_column.c */
-void	img_dis_col(t_data *d, t_image *img, double h, double x, double y, int startx);
+void	img_dis_col(t_data *d, double h, double x, double y);
 void	render_column(t_data *d, int x);
 
 /* render_c_f.c */
 void	color_below(t_data *d, double ray_hit_wall_x, double ray_hit_wall_y);
 void	color_above(t_data *d, int wall_height, double ray_hit_wall_x, double ray_hit_wall_y);
+
+/* input_three.c */
+int is_valid_rgb(char *value);
+int is_digit_str(char *str);
+void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
+char	**setup_rgb_values(t_data *d, char *str, char *ptr);
 
 #endif

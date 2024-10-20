@@ -66,6 +66,61 @@ int	loop_over_potential_walls(char *s)
 	return (0);
 }
 
+int line_down(char *map, char *prev)
+{
+	int j;
+
+	j = 1;
+	while (map[(ft_strlen(prev) - 1) + j])
+	{
+		if(map[(ft_strlen(prev) - 1) + j] == '0')
+			return (1);
+		j++;
+	}
+	return (0); 
+}
+
+int line_up(char *map, char *prev)
+{
+	int j;
+
+	j = 1;
+	while (prev[(ft_strlen(map) - 1) + j])
+	{
+		if(prev[(ft_strlen(map) - 1) + j] == '0')
+		{
+			return (1);
+		}
+		j++;
+	}
+	return (0); 
+}
+
+int check_for_free_zeros(char **map)
+{
+	int	i;
+	char *prev;
+
+	i = 0;
+	prev = NULL;
+	while (map[i])
+	{
+		if(prev != NULL && ft_strlen(prev) < ft_strlen(map[i]))
+		{
+			if(line_down(map[i], prev))
+				return (1); 
+		}
+		else if (prev != NULL && ft_strlen(prev) > ft_strlen(map[i]))
+		{
+			if(line_up(map[i], prev))
+				return (1); 
+		}
+		prev = map[i]; 
+		i++;
+	}
+	return(0);
+}
+
 int	validate_outer_walls(char *cpy)
 {
 	int	i;
@@ -75,8 +130,7 @@ int	validate_outer_walls(char *cpy)
 		return (1);
 	while (cpy[i] && cpy[i] == 'X')
 		i++;
-	if (cpy[i] && cpy[i] == '1' && (cpy[ft_strlen(cpy) - 1] == '1' \
-		|| cpy[ft_strlen(cpy) - 1] == 'X'))
+	if (cpy[i] && cpy[i] == '1' && cpy[ft_strlen(cpy) - 1] == '1')
 		return (0);
 	return (1);
 }
@@ -93,16 +147,12 @@ int	validating_map_walls(char **cpy)
 		if (i == 0 || i == (size - 1))
 		{
 			if (loop_over_potential_walls(cpy[i]))
-			{
 				return (1);
-			}
 		}
 		else
 		{
 			if (validate_outer_walls(cpy[i]))
-			{
 				return (1);
-			}
 		}
 	}
 	return (0);
