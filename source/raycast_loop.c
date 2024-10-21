@@ -1,27 +1,11 @@
 #include "../includes/cub3d.h"
 
-void	vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
-{
-	e->line_height = (int)(SCREEN_H / ray->perpWallDist);
-	e->drawStart = -(e->line_height) / 2 + SCREEN_H / 2;
-	if (e->drawStart < 0)
-		e->drawStart = 0;
-	e->drawEnd = e->line_height / 2 + SCREEN_H / 2;
-	if (e->drawEnd >= SCREEN_H)
-		e->drawEnd = SCREEN_H - 1;
-	if (ray->side == 0)
-		e->wallx = g->pos_y + ray->perpWallDist * ray->rayDirY;
-	else
-		e->wallx = g->pos_x + ray->perpWallDist * ray->rayDirX;
-	e->wallx -= floor(e->wallx);
-}
-
 void	determine_distance_to_wall(t_raycast *ray, t_game *game)
 {
 	if (ray->side == 0)
 		ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
 	else
-		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY); 
+		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY);
 	(void) game;
 }
 
@@ -31,17 +15,17 @@ void	wall_hit(t_map *map, t_raycast *ray)
 	int	loop;
 
 	loop = 0;
-	while (!ray->hit) 
+	while (!ray->hit)
 	{
 		if (ray->sideDistX < ray->sideDistY)
 		{
-			ray->sideDistX += ray->deltaDistX; 
+			ray->sideDistX += ray->deltaDistX;
 			ray->mapX += ray->stepX;
-			ray->side = 0; 
+			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY; 
+			ray->sideDistY += ray->deltaDistY;
 			ray->mapY += ray->stepY;
 			ray->side = 1;
 		}
@@ -64,20 +48,19 @@ void	position_and_stepvalues(t_game *g, t_raycast *r)
 	else
 	{
 		r->stepX = 1;
-		r->sideDistX = (r->mapX + 1.0 - g->pos_x) * r->deltaDistX; 
+		r->sideDistX = (r->mapX + 1.0 - g->pos_x) * r->deltaDistX;
 	}
 	if (r->rayDirY < 0)
 	{
-		r->stepY = -1; 
-		r->sideDistY = (g->pos_y - r->mapY) * r->deltaDistY; 
+		r->stepY = -1;
+		r->sideDistY = (g->pos_y - r->mapY) * r->deltaDistY;
 	}
 	else
 	{
-		r->stepY = 1; 
+		r->stepY = 1;
 		r->sideDistY = (r->mapY + 1.0 - g->pos_y) * r->deltaDistY;
 	}
 }
-//printf("Camera_x %f \n", r->camera_x);
 
 void	init_loop(int x, t_raycast *r, t_game *g)
 {

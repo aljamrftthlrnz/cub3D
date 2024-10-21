@@ -11,8 +11,8 @@ FILES = main.c init_data.c init_map.c init_map_helper.c \
 		render_column.c render_c_f.c \
 		key_handler.c player_movement.c \
 		init_img.c img_utils.c \
-		anti_island_checker.c input_three.c
-	
+		anti_island_checker.c input_three.c island_check_utils.c \
+		check_map_3.c free.c init_map_helper_2.c movement.c move_helper.c
 SRC = $(addprefix source/, $(FILES))
 OBJ = $(SRC:%.c=%.o)
 

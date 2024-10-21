@@ -4,14 +4,14 @@ void	init_north_south(t_game *g, t_raycast *r)
 {
 	if (g->p_pos_dir == DIR_N)
 	{
-		g->dir_x = 0; 
+		g->dir_x = 0;
 		g->dir_y = -1;
-		r->plane_x = PLANE; 
+		r->plane_x = PLANE;
 		r->plane_y = 0;
 	}
 	else if (g->p_pos_dir == DIR_S)
 	{
-		g->dir_x = 0; 
+		g->dir_x = 0;
 		g->dir_y = 1;
 		r->plane_x = PLANE * (-1);
 		r->plane_y = 0;

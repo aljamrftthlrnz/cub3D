@@ -110,6 +110,8 @@
 # define MLXIMG_M "mlx image creation failed\n"
 # define MLXSIZ 103
 # define MLXSIZ_M "given textures are not of size 64x64\n"
+# define TXT_WRONG 104
+# define TXT_WRO "FILE invalid: Given textures don't adhere to standard\n"
 
 # define ISLE 150
 # define ISLE_M "MAP invalid: islands detected...\n"
@@ -252,9 +254,10 @@ int		check_up_down_left_right(char **map, int i, int j);
 int		loop_over_potential_walls(char *s);
 int		validate_outer_walls(char *cpy);
 int		validating_map_walls(char **cpy);
-int 	check_for_free_zeros(char **map);
-int 	line_up(char *map, char *prev);
-int 	line_down(char *map, char *prev); 
+int		check_for_free_zeros(char **map);
+int		line_up(char *map, char *prev);
+int		line_down(char *map, char *prev); 
+char	*modify_path(char *path);
 
 /* create_game.c */
 int		time_to_render(t_data *d);
@@ -284,37 +287,37 @@ void	fill_color_img(t_image *image, int *rgb);
 void	copy_pos_to_img(t_image *d_img, t_image *s_img, int d_pos, int s_pos);
 
 /*FUNCTIONS IN FILE init_data.c*/
-void 	init_element(t_element *e);
-void 	init_raycast(t_raycast *ray);
-void	 init_data_struct(t_data *d);
-void	 rotation(t_raycast *r);
-void	 init_data(t_data *d);
+void	init_element(t_element *e);
+void	init_raycast(t_raycast *ray);
+void	init_data_struct(t_data *d);
+void	rotation(t_raycast *r);
+void	init_data(t_data *d);
 
 /* init_img.c */
 void	setup_img(t_data *d, t_image *new_img, char *path);
 void	init_img(t_data *d);
 
 /* init_map_helper.c */
-int is_space(char *line);
-int is_character(char c);
-int is_wall_space(char c);
-int file_length(char **arr);
-int map_len(char **arr);
+int		is_space(char *line);
+int		is_character(char c);
+int		is_wall_space(char c);
+int		file_length(char **arr);
+int		map_len(char **arr);
 
 /* init_map.c */
 int		setup_file(t_data *d, int *fd, char **line, char *argv);
-int    create_file_array(t_data *d, char *argv);
+int		create_file_array(t_data *d, char *argv);
 int		get_dimensions_of_file(t_data *d, char *argv);
 void	replace_initial_player_pos(t_map *m);
 int		get_map_length(char **map);
-void    init_map(t_data *d, char *argv);
+void	init_map(t_data *d, char *argv);
 
 /* input_first.c */
-int *parse_rgb_colors(char *str, t_data *d, char *ptr);
+int		*parse_rgb_colors(char *str, t_data *d, char *ptr);
 char	*parse_texture(t_data *d, char *trim);
-int	is_identifier(t_data *d, void **path, char *id, char *trim);
-void textures_comp(char*trim, t_data *d, int *map);
-int extract_textures(t_data *d, char **arr);
+int		is_identifier(t_data *d, void **path, char *id, char *trim);
+void	textures_comp(char*trim, t_data *d, int *map);
+int		extract_textures(t_data *d, char **arr);
 
 /* input_second.c */
 int check_multiple_seperators(char *str);
@@ -378,5 +381,7 @@ int		is_digit_str(char *str);
 void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
 char	**setup_rgb_values(t_data *d, char *str, char *ptr);
 int		spaces_between_numerals(char *value);
+
+void	free_exit(char *s1, char *s2);
 
 #endif

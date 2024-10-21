@@ -1,33 +1,24 @@
 #include "../includes/cub3d.h"
 
-int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
+int	valid_path(char *path)
 {
-	char	**rgb_values;
-	int		*rgb;
+	char			*tmp;
+	unsigned int	i;
 
-	rgb_values = setup_rgb_values(d, str, ptr);
-	rgb = (int *) malloc(sizeof(int) * 3);
-	rgb_null_check(d, rgb_values, rgb, ptr);
-	if (!is_valid_rgb(rgb_values[0]) || !is_valid_rgb(rgb_values[1]) \
-		|| !is_valid_rgb(rgb_values[2]))
+	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
+	if (!tmp)
+		return (0);
+	i = 4;
+	if (i < ft_strlen(tmp) - 1)
 	{
-		free_array(rgb_values);
-		free (rgb);
-		free(ptr);
-		err_free_message(d, RGB_MI);
+		while (tmp[i] != '\0')
+		{
+			if (tmp[i] != ' ')
+				return (0);
+			i++;
+		}
 	}
-	rgb[0] = ft_atoi(rgb_values[0]);
-	rgb[1] = ft_atoi(rgb_values[1]);
-	rgb[2] = ft_atoi(rgb_values[2]);
-	free_array(rgb_values);
-	if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0 || rgb[1] > 255 || rgb[2] < 0 \
-		|| rgb[2] > 255)
-	{
-		free(rgb);
-		free(ptr);
-		err_free_message(d, RGB_W);
-	}
-	return (rgb);
+	return (1);
 }
 
 char	*parse_texture(t_data *d, char *trim)
@@ -48,6 +39,13 @@ char	*parse_texture(t_data *d, char *trim)
 			path[i] = 0;
 		i++;
 	}
+	if (!valid_path(path))
+	{
+		free (trim);
+		free(path);
+		err_free_message(d, TXT_WRONG);
+	}
+	path = modify_path (path);
 	return (path);
 }
 
@@ -65,7 +63,9 @@ int	is_identifier(t_data *d, void **path, char *id, char *trim)
 				err_free_message(d, FL_CEIL_D);
 		}
 		if (ft_strlen(id) > 2)
+		{
 			*path = parse_texture(d, trim);
+		}
 		else
 			*path = parse_rgb_colors(trim + 2, d, trim);
 		return (0);
