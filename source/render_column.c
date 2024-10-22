@@ -13,7 +13,7 @@ void	img_dis_col(t_data *d, double h, double x, double y)
 	int		s_pos;
 	int		d_pos;
 
-	quo = d->NESW[d->elem->texnum].height / h;
+	quo = d->nesw[d->elem->texnum].height / h;
 	wall = 0;
 	upper_y_pos = y - h;
 	if (upper_y_pos < 0)
@@ -21,14 +21,14 @@ void	img_dis_col(t_data *d, double h, double x, double y)
 		wall = upper_y_pos * (-1) / 2 / h * 64;
 		upper_y_pos = 0;
 	}
-	while (upper_y_pos <= y && wall <= d->NESW[d->elem->texnum].height)
+	while (upper_y_pos <= y && wall <= d->nesw[d->elem->texnum].height)
 	{
-		s_pos = img_get_pos(&d->NESW[d->elem->texnum], \
+		s_pos = img_get_pos(&d->nesw[d->elem->texnum], \
 			(int)((double) d->elem->wallx * 100 * 0.63), (int) wall);
 		d_pos = img_get_pos(d->screen, x, upper_y_pos++);
 		if (s_pos < 0 || d_pos < 0)
 			break ;
-		copy_pos_to_img(d->screen, &d->NESW[d->elem->texnum], d_pos, s_pos);
+		copy_pos_to_img(d->screen, &d->nesw[d->elem->texnum], d_pos, s_pos);
 		wall += quo;
 	}
 }
@@ -42,7 +42,7 @@ void	render_column(t_data *d, int x)
 	int	loop;
 
 	loop = 0;
-	ray_hit_wall_y = d->elem->drawEnd;
+	ray_hit_wall_y = d->elem->draw_end;
 	wall_height = d->elem->line_height;
 	if (d->ray->hit == 0)
 	{

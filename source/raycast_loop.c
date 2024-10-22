@@ -3,9 +3,9 @@
 void	determine_distance_to_wall(t_raycast *ray, t_game *game)
 {
 	if (ray->side == 0)
-		ray->perpWallDist = (ray->sideDistX - ray->deltaDistX);
+		ray->perp_wall_dist = (ray->side_distx - ray->delta_distx);
 	else
-		ray->perpWallDist = (ray->sideDistY - ray->deltaDistY);
+		ray->perp_wall_dist = (ray->side_disty - ray->delta_disty);
 	(void) game;
 }
 
@@ -17,22 +17,22 @@ void	wall_hit(t_map *map, t_raycast *ray)
 	loop = 0;
 	while (!ray->hit)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (ray->side_distx < ray->side_disty)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
+			ray->side_distx += ray->delta_distx;
+			ray->mapx += ray->stepx;
 			ray->side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
+			ray->side_disty += ray->delta_disty;
+			ray->mapy += ray->stepy;
 			ray->side = 1;
 		}
-		if (ray->mapX < 0 || ray->mapX >= map->width || ray->mapY < 0 \
-			|| ray->mapY >= map->length)
+		if (ray->mapx < 0 || ray->mapx >= map->width || ray->mapy < 0 \
+			|| ray->mapy >= map->length)
 			return ;
-		if (map->map[ray->mapY][ray->mapX] == '1')
+		if (map->map[ray->mapy][ray->mapx] == '1')
 			ray->hit = 1;
 		loop++;
 	}
@@ -40,43 +40,43 @@ void	wall_hit(t_map *map, t_raycast *ray)
 
 void	position_and_stepvalues(t_game *g, t_raycast *r)
 {
-	if (r->rayDirX < 0)
+	if (r->ray_dirx < 0)
 	{
-		r->stepX = -1;
-		r->sideDistX = (g->pos_x - r->mapX) * r->deltaDistX;
+		r->stepx = -1;
+		r->side_distx = (g->pos_x - r->mapx) * r->delta_distx;
 	}
 	else
 	{
-		r->stepX = 1;
-		r->sideDistX = (r->mapX + 1.0 - g->pos_x) * r->deltaDistX;
+		r->stepx = 1;
+		r->side_distx = (r->mapx + 1.0 - g->pos_x) * r->delta_distx;
 	}
-	if (r->rayDirY < 0)
+	if (r->ray_diry < 0)
 	{
-		r->stepY = -1;
-		r->sideDistY = (g->pos_y - r->mapY) * r->deltaDistY;
+		r->stepy = -1;
+		r->side_disty = (g->pos_y - r->mapy) * r->delta_disty;
 	}
 	else
 	{
-		r->stepY = 1;
-		r->sideDistY = (r->mapY + 1.0 - g->pos_y) * r->deltaDistY;
+		r->stepy = 1;
+		r->side_disty = (r->mapy + 1.0 - g->pos_y) * r->delta_disty;
 	}
 }
 
 void	init_loop(int x, t_raycast *r, t_game *g)
 {
 	r->camera_x = 2 * x / (double) SCREEN_W - 1;
-	r->rayDirX = g->dir_x + r->plane_x * r->camera_x;
-	r->rayDirY = g->dir_y + r->plane_y * r->camera_x;
-	r->mapX = (int)g->pos_x;
-	r->mapY = (int)g->pos_y;
-	if (r->rayDirX == 0)
-		r->deltaDistX = 1e30;
+	r->ray_dirx = g->dir_x + r->plane_x * r->camera_x;
+	r->ray_diry = g->dir_y + r->plane_y * r->camera_x;
+	r->mapx = (int)g->pos_x;
+	r->mapy = (int)g->pos_y;
+	if (r->ray_dirx == 0)
+		r->delta_distx = 1e30;
 	else
-		r->deltaDistX = fabs(1 / r->rayDirX);
-	if (r->rayDirY == 0)
-		r->deltaDistY = 1e30;
+		r->delta_distx = fabs(1 / r->ray_dirx);
+	if (r->ray_diry == 0)
+		r->delta_disty = 1e30;
 	else
-		r->deltaDistY = fabs(1 / r->rayDirY);
+		r->delta_disty = fabs(1 / r->ray_diry);
 }
 
 void	ray_loop(t_data *d)

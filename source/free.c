@@ -51,17 +51,17 @@ void	free_mlx(t_data *d)
 {
 	if (d->win)
 		mlx_destroy_window(d->mlx, d->win);
-	if (d->NESW)
+	if (d->nesw)
 	{
-		if (d->NESW[0].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[0].img_ptr);
-		if (d->NESW[1].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[1].img_ptr);
-		if (d->NESW[2].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[2].img_ptr);
-		if (d->NESW[3].img_ptr)
-			mlx_destroy_image(d->mlx, d->NESW[3].img_ptr);
-		free (d->NESW);
+		if (d->nesw[0].img_ptr)
+			mlx_destroy_image(d->mlx, d->nesw[0].img_ptr);
+		if (d->nesw[1].img_ptr)
+			mlx_destroy_image(d->mlx, d->nesw[1].img_ptr);
+		if (d->nesw[2].img_ptr)
+			mlx_destroy_image(d->mlx, d->nesw[2].img_ptr);
+		if (d->nesw[3].img_ptr)
+			mlx_destroy_image(d->mlx, d->nesw[3].img_ptr);
+		free (d->nesw);
 	}
 	if (d->screen)
 	{

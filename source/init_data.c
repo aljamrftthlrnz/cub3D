@@ -3,15 +3,15 @@
 void	init_element(t_element *e)
 {
 	e->texnum = -1;
-	e->width = texSize;
-	e->height = texSize;
+	e->width = TEXSIZE;
+	e->height = TEXSIZE;
 }
 
 void	init_raycast(t_raycast *ray)
 {
-	ray->moveSpeed = 0.0;
+	ray->move_speed = 0.0;
 	ray->rot_speed = 0.0;
-	ray->frameTime = 0.0;
+	ray->frame_time = 0.0;
 	ray->activate = 1;
 }
 
@@ -27,7 +27,7 @@ void	init_data_struct(t_data *d)
 	d->map = NULL;
 	d->ray = NULL;
 	d->game = NULL;
-	d->NESW = NULL;
+	d->nesw = NULL;
 	d->screen = NULL;
 }
 

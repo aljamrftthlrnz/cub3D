@@ -24,22 +24,22 @@ void	setup_img(t_data *d, t_image *new_img, char *path)
 
 void	check_img_size(t_data *d)
 {
-	if (d->NESW[0].height != 64 || d->NESW[0].width != 64)
+	if (d->nesw[0].height != 64 || d->nesw[0].width != 64)
 	{
 		free_mlx(d);
 		err_free_message(d, 103);
 	}
-	if (d->NESW[1].height != 64 || d->NESW[0].width != 64)
+	if (d->nesw[1].height != 64 || d->nesw[0].width != 64)
 	{
 		free_mlx(d);
 		err_free_message(d, 103);
 	}
-	if (d->NESW[2].height != 64 || d->NESW[0].width != 64)
+	if (d->nesw[2].height != 64 || d->nesw[0].width != 64)
 	{
 		free_mlx(d);
 		err_free_message(d, 103);
 	}
-	if (d->NESW[3].height != 64 || d->NESW[0].width != 64)
+	if (d->nesw[3].height != 64 || d->nesw[0].width != 64)
 	{
 		free_mlx(d);
 		err_free_message(d, 103);
@@ -48,16 +48,16 @@ void	check_img_size(t_data *d)
 
 void	init_img(t_data *d)
 {
-	d->NESW = (t_image *) ft_calloc(sizeof(t_image), 4);
+	d->nesw = (t_image *) ft_calloc(sizeof(t_image), 4);
 	d->screen = (t_image *) ft_calloc(sizeof(t_image), 1);
-	if (d->NESW == NULL || d->screen == NULL)
+	if (d->nesw == NULL || d->screen == NULL)
 	{
 		err_free_message(d, ALLOC_FAIL);
 	}
-	setup_img(d, &d->NESW[0], d->elem->no_path);
-	setup_img(d, &d->NESW[1], d->elem->ea_path);
-	setup_img(d, &d->NESW[2], d->elem->so_path);
-	setup_img(d, &d->NESW[3], d->elem->we_path);
+	setup_img(d, &d->nesw[0], d->elem->no_path);
+	setup_img(d, &d->nesw[1], d->elem->ea_path);
+	setup_img(d, &d->nesw[2], d->elem->so_path);
+	setup_img(d, &d->nesw[3], d->elem->we_path);
 	setup_img(d, d->screen, NULL);
 	check_img_size(d);
 }
