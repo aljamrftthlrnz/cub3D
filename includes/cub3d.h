@@ -198,6 +198,7 @@ typedef struct s_map
 	int				pos_x;
 	int				p_pos_dir;
 }	t_map;
+
 typedef struct s_data
 {
 	void		*mlx;
@@ -362,5 +363,7 @@ int		is_digit_str(char *str);
 void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
 char	**setup_rgb_values(t_data *d, char *str, char *ptr);
 int		spaces_between_numerals(char *value);
+
+void	free_line(char *line, int fd);
 
 #endif
