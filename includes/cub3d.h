@@ -252,7 +252,7 @@ char	**copy_map_parts_in_file(t_data *d, int begin);
 int		process_map(t_data *d);
 
 /*FUNCTIONS IN FILE error.c*/
-void	free_exit(char *s1, char *s2);
+void	free_exit(int *s1, char *s2);
 void	free_element(t_element *e);
 void	free_data(t_data *d);
 void	free_mlx(t_data *d);

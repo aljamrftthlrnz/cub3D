@@ -1,6 +1,6 @@
 #include "../includes/cub3d.h"
 
-void	free_exit(char *s1, char *s2)
+void	free_exit(int *s1, char *s2)
 {
 	free (s1);
 	free (s2);
