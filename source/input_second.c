@@ -73,12 +73,9 @@ char	*modify_path(char *path)
 	i = 0;
 	len = ft_strlen(path) - 1;
 	new_path = NULL;
-	while (path[len] && path[len] == ' ')
+	while (path[len] && is_whitespace(path[len]))
 		len--;
 	if (len != ft_strlen(path) - 1)
-	{
-		new_path = ft_substr(path, 0, len + 1);
-		return (free(path), new_path);
-	}
+		path[len + 1] = 0;
 	return (path);
 }

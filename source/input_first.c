@@ -45,8 +45,7 @@ char	*parse_texture(t_data *d, char *trim)
 		free(path);
 		err_free_message(d, TXT_WRONG);
 	}
-	path = modify_path (path);
-	return (path);
+	return (modify_path(path));
 }
 
 // returns 0 for success
