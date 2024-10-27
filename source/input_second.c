@@ -66,13 +66,9 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 
 char	*modify_path(char *path)
 {
-	char			*new_path;
-	int				i;
 	unsigned int	len;
 
-	i = 0;
 	len = ft_strlen(path) - 1;
-	new_path = NULL;
 	while (path[len] && is_whitespace(path[len]))
 		len--;
 	if (len != ft_strlen(path) - 1)

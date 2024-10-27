@@ -26,7 +26,7 @@ int valid_path(char *path)
 	{
 		while (tmp[i] != '\0')
 		{
-			if(tmp[i] != ' ')
+			if(!is_whitespace(tmp[i]))
 				return (0);
 			i++; 
 		}
