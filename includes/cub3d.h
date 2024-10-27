@@ -111,7 +111,7 @@
 # define MLXSIZ 103
 # define MLXSIZ_M "given textures are not of size 64x64\n"
 # define TXT_WRONG 104
-# define TXT_WRO "FILE invalid: Given textures don't adhere to standard\n"
+# define TXT_WRO "FILE invalid: Given texture path does not adhere to standard\n"
 
 # define ISLE 150
 # define ISLE_M "MAP invalid: islands detected...\n"

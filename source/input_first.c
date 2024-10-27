@@ -30,15 +30,25 @@ int	*parse_rgb_colors(char *str, t_data *d, char *ptr)
 	return (rgb);
 }
 
+int invisible_file(char *path)
+{
+	int len;
+
+	len = ft_strlen(path) - 5;
+	if(path[len] == '/')
+		return (0);
+	return (1);
+}
+
 int valid_path(char *path)
 {
-	char *tmp;
-	unsigned int i;
+	char			*tmp;
+	unsigned int	i;
 
 	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
 	if(!tmp)
 		return (0);
-	i = 4; 
+	i = 3; 
 	if(i < ft_strlen(tmp) - 1)
 	{
 		while (tmp[i] != '\0')
@@ -70,7 +80,7 @@ char	*parse_texture(t_data *d, char *trim)
 			path[i] = 0;
 		i++;
 	}
-	if (!valid_path(path))
+	if (!invisible_file(path) || !valid_path(path))
 	{
 		free (trim); 
 		free(path);
