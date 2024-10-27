@@ -34,8 +34,12 @@ int invisible_file(char *path)
 {
 	int len;
 
-	len = ft_strlen(path) - 5;
-	if(path[len] == '/')
+	len = ft_strlen(path) -1;
+	while (path[len] && (path[len] == ' ' || path[len] == '\t'))
+		len--; 
+	len -= 4;
+	printf("Stelle [%c]\n", path[len]); 
+	if(path[len] && path[len] == '/')
 		return (0);
 	return (1);
 }
