@@ -40,16 +40,37 @@ int	is_digit_str(char *str)
 	return (1);
 }
 
+int	spaces_between_numerals(char *value)
+{
+	int	i;
+
+	i = 0;
+	if (!value || value[i] == '\0')
+		return (0);
+	while (value[i] && value[i] == ' ')
+		i++;
+	while (value[i] && ft_isdigit(value[i]))
+		i++;
+	while (value[i] && (value[i] == ' ' || value[i] == '\n'))
+		i++;
+	if (value[i] != '\0')
+		return (0);
+	return (1);
+}
+
 int	is_valid_rgb(char *value)
 {
-	if (!is_digit_str(value) || !is_space(value))
+	if (!is_digit_str(value) || !is_space(value) || \
+		!spaces_between_numerals(value))
+	{
 		return (0);
+	}
 	return (1);
 }
 
 char	**setup_rgb_values(t_data *d, char *str, char *ptr)
 {
-	if (check_multiple_seperators(str))
+	if (str[0] == ',' || check_multiple_seperators(str))
 	{
 		free(ptr);
 		err_free_message(d, FL_CEIL_M);

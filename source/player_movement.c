@@ -1,144 +1,103 @@
 #include "../includes/cub3d.h"
 
-void	arrow_keys(t_data *d, int keycode)
+// px and py are player position
+// cx and cy are center/corner position
+
+// if result of point calc is smaller than r (radius)
+	// then player is inside corner radius -> no move possible return 1
+
+void	check_step_1(t_data *d, float p_right, float p_left)
 {
-	double radian_angle;
-	double	tmp;
-
-	if (keycode == KEY_LEFT)
-	{
-		d->game->p_pos_dir -= KEY_ROT_ANGL;
-		radian_angle = -KEY_ROT_ANGL * (PI / 180);
-	}
-	if (keycode == KEY_RIGHT)
-	{
-		d->game->p_pos_dir += KEY_ROT_ANGL;
-		radian_angle = KEY_ROT_ANGL * (PI / 180);
-	}
-	tmp = d->ray->plane_x;
-	d->ray->plane_x = d->ray->plane_x * cos(radian_angle) - d->ray->plane_y * sin(radian_angle);
-	d->ray->plane_y = tmp * sin(radian_angle) + d->ray->plane_y * cos(radian_angle);
-	tmp = d->game->dir_x;
-	d->game->dir_x = d->game->dir_x * cos(radian_angle) - d->game->dir_y * sin(radian_angle);
-	d->game->dir_y = tmp * sin(radian_angle) + d->game->dir_y * cos(radian_angle);
-	while (d->game->p_pos_dir < 0)
-		d->game->p_pos_dir = 360 + d->game->p_pos_dir;
-	while (d->game->p_pos_dir > 359)
-		d->game->p_pos_dir = d->game->p_pos_dir - 360;
-}
-
-void	normalize_vector(double *x, double *y)
-{
-	double  magnitude;
-
-	magnitude = sqrt(*x * *x + *y * *y);
-	if (magnitude == 0)
+	if (!(d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90))
 		return ;
-	else if (magnitude != 1)
+	if (d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))] \
+		[(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] == '0')
 	{
-		*x = *x * (1 / magnitude);
-		*y = *y * (1 / magnitude);
-		magnitude = sqrt(*x * *x + *y * *y);
-	}
-}
-
-void	angle_calc(int angle, int keycode, double *p_left, double *p_right)
-{
-	double	tmp;
-
-	*p_left = (double) angle / 9 / 10;
-	*p_right = 1 - *p_left;
-	if (keycode == KEY_S)
-	{
-		*p_left = *p_left * (-1);
-		*p_right = *p_right * (-1);
-	}
-	if (keycode == KEY_A)
-	{
-		tmp = *p_left;
-		*p_left = *p_right  * (-1);
-		*p_right = tmp;
-	}
-	if (keycode == KEY_D)
-	{
-		tmp = *p_left;
-		*p_left = *p_right;
-		*p_right = tmp * (-1);
-	}
-	normalize_vector(p_left, p_right);
-}
-
-void	check_step_1(t_data *d, double p_right, double p_left)
-{
-	if (d->game->p_pos_dir >= 0 && d->game->p_pos_dir < 90)
-	{
-		if(d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if (corner_in_circle(d, d->game->pos_y - p_right * (KEY_STP_SIZ), \
+			d->game->pos_x + p_left * (KEY_STP_SIZ)) == 1)
 		{
-			if(d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x += p_left * KEY_STP_SIZ;
-				d->game->pos_y -= p_right * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			return ;
 		}
-	}
-
-}
-
-void	check_step_2(t_data *d, double p_right, double p_left)
-{
-	if (d->game->p_pos_dir >= 90 && d->game->p_pos_dir < 180)
-	{
-		if(d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		if (d->map->map[(int)(d->game->pos_y - p_right * (KEY_STP_SIZ))] \
+			[(int)(d->game->pos_x + p_left * (KEY_STP_SIZ))] != '1')
 		{
-			if(d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x += p_right * KEY_STP_SIZ;
-				d->game->pos_y += p_left * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			d->game->pos_x += p_left * KEY_STP_SIZ;
+			d->game->pos_y -= p_right * KEY_STP_SIZ;
+			d->ray->activate = 1;
 		}
 	}
 }
 
-void	check_step_3(t_data *d, double p_right, double p_left)
+void	check_step_2(t_data *d, float p_right, float p_left)
 {
-	if (d->game->p_pos_dir >= 180 && d->game->p_pos_dir < 270)
+	if (!(d->game->p_pos_dir >= 90 && d->game->p_pos_dir < 180))
+		return ;
+	if (d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ + 0.1))] \
+		[(int)(d->game->pos_x + p_right * (KEY_STP_SIZ + 0.1))] == '0')
 	{
-		if(d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] != '1')
+		if (corner_in_circle(d, d->game->pos_y + p_left * (KEY_STP_SIZ), \
+			d->game->pos_x + p_right * (KEY_STP_SIZ)) == 1)
 		{
-			if(d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x -= p_left * KEY_STP_SIZ;
-				d->game->pos_y += p_right * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			return ;
+		}
+		if (d->map->map[(int)(d->game->pos_y + p_left * (KEY_STP_SIZ))] \
+			[(int)(d->game->pos_x + p_right * (KEY_STP_SIZ))] != '1')
+		{
+			d->game->pos_x += p_right * KEY_STP_SIZ;
+			d->game->pos_y += p_left * KEY_STP_SIZ;
+			d->ray->activate = 1;
 		}
 	}
-
 }
 
-void	check_step_4(t_data *d, double p_right, double p_left)
+void	check_step_3(t_data *d, float p_right, float p_left)
 {
-	if (d->game->p_pos_dir >= 270 && d->game->p_pos_dir < 360)
+	if (!(d->game->p_pos_dir >= 180 && d->game->p_pos_dir < 270))
+		return ;
+	if (d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ + 0.1))] \
+		[(int)(d->game->pos_x - p_left * (KEY_STP_SIZ + 0.1))] == '0')
 	{
-		if(d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] != '1')
+		if (corner_in_circle(d, d->game->pos_y + p_right * (KEY_STP_SIZ), \
+			d->game->pos_x - p_left * (KEY_STP_SIZ)) == 1)
 		{
-			if(d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))][(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
-			{
-				d->game->pos_x -= p_right * KEY_STP_SIZ;
-				d->game->pos_y -= p_left * KEY_STP_SIZ;
-				d->ray->activate = 1;
-			}
+			return ;
+		}
+		if (d->map->map[(int)(d->game->pos_y + p_right * (KEY_STP_SIZ))] \
+			[(int)(d->game->pos_x - p_left * (KEY_STP_SIZ))] != '1')
+		{
+			d->game->pos_x -= p_left * KEY_STP_SIZ;
+			d->game->pos_y += p_right * KEY_STP_SIZ;
+			d->ray->activate = 1;
 		}
 	}
+}
 
+void	check_step_4(t_data *d, float p_right, float p_left)
+{
+	if (!(d->game->p_pos_dir >= 270 && d->game->p_pos_dir < 360))
+		return ;
+	if (d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ + 0.1))] \
+		[(int)(d->game->pos_x - p_right * (KEY_STP_SIZ + 0.1))] == '0')
+	{
+		if (corner_in_circle(d, d->game->pos_y - p_left * (KEY_STP_SIZ), \
+			d->game->pos_x - p_right * (KEY_STP_SIZ)) == 1)
+		{
+			return ;
+		}
+		if (d->map->map[(int)(d->game->pos_y - p_left * (KEY_STP_SIZ))] \
+			[(int)(d->game->pos_x - p_right * (KEY_STP_SIZ))] != '1')
+		{
+			d->game->pos_x -= p_right * KEY_STP_SIZ;
+			d->game->pos_y -= p_left * KEY_STP_SIZ;
+			d->ray->activate = 1;
+		}
+	}
 }
 
 void	player_step(t_data *d, int keycode)
 {
-	double	p_left;
-	double	p_right;
+	float	p_left;
+	float	p_right;
 
 	angle_calc(d->game->p_pos_dir % 90, keycode, &p_left, &p_right);
 	check_step_1(d, p_right, p_left);

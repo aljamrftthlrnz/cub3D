@@ -9,17 +9,15 @@ char	**create_map_copy(t_map *map)
 	i = 0;
 	size = file_length(map->map);
 	s = (char **) malloc(sizeof(char *) * (size + 1));
+	if (s == NULL)
+		return (NULL);
 	while (i < size)
 	{
 		s[i] = (char *) malloc(sizeof(char) * (ft_strlen(map->map[i]) + 1));
 		if (!s[i])
 		{
-			while (i >= 0)
-			{
-				free(s[i]);
-				i--;
-			}
-			return (free(s), NULL);
+			free_array(s);
+			return (NULL);
 		}
 		ft_strlcpy(s[i], map->map[i], ft_strlen(map->map[i]));
 		i++;
@@ -101,7 +99,7 @@ void	map_related_checks(t_data *d, t_map *map)
 		err_free_message(d, PLAYER_W);
 	if (validating_map_walls(map->cpy_map))
 		err_free_message(d, BORDER_M);
-	if(check_for_free_zeros(map->cpy_map))
+	if (check_for_free_zeros(map->cpy_map))
 		err_free_message(d, SPACE_PROT);
 	if (validating_map_content(map->cpy_map))
 		err_free_message(d, SPACE_PROT);
