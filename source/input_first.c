@@ -1,32 +1,11 @@
 #include "../includes/cub3d.h"
 
-int	valid_path(char *path)
-{
-	char			*tmp;
-	unsigned int	i;
-
-	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
-	if (!tmp)
-		return (0);
-	i = 4;
-	if (i < ft_strlen(tmp) - 1)
-	{
-		while (tmp[i] != '\0')
-		{
-			if (tmp[i] != ' ')
-				return (0);
-			i++;
-		}
-	}
-	return (1);
-}
-
 int invisible_file(char *path)
 {
 	int len;
 
 	len = ft_strlen(path) -1;
-	while (path[len] && (path[len] == ' ' || path[len] == '\t'))
+	while (path[len] && is_whitespace(path[len]))
 		len--; 
 	len -= 4;
 	if(path[len] && path[len] == '/')
