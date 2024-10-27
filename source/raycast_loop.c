@@ -1,12 +1,11 @@
 #include "../includes/cub3d.h"
 
-void	determine_distance_to_wall(t_raycast *ray, t_game *game)
+void	determine_distance_to_wall(t_raycast *ray)
 {
 	if (ray->side == 0)
 		ray->perp_wall_dist = (ray->side_distx - ray->delta_distx);
 	else
 		ray->perp_wall_dist = (ray->side_disty - ray->delta_disty);
-	(void) game;
 }
 
 	//&& loop < 50)
@@ -91,9 +90,9 @@ void	ray_loop(t_data *d)
 		wall_hit(d->map, d->ray);
 		if (d->ray->hit == 1)
 		{
-			determine_distance_to_wall(d->ray, d->game);
+			determine_distance_to_wall(d->ray);
 			vertical_line_height(d->elem, d->ray, d->game);
-			handle_texture_update(d->ray, d->elem);
+			decide_map_texture(d->ray, d->elem);
 		}
 		render_column(d, x);
 		d->ray->hit = 0;

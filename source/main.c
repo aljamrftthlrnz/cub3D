@@ -9,7 +9,6 @@ void	init_game(t_data *d)
 	if (d->mlx == NULL)
 	{
 		err_free_message(d, MLXIN);
-		return ;
 	}
 }
 
