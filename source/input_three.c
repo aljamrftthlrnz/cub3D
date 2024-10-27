@@ -23,7 +23,9 @@ int	is_digit_str(char *str)
 
 	i = 0;
 	if (!str || str[i] == '\0')
+	{
 		return (0);
+	}
 	while (str[i])
 	{
 		if (str[i] == ' ' || str[i] == '\t')
@@ -34,7 +36,9 @@ int	is_digit_str(char *str)
 		else if (str[i] == '\n' && str[i + 1] == '\0')
 			break ;
 		else if (ft_isalpha(str[i]) || !ft_isdigit(str[i]))
+		{
 			return (0);
+		}
 		i++;
 	}
 	return (1);
@@ -47,14 +51,17 @@ int	spaces_between_numerals(char *value)
 	i = 0;
 	if (!value || value[i] == '\0')
 		return (0);
-	while (value[i] && value[i] == ' ')
+	while (value[i] && (value[i] == ' ' || value[i] == '\t'))
 		i++;
 	while (value[i] && ft_isdigit(value[i]))
 		i++;
-	while (value[i] && (value[i] == ' ' || value[i] == '\n'))
+	while (value[i] && (value[i] == ' ' || value[i] == '\t' \
+		|| value[i] == '\n'))
 		i++;
 	if (value[i] != '\0')
+	{
 		return (0);
+	}
 	return (1);
 }
 

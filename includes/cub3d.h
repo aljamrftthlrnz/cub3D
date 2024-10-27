@@ -365,5 +365,6 @@ void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
 char	**setup_rgb_values(t_data *d, char *str, char *ptr);
 int		spaces_between_numerals(char *value);
 int		is_whitespace(char c);
+int		invisible_file(char *path);
 
 #endif
