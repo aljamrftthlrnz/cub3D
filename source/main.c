@@ -40,11 +40,12 @@ int	arguments_and_extension(int argc, char *str, int *error)
 
 int	main(int argc, char **argv)
 {
-	int		error_code;
 	t_data	d;
-	error_code = 0; 
+	int		error_code;
+
+	error_code = 0;
 	if (arguments_and_extension(argc, argv[1], &error_code))
-		err_free_message(NULL, error_code); 
+		err_free_message(NULL, error_code);
 	init_data(&d);
 	init_map(&d, argv[1]);
 	play_game(&d);

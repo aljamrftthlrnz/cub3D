@@ -13,9 +13,9 @@ int	time_to_render(t_data *d)
 	if (time + (1000 / FRMRT) <= time_new_ms)
 	{
 		/* Start testing variables */
-		r->frameTime = (time_new_ms - time) / 1000.0;
-		r->moveSpeed = r->frameTime * 5.0;
-		r->rot_speed = r->frameTime * 3.0;
+		r->frame_time = (time_new_ms - time) / 1000.0;
+		r->move_speed = r->frame_time * 5.0;
+		r->rot_speed = r->frame_time * 3.0;
 		/* End testing variables */
 		time = time_new_ms;
 		return (1);
