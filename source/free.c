@@ -85,6 +85,7 @@ void	free_array(char **arr)
 	{
 		while (arr[i])
 		{
+			printf("\nArray line [%d]\n", i);
 			free(arr[i]);
 			arr[i] = NULL;
 			i++;

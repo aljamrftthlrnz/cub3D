@@ -49,7 +49,6 @@ int	create_file_array(t_data *d, char *argv)
 		free(line);
 		line = get_next_line(fd);
 	}
-	d->file_arr[i] = NULL;
 	return (close (fd), 0);
 }
 
