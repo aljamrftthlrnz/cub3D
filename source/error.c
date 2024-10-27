@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 16:52:58 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/10/27 16:52:59 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 void	print_error_3(int error_code)
@@ -10,7 +22,7 @@ void	print_error_3(int error_code)
 		ft_putstr_fd(RGB_M, 2);
 	else if (error_code == TXT_WRONG)
 		ft_putstr_fd(TXT_WRO, 2);
-	else if(error_code == ISLE)
+	else if (error_code == ISLE)
 		ft_putstr_fd(ISLE_M, 2);
 }
 

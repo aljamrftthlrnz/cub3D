@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 16:51:26 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/10/27 16:51:29 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -107,7 +119,6 @@
 # define MLXSIZ_M "given textures are not of size 64x64\n"
 # define TXT_WRONG 104
 # define TXT_WRO "FILE invalid: Texture path does not adhere to standard\n"
-
 # define ISLE 150
 # define ISLE_M "MAP invalid: islands detected...\n"
 

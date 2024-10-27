@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_first.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 16:53:51 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/10/27 16:53:52 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 int	valid_path(char *path)
@@ -8,10 +20,10 @@ int	valid_path(char *path)
 	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
 	if (!tmp)
 		return (0);
-	i = 4; 
+	i = 4;
 	if (tmp[i] && is_whitespace(tmp[i]) == 0)
 		return (0);
-	if(i < ft_strlen(tmp) - 1)
+	if (i < ft_strlen(tmp) - 1)
 	{
 		while (tmp[i] != '\0')
 		{

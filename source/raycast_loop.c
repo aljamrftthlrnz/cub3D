@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycast_loop.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amirfatt <amirfatt@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/27 16:55:01 by amirfatt          #+#    #+#             */
+/*   Updated: 2024/10/27 16:55:02 by amirfatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 void	determine_distance_to_wall(t_raycast *ray)
@@ -8,13 +20,12 @@ void	determine_distance_to_wall(t_raycast *ray)
 		ray->perp_wall_dist = (ray->side_disty - ray->delta_disty);
 }
 
-	//&& loop < 50)
 void	wall_hit(t_map *map, t_raycast *ray)
 {
 	int	loop;
 
 	loop = 0;
-	while (!ray->hit)
+	while (!ray->hit && loop < 400)
 	{
 		if (ray->side_distx < ray->side_disty)
 		{
