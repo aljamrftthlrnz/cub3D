@@ -217,7 +217,6 @@ typedef struct s_data
 
 /* anti_island_checker.c */
 void	flood_alloc(t_data *d, t_map *map);
-int		print_matrix(char **matrix, int nl); // not needed in final version
 int		char_condition(char c, char f);
 int		floodfill(t_map *map, int x, int y);
 void	anti_island_checker(t_data *d, t_map *map);
@@ -332,7 +331,6 @@ void	check_step_4(t_data *d, float p_right, float p_left);
 void	player_step(t_data *d, int keycode);
 
 /* raycast_loop.c */
-void	vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
 void	determine_distance_to_wall(t_raycast *ray);
 void	wall_hit(t_map *map, t_raycast *ray);
 void	position_and_stepvalues(t_game *g, t_raycast *r);
@@ -341,7 +339,7 @@ void	ray_loop(t_data *d);
 
 /* raycast_texture.c */
 void	decide_map_texture(t_raycast *r, t_element *e);
-void	handle_texture_update(t_raycast *r, t_element *e);
+void	vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
 
 /* raycast.c */
 void	init_north_south(t_game *g, t_raycast *r);

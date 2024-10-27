@@ -92,7 +92,7 @@ void	ray_loop(t_data *d)
 		{
 			determine_distance_to_wall(d->ray);
 			vertical_line_height(d->elem, d->ray, d->game);
-			handle_texture_update(d->ray, d->elem);
+			decide_map_texture(d->ray, d->elem);
 		}
 		render_column(d, x);
 		d->ray->hit = 0;

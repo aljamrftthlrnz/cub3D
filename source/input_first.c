@@ -46,7 +46,7 @@ char	*parse_texture(t_data *d, char *trim)
 	{
 		free (trim);
 		err_free_message(d, ALLOC_FAIL);
-	} 
+	}
 	while (path && path[i])
 	{
 		if (path[i] == '\n')
