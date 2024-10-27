@@ -47,11 +47,11 @@ int	spaces_between_numerals(char *value)
 	i = 0;
 	if (!value || value[i] == '\0')
 		return (0);
-	while (value[i] && value[i] == ' ')
+	while (value[i] && (value[i] == ' ' || value[i] == '\t'))
 		i++;
 	while (value[i] && ft_isdigit(value[i]))
 		i++;
-	while (value[i] && (value[i] == ' ' || value[i] == '\n'))
+	while (value[i] && (value[i] == ' ' || value[i] == '\t' || value[i] == '\n'))
 		i++;
 	if (value[i] != '\0')
 		return (0);

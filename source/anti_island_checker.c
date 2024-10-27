@@ -67,9 +67,7 @@ void	compare_maps(t_data *d, char **map, char **floodmap)
 void	anti_island_checker(t_data *d, t_map *map)
 {
 	flood_alloc(d, map);
-	print_matrix(map->map, 0);
 	floodfill(map, map->pos_x, map->pos_y);
-	print_matrix(map->flood_map, 1);
 	compare_maps(d, map->map, map->flood_map);
 	return ;
 }
