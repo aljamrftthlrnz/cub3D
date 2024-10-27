@@ -8,7 +8,7 @@ void	print_error_3(int error_code)
 		ft_putstr_fd(MLXSIZ_M, 2);
 	else if (error_code == RGB_MI)
 		ft_putstr_fd(RGB_M, 2);
-	else if(error_code == TXT_WRONG)
+	else if (error_code == TXT_WRONG)
 		ft_putstr_fd(TXT_WRO, 2);
 	else if(error_code == ISLE)
 		ft_putstr_fd(ISLE_M, 2);
