@@ -217,7 +217,6 @@ typedef struct s_data
 
 /* anti_island_checker.c */
 void	flood_alloc(t_data *d, t_map *map);
-int		print_matrix(char **matrix, int nl); // not needed in final version
 int		char_condition(char c, char f);
 int		floodfill(t_map *map, int x, int y);
 void	anti_island_checker(t_data *d, t_map *map);

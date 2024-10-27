@@ -25,21 +25,6 @@ void	flood_alloc(t_data *d, t_map *map)
 	}
 }
 
-int	print_matrix(char **matrix, int nl)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-	{
-		ft_putstr_fd(matrix[i], 1);
-		if (nl == 1)
-			ft_putchar_fd('\n', 1);
-		i++;
-	}
-	return (0);
-}
-
 int	char_condition(char c, char f)
 {
 	if (c == 0 || c == ' ' || c == '\n')
