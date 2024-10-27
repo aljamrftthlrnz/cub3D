@@ -21,10 +21,45 @@ int	valid_path(char *path)
 	return (1);
 }
 
+int invisible_file(char *path)
+{
+	int len;
+
+	len = ft_strlen(path) -1;
+	while (path[len] && (path[len] == ' ' || path[len] == '\t'))
+		len--; 
+	len -= 4;
+	if(path[len] && path[len] == '/')
+		return (0);
+	return (1);
+}
+
+int valid_path(char *path)
+{
+	char			*tmp;
+	unsigned int	i;
+
+	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
+	if(!tmp)
+		return (0);
+	i = 3; 
+	if(i < ft_strlen(tmp) - 1)
+	{
+		while (tmp[i] != '\0')
+		{
+			if(tmp[i] != ' ')
+				return (0);
+			i++; 
+		}
+	}
+	return (1);
+}
+
 char	*parse_texture(t_data *d, char *trim)
 {
 	char	*path;
 	int		i;
+	
 
 	i = 0;
 	path = ft_strdup(trim + 3);
@@ -32,16 +67,16 @@ char	*parse_texture(t_data *d, char *trim)
 	{
 		free (trim);
 		err_free_message(d, ALLOC_FAIL);
-	}
+	} 
 	while (path && path[i])
 	{
 		if (path[i] == '\n')
 			path[i] = 0;
 		i++;
 	}
-	if (!valid_path(path))
+	if (!invisible_file(path) || !valid_path(path))
 	{
-		free (trim);
+		free (trim); 
 		free(path);
 		err_free_message(d, TXT_WRONG);
 	}
