@@ -106,7 +106,7 @@
 # define MLXSIZ 103
 # define MLXSIZ_M "given textures are not of size 64x64\n"
 # define TXT_WRONG 104
-# define TXT_WRO "FILE invalid: Given texture path does not adhere to standard\n"
+# define TXT_WRO "FILE invalid: Texture path does not adhere to standard\n"
 
 # define ISLE 150
 # define ISLE_M "MAP invalid: islands detected...\n"
@@ -252,7 +252,6 @@ int		calc_map_size(t_data *d, int begin);
 char	**copy_map_parts_in_file(t_data *d, int begin);
 int		process_map(t_data *d);
 
-
 /* error.c */
 void	free_exit(int *s1, char *s2);
 void	free_element(t_element *e);
@@ -365,7 +364,6 @@ int		is_digit_str(char *str);
 void	rgb_null_check(t_data *d, char **rgb_values, int *rgb, char *ptr);
 char	**setup_rgb_values(t_data *d, char *str, char *ptr);
 int		spaces_between_numerals(char *value);
-
-int is_whitespace(char c);
+int		is_whitespace(char c);
 
 #endif

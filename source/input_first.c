@@ -1,34 +1,21 @@
 #include "../includes/cub3d.h"
 
-int invisible_file(char *path)
-{
-	int len;
-
-	len = ft_strlen(path) -1;
-	while (path[len] && is_whitespace(path[len]))
-		len--; 
-	len -= 4;
-	if(path[len] && path[len] == '/')
-		return (0);
-	return (1);
-}
-
-int valid_path(char *path)
+int	valid_path(char *path)
 {
 	char			*tmp;
 	unsigned int	i;
 
 	tmp = ft_strnstr(path, ".xpm", ft_strlen(path));
-	if(!tmp)
+	if (!tmp)
 		return (0);
-	i = 3; 
-	if(i < ft_strlen(tmp) - 1)
+	i = 3;
+	if (i < ft_strlen(tmp) - 1)
 	{
 		while (tmp[i] != '\0')
 		{
-			if(!is_whitespace(tmp[i]))
+			if (!is_whitespace(tmp[i]))
 				return (0);
-			i++; 
+			i++;
 		}
 	}
 	return (1);
@@ -38,7 +25,6 @@ char	*parse_texture(t_data *d, char *trim)
 {
 	char	*path;
 	int		i;
-	
 
 	i = 0;
 	path = ft_strdup(trim + 3);
@@ -46,7 +32,7 @@ char	*parse_texture(t_data *d, char *trim)
 	{
 		free (trim);
 		err_free_message(d, ALLOC_FAIL);
-	} 
+	}
 	while (path && path[i])
 	{
 		if (path[i] == '\n')
@@ -55,14 +41,13 @@ char	*parse_texture(t_data *d, char *trim)
 	}
 	if (!invisible_file(path) || !valid_path(path))
 	{
-		free (trim); 
+		free (trim);
 		free(path);
 		err_free_message(d, TXT_WRONG);
 	}
 	return (modify_path(path));
 }
 
-// returns 0 for success
 int	is_identifier(t_data *d, void **path, char *id, char *trim)
 {
 	if (!ft_strncmp(trim, id, ft_strlen(id)))

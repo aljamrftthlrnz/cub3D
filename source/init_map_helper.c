@@ -1,10 +1,5 @@
 #include "../includes/cub3d.h"
 
-int is_whitespace(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
 int	is_space(char *line)
 {
 	int	i;

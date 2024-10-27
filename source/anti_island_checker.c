@@ -62,6 +62,11 @@ void	compare_maps(t_data *d, char **map, char **floodmap)
 	}
 }
 
+int	is_whitespace(char c)
+{
+	return (c == ' ' || c == '\t');
+}
+
 // floodfill the available map including walls (delimited by space)
 // compare the floodfillmap to the normal map
 void	anti_island_checker(t_data *d, t_map *map)

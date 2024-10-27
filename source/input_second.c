@@ -1,5 +1,18 @@
 #include "../includes/cub3d.h"
 
+int	invisible_file(char *path)
+{
+	int	len;
+
+	len = ft_strlen(path) -1;
+	while (path[len] && is_whitespace(path[len]))
+		len--;
+	len -= 4;
+	if (path[len] && path[len] == '/')
+		return (0);
+	return (1);
+}
+
 int	check_multiple_seperators(char *str)
 {
 	int	sep;
