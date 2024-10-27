@@ -22,6 +22,8 @@ int valid_path(char *path)
 	if(!tmp)
 		return (0);
 	i = 4; 
+	if (tmp[i] && is_whitespace(tmp[i]) == 0)
+		return (0);
 	if(i < ft_strlen(tmp) - 1)
 	{
 		while (tmp[i] != '\0')
