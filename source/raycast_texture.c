@@ -27,32 +27,32 @@ void	decide_map_texture(t_raycast *r, t_element *e)
 // Obsolet only keep decide_map_texture
 void	handle_texture_update(t_raycast *r, t_element *e)
 {
-	int	y;
+	// int	y;
 
-	y = 0;
+	// y = 0;
 	decide_map_texture(r, e);
-	e->texx = (int)(e->wallx *(double)e->width);
-	if (r->side == 0 && r->ray_dirx > 0)
-		e->texx = e->width - e->texx - 1;
-	if (r->side == 1 && r->ray_diry < 0)
-		e->texx = e->width - e->texx -1;
-	e->step = 1.0 * e->height / e->line_height;
-	e->texpos = (e->draw_start - SCREEN_H / 2 + e->line_height / 2) * e->step;
-	y = e->draw_start;
-	while (y < e->draw_end)
-	{
-		e->texy = (int)e->texpos & (e->height - 1);
-		e->texpos += e->step;
-		y++;
-	}
+	// e->texx = (int)(e->wallx *(double)e->width);
+	// if (r->side == 0 && r->ray_dirx > 0)
+	// 	e->texx = e->width - e->texx - 1;
+	// if (r->side == 1 && r->ray_diry < 0)
+	// 	e->texx = e->width - e->texx -1;
+	//e->step = 1.0 * e->height / e->line_height;
+	//e->texpos = (e->draw_start - SCREEN_H / 2 + e->line_height / 2) * e->step;
+	//y = e->draw_start;
+	// while (y < e->draw_end)
+	// {
+	// 	e->texy = (int)e->texpos & (e->height - 1);
+	// 	e->texpos += e->step;
+	// 	y++;
+	// }
 }
 
 void	vertical_line_height(t_element *e, t_raycast *ray, t_game *g)
 {
 	e->line_height = (int)(SCREEN_H / ray->perp_wall_dist);
-	e->draw_start = -(e->line_height) / 2 + SCREEN_H / 2;
-	if (e->draw_start < 0)
-		e->draw_start = 0;
+	// e->draw_start = -(e->line_height) / 2 + SCREEN_H / 2;
+	// if (e->draw_start < 0)
+	// 	e->draw_start = 0;
 	e->draw_end = e->line_height / 2 + SCREEN_H / 2;
 	if (e->draw_end >= SCREEN_H)
 		e->draw_end = SCREEN_H - 1;

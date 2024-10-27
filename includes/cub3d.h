@@ -315,8 +315,6 @@ void	setup_key_buttons(t_data *d_ptr);
 void	init_game(t_data *d);
 void	play_game(t_data *d);
 int		arguments_and_extension(int argc, char *str, int *error);
-//int		main(int argc, char**argv);
-//void	rotation(t_raycast *r);
 
 /* open_window.c */
 void	open_window(t_data *d);
@@ -335,7 +333,7 @@ void	player_step(t_data *d, int keycode);
 
 /* raycast_loop.c */
 void	vertical_line_height(t_element *e, t_raycast *ray, t_game *g);
-void	determine_distance_to_wall(t_raycast *ray, t_game *game);
+void	determine_distance_to_wall(t_raycast *ray);
 void	wall_hit(t_map *map, t_raycast *ray);
 void	position_and_stepvalues(t_game *g, t_raycast *r);
 void	init_loop(int x, t_raycast *r, t_game *g);
